@@ -13,19 +13,19 @@
 :root{
   --bg:#f3f1ec; --surface:#ffffff; --surface2:#f7f5f0; --ink:#1b232c; --sub:#5d6873; --line:#dedad2;
   --accent:#e2561f; --accent-ink:#ffffff; --good:#1f8a5b; --warn:#c98a08; --bad:#d23b2c; --info:#2c6fd2;
-  --left:#2c6fd2; --right:#e2561f; --shadow:0 1px 3px rgba(0,0,0,.08);
+  --left:#2c6fd2; --right:#e2561f; --ideal:#16a34a; --shadow:0 1px 3px rgba(0,0,0,.08);
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#0f1720; --surface:#18222d; --surface2:#1f2b37; --ink:#eef2f5; --sub:#9aa7b3; --line:#2c3a48;
     --accent:#ff7a3d; --accent-ink:#1a0d06; --good:#3cc58a; --warn:#f0b43a; --bad:#ff6b5c; --info:#6aa5ff;
-    --left:#6aa5ff; --right:#ff7a3d; --shadow:none;
+    --left:#6aa5ff; --right:#ff7a3d; --ideal:#4ade80; --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   --bg:#0f1720; --surface:#18222d; --surface2:#1f2b37; --ink:#eef2f5; --sub:#9aa7b3; --line:#2c3a48;
   --accent:#ff7a3d; --accent-ink:#1a0d06; --good:#3cc58a; --warn:#f0b43a; --bad:#ff6b5c; --info:#6aa5ff;
-  --left:#6aa5ff; --right:#ff7a3d; --shadow:none;
+  --left:#6aa5ff; --right:#ff7a3d; --ideal:#4ade80; --shadow:none;
 }
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
@@ -33,10 +33,11 @@ button,select,input{font:inherit;color:inherit}
 button{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none;cursor:pointer}
 header{position:sticky;top:0;z-index:20;background:var(--bg);padding:calc(env(safe-area-inset-top) + 8px) 16px 0}
 .hrow{display:flex;align-items:center;gap:8px}
-.logo{font-weight:800;font-size:18px;letter-spacing:.02em;flex:1;display:flex;align-items:center;gap:8px}
-.logo i{display:inline-block;width:26px;height:26px;border-radius:8px;background:var(--accent);position:relative}
+.logo{font-weight:800;font-size:18px;letter-spacing:.02em;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo i{display:inline-block;width:26px;height:26px;border-radius:8px;background:var(--accent);position:relative;flex:none}
 .logo i:after{content:"";position:absolute;left:7px;top:5px;width:11px;height:15px;border-left:3px solid var(--accent-ink);border-bottom:3px solid var(--accent-ink);transform:skewX(-18deg)}
-.iconbtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:800;font-size:17px}
+.athchip{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 10px;font-size:13px;font-weight:700;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.iconbtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:800;font-size:17px;flex:none}
 .pagebar{display:flex;gap:6px;overflow-x:auto;padding:8px 0 8px;scrollbar-width:none}
 .pagebar::-webkit-scrollbar{display:none}
 .pagebar button{flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;color:var(--sub)}
@@ -48,7 +49,7 @@ header{position:sticky;top:0;z-index:20;background:var(--bg);padding:calc(env(sa
 #bandTxt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
 main{padding:0 16px calc(env(safe-area-inset-bottom) + 132px)}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 12px;box-shadow:var(--shadow)}
-.card h2{font-size:16px;margin:0 0 8px;display:flex;align-items:center;gap:6px}
+.card h2{font-size:16px;margin:0 0 8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .card h3{font-size:14px;margin:12px 0 6px}
 .muted{color:var(--sub);font-size:13px}
 .tab-off,.pg-off{display:none!important}
@@ -60,16 +61,32 @@ main{padding:0 16px calc(env(safe-area-inset-bottom) + 132px)}
 .btn{border:none;border-radius:14px;padding:12px 14px;font-weight:700;background:var(--surface2);border:1px solid var(--line)}
 .btn.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);width:100%;font-size:16px;padding:14px}
 .btn.wide{width:100%}
+.btn.sm{padding:6px 10px;font-size:12px;border-radius:10px}
 .btn:disabled{opacity:.45}
-.filebtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:2px dashed var(--line);border-radius:14px;padding:18px 10px;background:var(--surface2);font-weight:700}
+.stack>*+*{margin-top:8px}
+.filebtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:2px dashed var(--line);border-radius:14px;padding:16px 10px;background:var(--surface2);font-weight:700}
 .filebtn input{display:none}
-.stage{position:relative;margin:0 auto;background:#000;border-radius:12px;overflow:hidden}
+.clip{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:8px;background:var(--surface2)}
+.clip.on{border-color:var(--accent)}
+.clip .cn{flex:none;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.clip .ci{flex:1;min-width:0}
+.clip .ci b{display:block;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.clip select{border:1px solid var(--line);border-radius:8px;padding:5px 4px;background:var(--surface);font-size:12px}
+.clip .cx{border:none;background:none;font-size:16px;padding:4px 6px;color:var(--sub)}
+.clipchips{display:flex;gap:6px;margin-bottom:8px;overflow-x:auto}
+.clipchips button{flex:none;border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.clipchips button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.stage{position:relative;margin:0 auto;background:#000;border-radius:12px;overflow:hidden;touch-action:manipulation}
 .stage video,.stage canvas{position:absolute;inset:0;width:100%;height:100%}
 .stage video{object-fit:fill}
 .stage .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#9aa7b3;font-size:13px;text-align:center;padding:16px}
-.ctrl{display:flex;gap:6px;margin-top:8px}
-.ctrl button{flex:1;border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:8px 0;font-weight:700;font-size:14px}
+.cap{display:none;margin-top:6px;border-left:4px solid #ffd400;background:var(--surface2);border-radius:8px;padding:5px 8px;font-size:13px;line-height:1.45}
+.cap.show{display:block}
+.cap .gi{color:var(--ideal);font-weight:700}
+.ctrl{display:flex;gap:5px;margin-top:8px}
+.ctrl button{flex:1;border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:8px 0;font-weight:700;font-size:13px;white-space:nowrap}
 .ctrl button.on{background:var(--ink);color:var(--bg)}
+.ctrl button.gon{background:var(--ideal);color:#fff;border-color:var(--ideal)}
 #timeline{width:100%;height:34px;display:block;margin-top:6px;border-radius:8px;background:var(--surface2);touch-action:none}
 .prog{height:10px;border-radius:6px;background:var(--surface2);overflow:hidden;border:1px solid var(--line)}
 .prog i{display:block;height:100%;width:0;background:var(--accent);transition:width .15s}
@@ -78,7 +95,7 @@ main{padding:0 16px calc(env(safe-area-inset-bottom) + 132px)}
 .warnbox{border-radius:12px;padding:8px 10px;font-size:13px;margin-top:8px;background:color-mix(in srgb,var(--warn) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--warn) 40%,var(--line))}
 .okbox{border-radius:12px;padding:8px 10px;font-size:13px;margin-top:8px;background:color-mix(in srgb,var(--good) 12%,var(--surface));border:1px solid color-mix(in srgb,var(--good) 35%,var(--line))}
 .score{display:flex;align-items:center;gap:12px}
-.score .num{font-size:40px;font-weight:800;line-height:1}
+.score .num{font-size:40px;font-weight:800;line-height:1;white-space:nowrap}
 .score .num small{font-size:14px;color:var(--sub);font-weight:600}
 .issue{border:1px solid var(--line);border-radius:14px;margin:8px 0;background:var(--surface2);overflow:hidden}
 .issue>button{display:flex;width:100%;text-align:left;background:none;border:none;padding:10px;gap:10px;align-items:center}
@@ -93,31 +110,42 @@ main{padding:0 16px calc(env(safe-area-inset-bottom) + 132px)}
 .issue .body p{margin:6px 0}
 .issue .body ol{margin:4px 0;padding-left:20px}
 .issue .body li{margin:3px 0}
-.kv{display:flex;gap:8px;font-size:13px;flex-wrap:wrap}
+.kv{display:flex;gap:6px;font-size:13px;flex-wrap:wrap}
 .kv span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px 8px}
+.kv span.gi{border-color:var(--ideal);color:var(--ideal);font-weight:700}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px;background:var(--surface);border:1px solid var(--line);color:var(--sub);margin-left:4px}
 .cue{border-left:4px solid var(--accent);padding:4px 10px;margin:8px 0;font-weight:700;background:var(--surface)}
 table.m{width:100%;border-collapse:collapse;font-size:13px}
 table.m th,table.m td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 table.m td.v{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}
 .d0{background:var(--good)}.d1{background:var(--info)}.d2{background:var(--warn)}.d3{background:var(--bad)}.dx{background:var(--line)}
-.howto li{margin:6px 0}
+.howto li{margin:5px 0}
 .rec{border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0;background:var(--surface2)}
 .rec .row{justify-content:space-between}
+.ath{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0;background:var(--surface2)}
+.ath.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.ath .an{flex:1;min-width:0}
+.ath .an b{display:block}
+.ath .sc{font-size:20px;font-weight:800;white-space:nowrap}
+.ath .sc small{font-size:11px;color:var(--sub);font-weight:600}
+.up{color:var(--good);font-size:12px;font-weight:700}.down{color:var(--bad);font-size:12px;font-weight:700}
 .field{display:flex;flex-direction:column;gap:4px;margin:8px 0}
 .field label{font-size:13px;color:var(--sub)}
-.field select,.field input[type=text]{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface2)}
+.field select,.field input[type=text],#athSel{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:var(--surface2)}
 .seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .seg button{flex:1;border:none;background:var(--surface2);padding:9px 4px;font-size:13px}
 .seg button.on{background:var(--ink);color:var(--bg);font-weight:700}
-nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);display:flex;padding:4px 4px calc(env(safe-area-inset-bottom) + 4px)}
+.mcv{width:100%;display:block;border-radius:12px;background:#0b1118;margin-top:8px}
+.legend{display:flex;gap:12px;font-size:12px;color:var(--sub);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:4px;vertical-align:middle}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);display:flex;padding:4px 2px calc(env(safe-area-inset-bottom) + 4px)}
 nav.tabs button{flex:1;background:none;border:none;padding:6px 0 4px;font-size:11px;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:2px}
 nav.tabs button .ic{font-size:20px;line-height:1}
 nav.tabs button.on{color:var(--accent);font-weight:700}
 .pnav{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom) + 58px);z-index:25;display:flex;justify-content:space-between;padding:0 12px;pointer-events:none}
 .pnav button{pointer-events:auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .pnav button[hidden]{visibility:hidden;display:block}
-/* sheet */
 .sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:60;display:none}
 .sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--surface);border-radius:18px 18px 0 0;padding:14px 16px calc(env(safe-area-inset-bottom) + 16px);max-height:82vh;overflow:auto;display:none}
 .sheet.show,.sheet-bg.show{display:block}
@@ -130,7 +158,6 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 .qa details{border:1px solid var(--line);border-radius:10px;margin:6px 0;padding:8px 10px;background:var(--surface2)}
 .qa summary{font-weight:700;font-size:14px}
 .qa p{margin:6px 0 0;font-size:13px}
-/* tour */
 .tour-hole{position:fixed;z-index:80;border-radius:12px;box-shadow:0 0 0 4px #ffd400,0 0 0 9999px rgba(0,0,0,.42);pointer-events:none;transition:all .25s}
 .tour-card{position:fixed;left:10px;right:10px;z-index:81;background:var(--surface);border-radius:16px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,0,0,.3);border:1px solid var(--line)}
 .tour-card .tbar{height:4px;border-radius:2px;background:var(--surface2);overflow:hidden;margin-bottom:8px}
@@ -149,12 +176,21 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 .toast.show{display:flex}
 .toast button{border:none;background:#ffd400;color:#000;border-radius:8px;padding:5px 10px;font-weight:700;font-size:12px}
 .small{font-size:12px}
+.tipcard{border:1px solid color-mix(in srgb,#ffd400 60%,var(--line));background:color-mix(in srgb,#ffd400 11%,var(--surface));border-radius:14px;padding:9px 12px;margin:8px 0;font-size:13px}
+.tipcard.good{border-color:color-mix(in srgb,var(--good) 45%,var(--line));background:color-mix(in srgb,var(--good) 9%,var(--surface))}
+.tipcard .th{display:flex;justify-content:space-between;font-weight:800;font-size:12px;color:var(--sub)}
+.tipcard p{margin:3px 0 6px;line-height:1.5}
+.tipcard .tb{display:flex;gap:6px;justify-content:flex-end}
+.tipcard .tb button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.tipcard .tsvg{color:var(--ink);margin:4px 0 0}
+.tipcard .tsvg svg{width:100%;height:auto;max-height:76px;display:block}
 </style>
 </head>
 <body>
 <header>
   <div class="hrow">
     <div class="logo"><i></i>走りコーチ</div>
+    <button class="athchip" id="athChip">👤 <span id="athName"></span></button>
     <button class="iconbtn" id="btnHelp" aria-label="使い方">？</button>
   </div>
   <div class="pagebar" id="pagebar"></div>
@@ -164,59 +200,61 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 <main>
 <!-- ============ 動画タブ ============ -->
 <section class="card" id="cardPurpose" data-tabs="video">
-  <h2>① 走りの目的</h2>
-  <div class="chips" id="purposeChips">
+  <h2>① 選手と目的</h2>
+  <div class="row" id="athRow"><select id="athSel" style="flex:1;min-width:0"></select><button class="btn sm" id="athAdd" style="padding:9px 10px">＋ 選手を追加</button></div>
+  <div class="chips" id="purposeChips" style="margin-top:8px">
     <button class="chip" data-p="sprint">短距離<small>100〜400m</small></button>
     <button class="chip" data-p="dist">中長距離<small>800m以上</small></button>
     <button class="chip" data-p="jog">ジョギング<small>健康・楽しく</small></button>
   </div>
-  <p class="muted" style="margin:8px 0 0">目的によって「良い走り」の目安が変わります。</p>
+  <p class="muted small" style="margin:8px 0 0">目的は選手ごとに覚えます。目的で「良い走り」の目安が変わります。</p>
 </section>
 
 <section class="card" id="cardLoad" data-tabs="video">
-  <h2>② 動画を選ぶ</h2>
-  <label class="filebtn" id="fileLbl"><span style="font-size:22px">🎬</span><span>動画を撮る／選ぶ</span><input type="file" id="fileIn" accept="video/*"></label>
-  <div id="loadInfo" class="muted" style="margin-top:8px">真横から撮った、全身が映る動画を選んでください。</div>
+  <h2>② 動画を選ぶ <span class="muted small" style="font-weight:400">横・前・後ろ 3本まで</span></h2>
+  <div id="tipPre"></div>
+  <label class="filebtn" id="fileLbl"><span style="font-size:22px">🎬</span><span>動画を撮る／選ぶ</span><input type="file" id="fileIn" accept="video/*" multiple></label>
+  <div id="clipList"></div>
   <div class="field">
     <label>スロー撮影の倍率（普通の動画は「等倍」）</label>
-    <div class="seg" id="slowSeg">
-      <button data-s="1">等倍</button><button data-s="2">1/2</button><button data-s="4">1/4</button><button data-s="8">1/8</button>
-    </div>
+    <div class="seg" id="slowSeg"><button data-s="1">等倍</button><button data-s="2">1/2</button><button data-s="4">1/4</button><button data-s="8">1/8</button></div>
   </div>
-  <button class="btn wide" id="btnDemo" style="margin-top:4px">動画なしでデモを見る</button>
+  <div class="row"><button class="btn" id="btnDemo" style="flex:2">動画なしでデモを見る</button><button class="btn" id="btnClear" style="flex:1">すべて外す</button></div>
 </section>
 
 <section class="card" id="cardHowto" data-tabs="video">
   <h2>上手な撮り方</h2>
   <ol class="howto">
-    <li><b>真横から</b>撮る。走る向きに対してカメラが直角。</li>
-    <li><b>全身</b>（頭〜足先）が常に画面に入る距離。5〜10m離れると楽です。</li>
-    <li>スマホは<b>横向き・腰の高さ</b>で。走る人を追ってゆっくり振ってOK。</li>
-    <li><b>2歩以上</b>（左右1回ずつ着地）が映る長さ。3〜10秒が目安。</li>
-    <li>可能なら<b>スロー（120/240fps）</b>。接地の瞬間がはっきりします。</li>
-    <li>明るい場所で、体の線が分かる服装。他の人が重ならないように。</li>
+    <li><b>横から</b>（必須）：走る向きに対して真横。接地・姿勢・脚・腕・リズムの16項目。</li>
+    <li><b>前か後ろから</b>（あると良い）：走ってくる正面か、走り去る真後ろ。骨盤・膝・着地の幅・上体と腕の左右ぶれの5項目。</li>
+    <li><b>全身</b>（頭〜足先）が入る距離で、スマホは<b>横向き・腰の高さ</b>。</li>
+    <li><b>2歩以上</b>（左右1回ずつ着地）。3〜10秒が目安。スロー（120/240fps）なら更に正確。</li>
+    <li>他の人が映ってもOK。解析したい人を<b>動画の上でタップ</b>すれば選べます。</li>
   </ol>
-  <p class="muted">正面・後ろからの動画では、着地や姿勢の数値が正しく出ません。</p>
+  <p class="muted small" style="margin:0">3本までまとめて選ぶと、向きを自動で見分けて1つの結果にまとめます。</p>
 </section>
 
 <!-- ============ 解析タブ ============ -->
 <section class="card" id="cardStage" data-tabs="anal">
   <div id="stagePart">
+    <div class="clipchips" id="clipChips"></div>
     <div class="stage" id="stage">
       <video id="vid" playsinline muted preload="auto"></video>
       <canvas id="ov"></canvas>
       <div class="ph" id="ph">動画を選ぶか、デモを押すとここに表示されます</div>
     </div>
+    <div class="cap" id="focusCap"></div>
     <canvas id="timeline"></canvas>
     <div class="ctrl" id="playCtrl">
-      <button id="bPrev">◀ 1コマ</button><button id="bPlay">▶ 再生</button><button id="bNext">1コマ ▶</button><button id="bSlow">0.25×</button>
+      <button id="bPrev">◀1コマ</button><button id="bPlay">▶ 再生</button><button id="bNext">1コマ▶</button><button id="bSlow">0.25×</button><button id="bGhost">見本線</button>
     </div>
-    <div class="muted small" id="focusTxt" style="margin-top:6px"></div>
+    <div class="muted small" id="multiTxt" style="margin-top:6px"></div>
   </div>
 </section>
 
 <section class="card" id="cardRun" data-tabs="anal">
-  <h2>解析する</h2>
+  <h2>解析する <span class="muted small" id="runClip" style="font-weight:400"></span></h2>
+  <div id="tipLoad"></div>
   <div class="rng" id="rangePart">
     <span>開始</span><input type="range" id="rStart" min="0" max="10" step="0.1" value="0"><span id="vStart">0.0秒</span>
     <span>終了</span><input type="range" id="rEnd" min="0" max="10" step="0.1" value="10"><span id="vEnd">10.0秒</span>
@@ -228,7 +266,7 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 </section>
 
 <section class="card" id="cardMetrics" data-tabs="anal">
-  <h2>測った数値（全17項目）</h2>
+  <h2>測った数値 <span class="muted small" id="metricsCnt" style="font-weight:400"></span></h2>
   <div id="metricsTbl" class="muted">解析するとここに並びます。</div>
 </section>
 
@@ -236,32 +274,68 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 <section class="card" id="cardTop5" data-tabs="result">
   <div class="score" id="scorePart">
     <div class="num" id="scoreNum">–<small> /100</small></div>
-    <div><div style="font-weight:700" id="scoreTitle">まだ解析していません</div><div class="muted small" id="scoreSub">動画タブで動画を選んで解析してください</div></div>
+    <div style="min-width:0"><div style="font-weight:700" id="scoreTitle">まだ解析していません</div><div class="muted small" id="scoreSub">動画タブで動画を選んで解析してください</div></div>
   </div>
   <div id="checkBox"></div>
+  <div id="tipPost"></div>
   <h3>改善すべき5つのポイント <span class="muted small">（押すと開きます）</span></h3>
   <div id="issues"></div>
-  <p class="muted small" id="aiNote" style="margin:8px 0 0">スマホ画像からの推定値です。1本の動画で決めつけず、2〜3本で同じ指摘が出るかを見てください。</p>
+  <p class="muted small" style="margin:8px 0 0">スマホ動画からの推定値です。1本で決めつけず、2〜3本で同じ指摘が出るかを見てください。</p>
 </section>
 
 <section class="card" id="cardGood" data-tabs="result">
   <h2>良いところ</h2>
   <div id="goods" class="muted">解析すると表示されます。</div>
   <h3>前回からの変化</h3>
-  <div id="since" class="muted">同じ目的の記録が2つ以上たまると表示されます。</div>
+  <div id="since" class="muted">同じ選手・同じ目的の記録が2つ以上たまると表示されます。</div>
+</section>
+
+<!-- ============ 見本タブ ============ -->
+<section class="card" id="cardIdeal" data-tabs="model">
+  <h2>100点の見本 <span class="tag" id="idealPurp"></span></h2>
+  <div class="seg" id="mvSeg"><button data-v="side">横から</button><button data-v="front">前から</button></div>
+  <canvas id="idealCv" class="mcv"></canvas>
+  <div class="legend"><span><i style="background:var(--ideal)"></i>100点の見本</span><span id="idealNote"></span></div>
+  <div id="idealPts" style="margin-top:6px"></div>
+</section>
+
+<section class="card" id="cardDiff" data-tabs="model">
+  <h2>見本と比べる</h2>
+  <div class="seg" id="dvSeg"></div>
+  <canvas id="diffCv" class="mcv"></canvas>
+  <div class="legend"><span><i style="background:var(--left)"></i><i style="background:var(--right);margin-left:-2px"></i>解析した人</span><span><i style="background:var(--ideal)"></i>100点の見本</span></div>
+  <div id="diffTbl" class="muted" style="margin-top:6px">解析すると、解析した人と見本を重ねて動かします。</div>
 </section>
 
 <!-- ============ 記録タブ ============ -->
+<section class="card" id="cardAthletes" data-tabs="log">
+  <h2>選手一覧</h2>
+  <div id="athList"></div>
+  <button class="btn wide" id="athAdd2" style="margin-top:4px">＋ 選手を追加</button>
+  <p class="muted small" style="margin:8px 0 0">押すとその選手に切り替わります。解析はいま選んでいる選手の記録になります。</p>
+</section>
+
 <section class="card" id="cardLog" data-tabs="log">
-  <h2>記録</h2>
+  <h2>記録 <span class="tag" id="logWho"></span></h2>
   <div id="logList" class="muted">まだ記録がありません。解析すると自動で残ります。</div>
 </section>
 
 <section class="card" id="cardCompare" data-tabs="log">
-  <h2>数値の移り変わり</h2>
+  <h2>数値の移り変わり <span class="tag" id="cmpWho"></span></h2>
   <div class="field"><label>見る項目</label><select id="cmpSel"></select></div>
   <canvas id="cmpChart" style="width:100%;height:180px;display:block"></canvas>
   <div id="cmpTxt" class="muted small"></div>
+</section>
+
+<section class="card" id="cardExport" data-tabs="log">
+  <h2>データの書き出し</h2>
+  <div class="field"><label>記録の範囲</label><div class="seg" id="expSeg"><button data-x="one">この選手だけ</button><button data-x="all">全員</button></div></div>
+  <div class="stack">
+    <button class="btn wide" id="expCsv">📊 記録の一覧（CSV・Excelで開けます）</button>
+    <button class="btn wide" id="expImg">🖼 今回の解析レポート（画像）</button>
+    <button class="btn wide" id="expPose">🦴 骨格の座標データ（CSV）</button>
+  </div>
+  <p class="muted small" style="margin:8px 0 0">iPhoneでは共有画面が開くので、LINE・メール・「ファイルに保存」を選べます。全データの引っ越しは 設定→バックアップ。</p>
 </section>
 
 <!-- ============ 設定タブ ============ -->
@@ -281,18 +355,22 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
   <div class="field"><label>色</label>
     <div class="seg" id="themeSeg"><button data-t="auto">自動</button><button data-t="light">明るい</button><button data-t="dark">暗い</button></div>
   </div>
+  <div class="field"><label>撮影のワンポイントアドバイス</label>
+    <div class="seg" id="tipSeg"><button data-o="1">表示する</button><button data-o="0">表示しない</button></div>
+    <span class="muted small">撮る前・動画を選んだ後・解析した後に、上手に撮るコツを1つずつ出します。</span>
+  </div>
 </section>
 
 <section class="card" id="cardBackup" data-tabs="set">
   <h2>バックアップ</h2>
-  <p class="muted small" style="margin-top:0">記録はこのスマホの中だけに保存されます。機種変更の前に書き出してください（動画そのものは含みません）。</p>
+  <p class="muted small" style="margin-top:0">選手と記録はこのスマホの中だけに保存されます。機種変更の前に書き出してください（動画そのものは含みません）。</p>
   <div class="row">
     <button class="btn" id="btnExport" style="flex:1">書き出す</button>
     <label class="btn" style="flex:1;text-align:center">読み込む<input type="file" id="importIn" accept="application/json,.json" style="display:none"></label>
   </div>
   <button class="btn wide" id="btnTourReset" style="margin-top:8px">手順ガイドの✓を消す</button>
   <button class="btn wide" id="btnWipe" style="margin-top:8px;color:var(--bad)">記録をすべて消す</button>
-  <p class="muted small">骨格推定には Google の MediaPipe を使います。初回だけインターネットからAIを読み込み、動画はスマホの外に送りません。</p>
+  <p class="muted small">骨格推定には Google の MediaPipe を使います。初回だけインターネットからAIを読み込み、動画はスマホの外に送りません。<br><span id="verTxt"></span></p>
 </section>
 </main>
 
@@ -302,6 +380,7 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
   <button data-t="video"><span class="ic">🎬</span>動画</button>
   <button data-t="anal"><span class="ic">🦴</span>解析</button>
   <button data-t="result"><span class="ic">📋</span>指摘</button>
+  <button data-t="model"><span class="ic">🏅</span>見本</button>
   <button data-t="log"><span class="ic">📈</span>記録</button>
   <button data-t="set"><span class="ic">⚙️</span>設定</button>
 </nav>
@@ -320,10 +399,12 @@ nav.tabs button.on{color:var(--accent);font-weight:700}
 
 <script>
 "use strict";
+
 /* =========================================================
-   走りコーチ  v1.0
+   走りコーチ  v2.0
+   選手管理・横/前/後ろの複数動画・100点の見本・人物選択・書き出し
    ========================================================= */
-const APP = "runcoach";
+const APP = "runcoach", VER = "2.1";
 const MP_VER = "0.10.21";
 const qs = new URLSearchParams(location.search);
 const MP_BASE = qs.get("mp") || ("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@" + MP_VER);
@@ -336,28 +417,46 @@ const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const DEG = 180 / Math.PI;
+const PURPOSES = ["sprint", "dist", "jog"];
+const VIEW_NAME = { side: "横から", front: "前から", back: "後ろから" };
+const newId = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
 
 /* ---------- state ---------- */
-const DEF = { v: 1, purpose: "dist", slow: 1, model: "full", fps: 30, onePage: true, theme: "auto", history: [], tab: "video", page: {} };
+const DEF = { v: 2, purpose: "dist", slow: 1, model: "full", fps: 30, onePage: true, theme: "auto", ghost: true, mv: "side", expScope: "one", tips: true, tipIdx: 0,
+  history: [], athletes: [], cur: "", tab: "video", page: {} };
 let state = {};
 function applyLoaded(o) {
   state = Object.assign(JSON.parse(JSON.stringify(DEF)), o || {});
   if (!Array.isArray(state.history)) state.history = [];
-  if (!["sprint", "dist", "jog"].includes(state.purpose)) state.purpose = "dist";
+  if (!Array.isArray(state.athletes)) state.athletes = [];
+  if (!PURPOSES.includes(state.purpose)) state.purpose = "dist";
   if (![1, 2, 4, 8].includes(+state.slow)) state.slow = 1;
   if (!MODEL_URL[state.model]) state.model = "full";
   if (![15, 30, 60].includes(+state.fps)) state.fps = 30;
+  if (!["side", "front"].includes(state.mv)) state.mv = "side";
+  if (!["one", "all"].includes(state.expScope)) state.expScope = "one";
+  state.tips = state.tips !== false; if (!(state.tipIdx >= 0)) state.tipIdx = 0;
   if (typeof state.page !== "object" || !state.page) state.page = {};
+  // v1 → v2：選手がいなければ「選手1」を作り、これまでの記録をその選手に
+  if (!state.athletes.length) state.athletes.push({ id: newId("a"), name: "選手1", purpose: state.purpose });
+  state.athletes.forEach(a => { if (!PURPOSES.includes(a.purpose)) a.purpose = state.purpose; });
+  if (!state.athletes.find(a => a.id === state.cur)) state.cur = state.athletes[0].id;
+  for (const h of state.history) { if (!h.athleteId || !state.athletes.find(a => a.id === h.athleteId)) h.athleteId = state.athletes[0].id; if (!Array.isArray(h.views)) h.views = ["side"]; }
+  state.purpose = ath().purpose;
+  state.v = 2;
 }
+function ath() { return state.athletes.find(a => a.id === state.cur) || state.athletes[0]; }
+function athName(id) { const a = state.athletes.find(x => x.id === id); return a ? a.name : "（削除した選手）"; }
 function load() { try { applyLoaded(JSON.parse(localStorage.getItem(APP) || "null")); } catch (e) { applyLoaded(null); } }
 function save() { try { localStorage.setItem(APP, JSON.stringify(state)); } catch (e) {} }
 load();
 
+
 /* =========================================================
-   評価項目（17項目）  g=良い範囲 b=悪い境目 w=重要度
+   評価項目（横16＋前後5）  g=良い範囲 b=悪い境目 w=重要度
    ========================================================= */
 const INF = Infinity;
-const CATS = { pos: "姿勢", land: "接地", leg: "脚の回転", arm: "腕振り", rhy: "リズム" };
+const CATS = { pos: "姿勢", land: "接地", leg: "脚の回転", arm: "腕振り", rhy: "リズム", bal: "左右のバランス（前・後ろから）" };
 const PURPOSE_NAME = { sprint: "短距離", dist: "中長距離", jog: "ジョギング" };
 const M = {
   shin: { name: "着地時のスネの傾き", cat: "land", unit: "°", d: 0,
@@ -491,7 +590,42 @@ const M = {
       why: "後ろへの引きの反動が脚を前に運びます。前だけで振ると上体が左右にぶれ、力が逃げます。",
       dr: ["「肘で後ろの壁を突く」意識の腕振り", "肩甲骨を寄せるストレッチで胸を開く", "ゴムチューブで肘を後ろへ引く（15回×3）"],
       cue: "肘で後ろの壁を突く" },
-    j: ["shoulder", "elbow"], ev: "armback", link: ["armRange", "trunk"] }
+    j: ["shoulder", "elbow"], ev: "armback", link: ["armRange", "trunk"] },
+  pelvicDrop: { name: "骨盤の傾き（接地中に反対側が落ちる）", cat: "bal", unit: "°", d: 0, view: "front",
+    sp: { sprint: [-INF, 5, -INF, 10, 3], dist: [-INF, 5, -INF, 10, 3], jog: [-INF, 5, -INF, 10, 2] },
+    hi: { t: "接地のとき、反対側の骨盤が落ちている",
+      why: "片脚で立った瞬間に、反対側の腰が下がっています。お尻の横の筋肉（中殿筋）で骨盤を支えきれていないサインで、膝の外側（腸脛靭帯）・膝・腰の故障につながりやすい形です。",
+      dr: ["片脚立ちで骨盤を水平に保つ（鏡の前で左右30秒×3）", "サイドプランク（左右30秒×3）", "ゴムチューブを膝上に巻いて横歩き（10歩×3往復）"],
+      cue: "骨盤はいつも水平に" },
+    j: ["hip"], link: ["trunkSway", "kneeIn", "crossover"] },
+  kneeIn: { name: "膝の内側への入り（接地中）", cat: "bal", unit: "°", d: 0, view: "front",
+    sp: { sprint: [-INF, 8, -INF, 16, 3], dist: [-INF, 8, -INF, 16, 3], jog: [-INF, 8, -INF, 16, 2] },
+    hi: { t: "接地のとき、膝が内側に入っている（ニーイン）",
+      why: "股関節・膝・足首が一直線にならず、膝が内側に折れています。膝の内側やお皿のまわりにねじれの負担がかかり、ランナー膝・シンスプリントの原因になります。お尻の筋力不足や足の着き方が関係します。",
+      dr: ["片脚スクワット：膝をつま先と同じ向きに保つ（左右10回×3）", "チューブを膝上に巻いてスクワット（膝で外へ押し返す）", "片脚つま先立ち：膝を内に入れずに20回"],
+      cue: "膝はつま先と同じ向き" },
+    j: ["hip", "knee", "ankle"], link: ["pelvicDrop", "crossover"] },
+  crossover: { name: "着地の幅（足が体の中心線を越えるか）", cat: "bal", unit: "", d: 2, pct: true, view: "front",
+    sp: { sprint: [0, INF, -0.3, INF, 2], dist: [0, INF, -0.3, INF, 2], jog: [0, INF, -0.3, INF, 1] },
+    lo: { t: "着地で足が体の中心線を越えている（クロスオーバー）",
+      why: "1本の線の上を歩くように、足が体の中心線をまたいで着地しています。すねや膝の外側にねじれが溜まり、骨盤も横に揺れてしまいます。",
+      dr: ["2本のライン（レーンの線など）をまたぐように走る", "ゴムチューブを膝上に巻いて横歩き", "ももを真っすぐ前に振り出す意識の流し（80m×3）"],
+      cue: "線路の2本のレールの上を走る" },
+    j: ["hip", "ankle"], link: ["pelvicDrop", "kneeIn", "armCross"] },
+  trunkSway: { name: "上体の左右のぶれ（振れ幅）", cat: "bal", unit: "°", d: 0, view: "front",
+    sp: { sprint: [-INF, 6, -INF, 14, 2], dist: [-INF, 6, -INF, 14, 2], jog: [-INF, 7, -INF, 15, 1] },
+    hi: { t: "上体が左右に揺れている",
+      why: "1歩ごとに上体が左右に傾いています。横への揺れは前に進む力のロスです。骨盤の傾きや腕の横振りを、上体で補っているときに起きやすい形です。",
+      dr: ["サイドプランク・プランク（各30秒×3）", "鏡に向かってその場ランニング：頭の位置を動かさない", "腕を前後にまっすぐ振る練習（座ったまま30秒×3）"],
+      cue: "頭は線路の真ん中から動かさない" },
+    j: ["hip", "shoulder"], link: ["pelvicDrop", "armCross"] },
+  armCross: { name: "腕の横振り（手が体の中心を越えるか）", cat: "bal", unit: "", d: 2, pct: true, view: "front",
+    sp: { sprint: [-INF, 0.10, -INF, 0.40, 2], dist: [-INF, 0.10, -INF, 0.40, 1], jog: [-INF, 0.12, -INF, 0.45, 1] },
+    hi: { t: "腕が体の前を横切っている（横振り）",
+      why: "手が体の中心線を越えて振られると、上体がねじれます。そのねじれを止めるために、脚の動きも左右にぶれてしまいます。",
+      dr: ["鏡の前で「手は体の中心線を越えない」腕振り", "肘を真後ろに引く：ズボンのポケットをかすめるように", "座ったまま腕振り（30秒×3）で前後の軌道を覚える"],
+      cue: "手はポケットから胸へ、まっすぐ" },
+    j: ["shoulder", "elbow", "wrist"], link: ["trunkSway", "crossover"] }
 };
 const MKEYS = Object.keys(M);
 
@@ -518,6 +652,7 @@ function rangeTxt(key, purpose) {
   return f(g0) + "〜" + f(g1) + u;
 }
 function textOf(key, side) { const m = M[key]; return m[side] || m.hi || m.lo; }
+
 
 /* =========================================================
    幾何ユーティリティ
@@ -560,8 +695,8 @@ function fillGaps(frames) {
    解析本体：コマ列 → 17項目
    frames: [{t(実時間秒), ok, p:Float32Array(33*3) 画素座標}]
    ========================================================= */
-function analyze(frames, meta) {
-  const res = { warns: [], info: {}, metrics: {}, events: { L: [], R: [] }, rep: {} };
+function analyzeSide(frames, meta) {
+  const res = { view: "side", warns: [], info: {}, metrics: {}, detail: {}, events: { L: [], R: [] }, rep: {} };
   const n = frames.length;
   const okN = frames.filter(f => f.ok).length;
   res.info.detectRate = n ? okN / n : 0;
@@ -611,21 +746,8 @@ function analyze(frames, meta) {
   // 1ストライドの周期：足首が腰の前後を行き来するリズムの自己相関から（接地の取りこぼしに強い）
   const strideP = (() => {
     const best = ["L", "R"].sort((a, b) => median(F.map(f => P(f, L["an" + b]).v)) - median(F.map(f => P(f, L["an" + a]).v)));
-    let out = null;
-    for (const S of best) {
-      const x = smooth(F.map(f => (P(f, L["an" + S]).x - mid(P(f, L.hipL), P(f, L.hipR)).x) * dir / legLen), 1);
-      const mu = x.reduce((a, b) => a + b, 0) / x.length; const z = x.map(v => v - mu);
-      const den = z.reduce((a, b) => a + b * b, 0); if (!den) continue;
-      const lo = Math.max(2, Math.floor(0.3 / dtMed)), hi = Math.min(z.length - 3, Math.ceil(1.7 / dtMed));
-      const ac = []; for (let g = 0; g <= hi + 1; g++) { let sum = 0; for (let i = 0; i + g < z.length; i++) sum += z[i] * z[i + g]; ac[g] = sum / den * z.length / (z.length - g); }
-      let bestG = null;
-      for (let g = lo; g <= hi; g++) if (ac[g] > 0.3 && ac[g] >= ac[g - 1] && ac[g] >= ac[g + 1]) { bestG = g; break; }
-      if (bestG != null) { // 放物線で細かく
-        const a = ac[bestG - 1], b = ac[bestG], c = ac[bestG + 1], den2 = a - 2 * b + c; const off = den2 ? clamp(0.5 * (a - c) / den2, -0.5, 0.5) : 0;
-        out = { p: (bestG + off) * dtMed, q: b }; break;
-      }
-    }
-    return out;
+    for (const S of best) { const r = acPeriod(smooth(F.map(f => (P(f, L["an" + S]).x - mid(P(f, L.hipL), P(f, L.hipR)).x) * dir / legLen), 1), dtMed); if (r) return r; }
+    return null;
   })();
   res.info.stride = strideP;
   res.info.tol = TOL;
@@ -732,7 +854,6 @@ function analyze(frames, meta) {
 
   // 遊脚：膝の最小角（引き付け）・ももの前方最大・後方最大
   const heelV = [], liftV = [], backV = [];
-  let heelI = null, liftI = null, backI = null, hb = INF, lb = -INF, bb = -INF;
   for (const S of ["L", "R"]) {
     const sd = side[S]; const inSt = new Uint8Array(F.length);
     for (const s of sd.st) for (let k = s.a; k <= s.b; k++) inSt[k] = 1;
@@ -781,6 +902,10 @@ function analyze(frames, meta) {
   res.rep.armRange = repIdxArr(upper, uHi); res.rep.armBack = repIdxArr(upper, uLo);
   res.info.armSide = armSide;
 
+  // 1歩ぶんの周期（見本との重ね合わせ用）：よく見える側の足の、着地から次の着地まで
+  res.info.torso = torso;
+  { const bs = ["L", "R"].sort((a, b) => (side[b].vis - side[a].vis) || (res.events[b].length - res.events[a].length))[0];
+    const ev = res.events[bs]; res.cycles = []; for (let k = 1; k < ev.length; k++) res.cycles.push({ a: F[ev[k - 1].i].vt, b: F[ev[k].i].vt }); }
   // 代表コマ → 時刻
   res.repT = {}; for (const k in res.rep) if (res.rep[k] != null && F[res.rep[k]]) res.repT[k] = F[res.rep[k]].vt;
   res.contactT = { L: res.events.L.map(e => F[e.i].vt), R: res.events.R.map(e => F[e.i].vt) };
@@ -789,6 +914,8 @@ function analyze(frames, meta) {
 /* 左右の取り違え（横からの映像で起きやすい）を、前のこまとのつながりで直す */
 function fixSwaps(F) {
   const groups = [[[25, 26], [27, 28], [29, 30], [31, 32]], [[13, 14], [15, 16]]];
+  // 体の大きさ（腰〜足首）。小さな動きでの入れ替え（脚や腕がすれ違う瞬間）は無視する
+  const sc = median(F.map(f => Math.hypot(f.p[69] - f.p[81], f.p[70] - f.p[82]))) || 100;
   let n = 0;
   for (const G of groups) {
     const key = G.slice(0, 2);
@@ -799,7 +926,7 @@ function fixSwaps(F) {
         const d = (x, y) => Math.hypot(b[x * 3] - a[y * 3], b[x * 3 + 1] - a[y * 3 + 1]);
         keep += d(l, l) + d(r, r); swap += d(l, r) + d(r, l);
       }
-      if (swap < keep * 0.6) {
+      if (keep > sc * 0.25 && swap < keep * 0.5) {
         for (const [l, r] of G) for (let c = 0; c < 3; c++) { const t = b[l * 3 + c]; b[l * 3 + c] = b[r * 3 + c]; b[r * 3 + c] = t; }
         n++;
       }
@@ -809,26 +936,165 @@ function fixSwaps(F) {
 }
 function repIdxArr(arr, v) { if (v == null) return null; let bi = null, bd = INF; arr.forEach((x, i) => { const d = Math.abs(x - v); if (d < bd) { bd = d; bi = i; } }); return bi; }
 
-/* 採点と5つの選び方：まず違う分野から、次に重い順 */
-function rank(res, purpose) {
-  const conf = k => {
-    let c = 1;
-    if (res.info.sideness > 0.45 && ["shin", "overstride", "trunk", "neck", "kneeContact"].includes(k)) c *= 0.6;
-    if (k === "contactTime" && res.info.lowFps) c *= 0.55;
-    if (k === "asym") c *= 0.7;
-    if (["cadence", "asym", "vo"].includes(k) && (res.info.contacts || 0) < 3) c *= 0.5;
-    return c;
+/* 自己相関で周期（秒）を求める：1ストライド（同じ足の着地から次の着地まで） */
+function acPeriod(x, dt) {
+  const v = x.filter(q => isFinite(q)); if (v.length < 10) return null;
+  const mu = v.reduce((a, b) => a + b, 0) / v.length; const z = x.map(q => isFinite(q) ? q - mu : 0);
+  const den = z.reduce((a, b) => a + b * b, 0); if (!den) return null;
+  const lo = Math.max(2, Math.floor(0.3 / dt)), hi = Math.min(z.length - 3, Math.ceil(1.7 / dt));
+  if (hi <= lo) return null;
+  const ac = []; for (let g = 0; g <= hi + 1; g++) { let s = 0; for (let i = 0; i + g < z.length; i++) s += z[i] * z[i + g]; ac[g] = s / den * z.length / (z.length - g); }
+  for (let g = lo; g <= hi; g++) if (ac[g] > 0.3 && ac[g] >= ac[g - 1] && ac[g] >= ac[g + 1]) {
+    const a = ac[g - 1], b = ac[g], c = ac[g + 1], d2 = a - 2 * b + c; const off = d2 ? clamp(0.5 * (a - c) / d2, -0.5, 0.5) : 0;
+    return { p: (g + off) * dt, q: b };
+  }
+  return null;
+}
+
+/* =========================================================
+   前・後ろからの解析（左右のバランス5項目＋ピッチ）
+   左右は「画面の左右」で並べ、撮った向きで体の左右に読み替える
+   ========================================================= */
+function analyzeFront(frames, meta, view) {
+  const res = { view, warns: [], info: {}, metrics: {}, detail: {}, rep: {}, events: { L: [], R: [] } };
+  const n = frames.length;
+  res.info.detectRate = n ? frames.filter(f => f.ok).length / n : 0;
+  fillGaps(frames);
+  const F = frames.filter(f => f.ok);
+  if (F.length < 12) { res.fatal = "人の体をほとんど見つけられませんでした。全身がはっきり映った動画で試してください。"; return res; }
+  const T = F.map(f => f.t), dt = median(T.slice(1).map((t, i) => t - T[i])) || 1 / 30; res.info.dt = dt;
+  const G = F.map(f => {
+    const X = i => f.p[i * 3];
+    const cs = X(23) <= X(24) ? [23, 25, 27, 29, 31] : [24, 26, 28, 30, 32];
+    const cd = cs[0] === 23 ? [24, 26, 28, 30, 32] : [23, 25, 27, 29, 31];
+    const as = X(11) <= X(12) ? [11, 13, 15] : [12, 14, 16];
+    const ad = as[0] === 11 ? [12, 14, 16] : [11, 13, 15];
+    const pt = i => P(f, i);
+    const foot = ch => Math.max(pt(ch[2]).y, pt(ch[3]).y, pt(ch[4]).y);
+    const hip = [pt(cs[0]), pt(cd[0])], kn = [pt(cs[1]), pt(cd[1])], an = [pt(cs[2]), pt(cd[2])];
+    const sh = [pt(as[0]), pt(ad[0])], wr = [pt(as[2]), pt(ad[2])];
+    const hm = mid(hip[0], hip[1]), sm = mid(sh[0], sh[1]);
+    return { hip, kn, an, sh, wr, hm, sm, foot: [foot(cs), foot(cd)], torso: dist(hm, sm), hipW: Math.abs(hip[1].x - hip[0].x), shW: Math.abs(sh[1].x - sh[0].x) };
+  });
+  const torso = median(G.map(g => g.torso)); res.info.torso = torso;
+  const sideness = median(G.map(g => g.shW / (g.torso || 1))); res.info.sideness = sideness;
+  if (sideness < 0.45) res.warns.push("真正面・真後ろからの映像ではない可能性があります（肩の幅が狭く見えています）。");
+  if (torso < meta.h * 0.07) res.warns.push("人が小さく映っています。もう少し近くで撮ると精度が上がります。");
+  if (res.info.detectRate < 0.7) res.warns.push("体を見失ったコマが " + Math.round((1 - res.info.detectRate) * 100) + "% あります。");
+  const anat = s => ((view === "front") === (s === 0)) ? "R" : "L"; // 前から：画面の左＝体の右
+  // 接地：もう一方より低い足
+  const diff = smooth(G.map(g => (g.foot[0] - g.foot[1]) / (g.torso || torso)), 1);
+  const TH = 0.06;
+  const stv = diff.map(d => d > TH ? 0 : d < -TH ? 1 : -1);
+  let groups = [];
+  for (let i = 0; i < stv.length; i++) { if (stv[i] < 0) continue; let j = i; while (j + 1 < stv.length && stv[j + 1] === stv[i]) j++; groups.push({ s: stv[i], a: i, b: j }); i = j; }
+  const mg = []; for (const g of groups) { const p = mg[mg.length - 1]; if (p && p.s === g.s && T[g.a] - T[p.b] < 0.08) p.b = g.b; else mg.push(Object.assign({}, g)); }
+  groups = mg.filter(g => g.b - g.a >= 1 && g.a > 0 && g.b < stv.length - 1);
+  res.info.contacts = groups.length;
+  if (groups.length < 2) res.warns.push("着地が " + groups.length + " 回しか見つかりませんでした。左右1回ずつ以上（2歩以上）映る長さにしてください。");
+  // 骨盤の線の傾き（画面右側の腰が下がると＋）。全体の中央値を基準にして、カメラの傾きを打ち消す
+  const theta = G.map(g => Math.atan2(g.hip[1].y - g.hip[0].y, g.hip[1].x - g.hip[0].x) * DEG);
+  const B = median(theta); res.B = B;
+  const fppa = (g, s) => {
+    const H = g.hip[s], K = g.kn[s], A = g.an[s]; if (Math.abs(A.y - H.y) < 1) return NaN;
+    const xl = H.x + (A.x - H.x) * (K.y - H.y) / (A.y - H.y);
+    const off = (K.x - xl) * (s === 0 ? 1 : -1); // 体の中心へ向かう向きが＋
+    const ang = 180 - angAt(H, K, A); return off >= 0 ? ang : -ang;
   };
+  const per = { pelvicDrop: [], kneeIn: [], crossover: [] };
+  for (const g of groups) {
+    const len = g.b - g.a, a0 = g.a + Math.floor(len * 0.2), b0 = g.b - Math.floor(len * 0.2);
+    let dmx = -INF, di = a0, kmx = -INF, ki = a0;
+    for (let i = a0; i <= b0; i++) {
+      const d = g.s === 0 ? theta[i] - B : -(theta[i] - B); if (d > dmx) { dmx = d; di = i; }
+      const k = fppa(G[i], g.s); if (k > kmx) { kmx = k; ki = i; }
+    }
+    const mi = Math.round((g.a + g.b) / 2), gm = G[mi];
+    const cr = (gm.an[g.s].x - gm.hm.x) * (g.s === 0 ? -1 : 1) / (gm.hipW || 1);
+    const sd = anat(g.s);
+    if (isFinite(dmx)) per.pelvicDrop.push({ v: dmx, i: di, sd });
+    if (isFinite(kmx)) per.kneeIn.push({ v: kmx, i: ki, sd });
+    if (isFinite(cr)) per.crossover.push({ v: cr, i: mi, sd });
+    res.events[sd].push({ i: g.a, t: T[g.a], s: g.s });
+  }
+  const sideAgg = (arr, worst) => {
+    const Lv = median(arr.filter(o => o.sd === "L").map(o => o.v)), Rv = median(arr.filter(o => o.sd === "R").map(o => o.v));
+    const vals = [Lv, Rv].filter(v => v != null); if (!vals.length) return null;
+    const v = worst === "max" ? Math.max(...vals) : Math.min(...vals); const wsd = v === Rv ? "R" : "L";
+    let bi = null, bd = INF; for (const o of arr.filter(o => o.sd === wsd)) { const d = Math.abs(o.v - v); if (d < bd) { bd = d; bi = o.i; } }
+    return { v, L: Lv, R: Rv, i: bi, sd: wsd };
+  };
+  for (const [k, w] of [["pelvicDrop", "max"], ["kneeIn", "max"], ["crossover", "min"]]) {
+    const r = sideAgg(per[k], w); if (r) { res.metrics[k] = r.v; res.detail[k] = { L: r.L, R: r.R, worst: r.sd }; res.rep[k] = r.i; }
+  }
+  // 上体の左右の傾き
+  const lam = smooth(G.map(g => Math.atan2(g.sm.x - g.hm.x, g.hm.y - g.sm.y) * DEG), 1);
+  const l5 = pct(lam, 0.05), l95 = pct(lam, 0.95);
+  if (l5 != null) { res.metrics.trunkSway = l95 - l5; const md = median(lam); let bi = 0, bd = -1; lam.forEach((v, i) => { if (Math.abs(v - md) > bd) { bd = Math.abs(v - md); bi = i; } }); res.rep.trunkSway = bi; }
+  // 腕の横振り：手首が体の中心線（両肩の真ん中）をどれだけ越えるか（肩幅比）
+  const ac = [0, 1].map(s => G.map(g => (s === 0 ? (g.wr[0].x - g.sm.x) : (g.sm.x - g.wr[1].x)) / (g.shW || 1)));
+  const acv = ac.map(a => pct(a, 0.9));
+  if (acv[0] != null && acv[1] != null) {
+    const s = acv[0] >= acv[1] ? 0 : 1; res.metrics.armCross = acv[s];
+    res.detail.armCross = { [anat(0)]: acv[0], [anat(1)]: acv[1], worst: anat(s) }; res.rep.armCross = repIdxArr(ac[s], acv[s]);
+  }
+  // ピッチ
+  const pr = acPeriod(diff, dt);
+  if (pr) res.metrics.cadence = 120 / pr.p;
+  else if (groups.length >= 3) res.metrics.cadence = 60 / median(groups.slice(1).map((g, k) => T[g.a] - T[groups[k].a]));
+  if (res.metrics.cadence != null) res.rep.cadence = groups.length ? groups[0].a : 0;
+  const g0 = groups.filter(g => g.s === 0); res.cycles = [];
+  for (let k = 1; k < g0.length; k++) res.cycles.push({ a: F[g0[k - 1].a].vt, b: F[g0[k].a].vt });
+  res.repT = {}; for (const k in res.rep) if (res.rep[k] != null && F[res.rep[k]]) res.repT[k] = F[res.rep[k]].vt;
+  res.contactT = { L: res.events.L.map(e => F[e.i].vt), R: res.events.R.map(e => F[e.i].vt) };
+  return res;
+}
+
+/* =========================================================
+   複数の動画の結果を1つにまとめる
+   ========================================================= */
+function combineRes(clips) {
+  const C = { metrics: {}, src: {}, detail: {}, conf: {}, warns: [], views: [] };
+  const done = clips.filter(c => c.res && !c.res.fatal);
+  for (const k of MKEYS) {
+    const want = M[k].view === "front" ? ["front", "back"] : ["side"];
+    let best = null;
+    for (const c of done) if (want.includes(c.res.view) && c.res.metrics[k] != null && isFinite(c.res.metrics[k])) { if (!best || (c.res.info.contacts || 0) > (best.res.info.contacts || 0)) best = c; }
+    if (!best && k === "cadence") for (const c of done) if (c.res.metrics.cadence != null && isFinite(c.res.metrics.cadence)) { best = c; break; }
+    if (!best) continue;
+    const r = best.res;
+    C.metrics[k] = r.metrics[k]; C.src[k] = best.id; if (r.detail && r.detail[k]) C.detail[k] = r.detail[k];
+    let cf = 1;
+    if (r.view === "side") {
+      if (r.info.sideness > 0.45 && ["shin", "overstride", "trunk", "neck", "kneeContact"].includes(k)) cf *= 0.6;
+      if (k === "contactTime" && r.info.lowFps) cf *= 0.55;
+      if (k === "asym") cf *= 0.7;
+      if (["cadence", "asym", "vo"].includes(k) && (r.info.contacts || 0) < 3) cf *= 0.5;
+    } else {
+      if (["pelvicDrop", "kneeIn", "crossover"].includes(k) && (r.info.contacts || 0) < 2) cf *= 0.5;
+      if (r.info.sideness < 0.55) cf *= 0.7;
+      if (k === "pelvicDrop") cf *= 0.8; // 腰の点はAIの推定がぶれやすい
+      if (k === "cadence") cf *= 0.8;
+    }
+    C.conf[k] = cf;
+  }
+  C.views = [...new Set(done.map(c => c.res.view))];
+  for (const c of done) for (const w of c.res.warns) C.warns.push("【" + VIEW_NAME[c.res.view] + "】" + w);
+  C.contacts = done.reduce((s, c) => s + (c.res.info.contacts || 0), 0);
+  return C;
+}
+
+/* 採点と5つの選び方：重い順に、同じ分野は2つまで（多角的に） */
+function rank(C, purpose) {
   const items = [];
   for (const k of MKEYS) {
-    const v = res.metrics[k]; const sv = sevOf(k, v, purpose); if (!sv) continue;
-    const w = M[k].sp[purpose][4];
-    items.push({ k, v, side: sv.side, s: sv.s, margin: sv.m, w, c: conf(k), pr: sv.s * w * conf(k), pm: sv.m * w * conf(k) });
+    const v = C.metrics[k]; const sv = sevOf(k, v, purpose); if (!sv) continue;
+    const w = M[k].sp[purpose][4], c = C.conf[k] == null ? 1 : C.conf[k];
+    items.push({ k, v, side: sv.side, s: sv.s, margin: sv.m, w, c, pr: sv.s * w * c, pm: sv.m * w * c });
   }
   let wsum = 0, lost = 0; for (const it of items) { wsum += it.w; lost += it.s * it.w; }
   const score = items.length ? Math.round(100 - (lost / wsum) * 100) : null;
   const bad = items.filter(i => i.s > 0).sort((a, b) => b.pr - a.pr);
-  // 多角的に：重い順に選ぶが、同じ分野は2つまで（姿勢・接地・脚・腕・リズムから幅広く）
   const pick = [], perCat = {};
   for (const it of bad) { const c = M[it.k].cat; if (pick.length < 5 && (perCat[c] || 0) < 2) { pick.push(it); perCat[c] = (perCat[c] || 0) + 1; } }
   for (const it of bad) if (pick.length < 5 && !pick.includes(it)) pick.push(it);
@@ -841,13 +1107,14 @@ function rank(res, purpose) {
 function level(it) { if (it.nobi || it.s === 0) return [0, "伸びしろ"]; if (it.s >= 0.6) return [3, "要改善"]; if (it.s >= 0.25) return [2, "注意"]; return [1, "軽め"]; }
 
 /* =========================================================
-   デモ用：合成した走者の関節データ
+   合成した走者（デモと100点の見本）
+   view: side / front / back
    ========================================================= */
 function synth(o) {
-  // 足首の軌道を決め、膝は2本の棒の逆運動学で求める（現実の走りに近い形）
-  o = Object.assign({ spm: 156, sf: 0.40, td: 0.46, to: 0.34, swingH: 0.22, vo: 0.16, lean: 0.5, armMid: 4, armAmp: 20, elbow: 132, neck: 26, dur: 4, fps: 30, W: 760, H: 560, dir: 1, asym: 0.08 }, o);
-  const frames = []; const Lg = 210, half = Lg / 2, trunkL = 190, ua = 85, fa = 80;
-  const ground = o.H * 0.86, H0 = 0.93 * Lg;
+  o = Object.assign({ spm: 156, sf: 0.40, td: 0.46, to: 0.34, swingH: 0.22, vo: 0.16, lean: 0.5, armMid: 4, armAmp: 20, elbow: 132, neck: 26, dur: 4, fps: 30, W: 760, H: 560, dir: 1, asym: 0.08,
+    view: "side", drop: 0, valgus: 0, foot: 0.5, sway: 0, armCross: 0, hipH: 0.93 }, o);
+  const frames = []; const Lg = 210, half = Lg / 2, trunkL = 190, ua = 85, fa = 80, hh = 0.11 * Lg, shh = 0.3 * Lg;
+  const ground = o.H * 0.86, H0 = o.hipH * Lg;
   const f = o.spm / 120;
   const footAt = u => { // u: 0..1 周期（0=接地）。戻り値は腰から見た足首（x前+, h地面から）
     u = ((u % 1) + 1) % 1;
@@ -855,51 +1122,117 @@ function synth(o) {
     const v = (u - o.sf) / (1 - o.sf);
     return { x: (-o.to + (o.td + o.to) * (1 - Math.cos(Math.PI * v)) / 2) * Lg, h: o.swingH * Lg * Math.pow(Math.sin(Math.PI * Math.pow(v, 0.75)), 1.3) };
   };
-  for (let i = 0; i < o.dur * o.fps; i++) {
+  const front = o.view !== "side";
+  const sgn = S => ((o.view === "front") === (S === "R")) ? -1 : 1; // 前から：体の右＝画面の左
+  for (let i = 0; i < Math.round(o.dur * o.fps); i++) {
     const t = i / o.fps; const u = f * t;
-    // 腰は接地中（各足の接地中盤）に低い：1周期に2回上下
-    const hipH = H0 - o.vo * Lg * 0.5 * Math.cos(2 * Math.PI * (2 * u - o.sf)) ;
-    const hip = { x: o.W * 0.45 + 30 * Math.sin(t * 0.7), y: ground - 0.04 * Lg - hipH };
+    const hipH = H0 - o.vo * Lg * 0.5 * Math.cos(2 * Math.PI * (2 * u - o.sf));
+    const hip = { x: front ? o.W * 0.5 : o.W * 0.45 + 30 * Math.sin(t * 0.7), y: ground - 0.04 * Lg - hipH };
     const p = new Float32Array(99);
     const set = (k, pt, v) => { p[k * 3] = pt.x; p[k * 3 + 1] = pt.y; p[k * 3 + 2] = v; };
+    const sag = {};
     for (const S of ["L", "R"]) {
       const uu = S === "R" ? u : u + 0.5 + o.asym * 0.5;
-      const ft = footAt(uu); const v = S === "R" ? 0.95 : 0.75, off = S === "R" ? 4 : -4;
+      const uf = ((uu % 1) + 1) % 1;
+      const ft = footAt(uu);
       let A = { x: hip.x + ft.x * o.dir, y: ground - 0.04 * Lg - ft.h };
       let dx = A.x - hip.x, dy = A.y - hip.y, d = Math.hypot(dx, dy);
       if (d > Lg * 0.995) { const k = Lg * 0.995 / d; A = { x: hip.x + dx * k, y: hip.y + dy * k }; dx *= k; dy *= k; d = Lg * 0.995; }
-      const ux = dx / d, uy = dy / d, hh = Math.sqrt(Math.max(0, half * half - d * d / 4));
+      const ux = dx / d, uy = dy / d, hgt = Math.sqrt(Math.max(0, half * half - d * d / 4));
       let px = -uy, py = ux; if (px * o.dir < 0) { px = -px; py = -py; }
-      const K = { x: hip.x + dx / 2 + px * hh, y: hip.y + dy / 2 + py * hh };
-      set(L["hip" + S], { x: hip.x + off, y: hip.y }, v); set(L["kn" + S], { x: K.x + off, y: K.y }, v);
-      set(L["an" + S], { x: A.x + off, y: A.y }, v);
-      set(L["he" + S], { x: A.x - 0.07 * Lg * o.dir + off, y: A.y + 0.03 * Lg }, v);
-      set(L["to" + S], { x: A.x + 0.13 * Lg * o.dir + off, y: A.y + 0.04 * Lg }, v);
+      const K = { x: hip.x + dx / 2 + px * hgt, y: hip.y + dy / 2 + py * hgt };
+      sag[S] = { A, K, inSt: uf < o.sf, st: uf < o.sf ? Math.sin(Math.PI * uf / o.sf) : 0, sw: uf < o.sf ? 0 : (uf - o.sf) / (1 - o.sf) };
     }
     const lean = o.lean / DEG;
-    const shp = { x: hip.x + trunkL * Math.sin(lean) * o.dir, y: hip.y - trunkL * Math.cos(lean) };
-    for (const S of ["L", "R"]) {
-      const v = S === "R" ? 0.95 : 0.75, off = S === "R" ? 5 : -5;
-      const uu = S === "R" ? u + 0.5 : u; // 腕は反対側の脚と同期
-      const a = (o.armMid + o.armAmp * Math.cos(2 * Math.PI * uu)) / DEG;
-      const el = { x: shp.x + ua * Math.sin(a) * o.dir + off, y: shp.y + ua * Math.cos(a) };
-      const b = a + (180 - o.elbow) / DEG;
-      const wr = { x: el.x + fa * Math.sin(b) * o.dir, y: el.y + fa * Math.cos(b) };
-      set(L["sh" + S], { x: shp.x + off, y: shp.y }, v); set(L["el" + S], el, v); set(L["wr" + S], wr, v);
-      const na = lean + o.neck / DEG;
-      const ear = { x: shp.x + 60 * Math.sin(na) * o.dir + off * 0.4, y: shp.y - 60 * Math.cos(na) };
-      set(L["ear" + S], ear, v);
-      if (S === "R") set(L.nose, { x: ear.x + 26 * o.dir, y: ear.y + 6 }, 0.95);
+    if (!front) {
+      for (const S of ["L", "R"]) {
+        const v = S === "R" ? 0.95 : 0.75, off = S === "R" ? 4 : -4, A = sag[S].A, K = sag[S].K;
+        set(L["hip" + S], { x: hip.x + off, y: hip.y }, v); set(L["kn" + S], { x: K.x + off, y: K.y }, v);
+        set(L["an" + S], { x: A.x + off, y: A.y }, v);
+        set(L["he" + S], { x: A.x - 0.07 * Lg * o.dir + off, y: A.y + 0.03 * Lg }, v);
+        set(L["to" + S], { x: A.x + 0.13 * Lg * o.dir + off, y: A.y + 0.04 * Lg }, v);
+      }
+      const shp = { x: hip.x + trunkL * Math.sin(lean) * o.dir, y: hip.y - trunkL * Math.cos(lean) };
+      for (const S of ["L", "R"]) {
+        const v = S === "R" ? 0.95 : 0.75, off = S === "R" ? 5 : -5;
+        const uu = S === "R" ? u + 0.5 : u; // 腕は反対側の脚と同期
+        const a = (o.armMid + o.armAmp * Math.cos(2 * Math.PI * uu)) / DEG;
+        const el = { x: shp.x + ua * Math.sin(a) * o.dir + off, y: shp.y + ua * Math.cos(a) };
+        const b = a + (180 - o.elbow) / DEG;
+        const wr = { x: el.x + fa * Math.sin(b) * o.dir, y: el.y + fa * Math.cos(b) };
+        set(L["sh" + S], { x: shp.x + off, y: shp.y }, v); set(L["el" + S], el, v); set(L["wr" + S], wr, v);
+        const na = lean + o.neck / DEG;
+        const ear = { x: shp.x + 60 * Math.sin(na) * o.dir + off * 0.4, y: shp.y - 60 * Math.cos(na) };
+        set(L["ear" + S], ear, v);
+        if (S === "R") set(L.nose, { x: ear.x + 26 * o.dir, y: ear.y + 6 }, 0.95);
+      }
+      frames.push({ t, vt: t, ok: true, p, fz: 0 });
+      continue;
     }
-    frames.push({ t: t, vt: t, ok: true, p });
+    // ---- 前・後ろから ----
+    const cx = o.W * 0.5, td = Math.tan(o.drop / DEG) * 2 * hh;
+    const lam = (o.sway / DEG) * (sag.R.st * sgn("R") + sag.L.st * sgn("L")); // 接地している側へ傾く
+    const hipP = {};
+    for (const S of ["L", "R"]) {
+      const other = S === "L" ? "R" : "L";
+      hipP[S] = { x: cx + sgn(S) * hh, y: hip.y + td * sag[other].st }; // 反対の脚が接地中なら、こちらの腰が落ちる
+    }
+    for (const S of ["L", "R"]) {
+      const sg = sag[S], H = hipP[S];
+      const latA = sg.inSt ? hh * o.foot : hh * (o.foot + (0.9 - o.foot) * Math.sin(Math.PI * sg.sw));
+      const A = { x: cx + sgn(S) * latA, y: sg.A.y };
+      const r = (sg.K.y - H.y) / ((A.y - H.y) || 1);
+      const shift = ((A.y - H.y) / 2) * Math.tan(o.valgus / 2 / DEG) * sg.st;
+      const K = { x: H.x + (A.x - H.x) * r - sgn(S) * shift, y: sg.K.y };
+      const v = 0.9;
+      set(L["hip" + S], H, v); set(L["kn" + S], K, v); set(L["an" + S], A, v);
+      set(L["he" + S], { x: A.x, y: A.y + 0.03 * Lg }, v); set(L["to" + S], { x: A.x + sgn(S) * 0.02 * Lg, y: A.y + 0.045 * Lg }, v);
+    }
+    const hm = { x: cx, y: (hipP.L.y + hipP.R.y) / 2 };
+    const sm = { x: hm.x + trunkL * Math.cos(lean) * Math.sin(lam), y: hm.y - trunkL * Math.cos(lean) * Math.cos(lam) };
+    for (const S of ["L", "R"]) {
+      const v = 0.9; const uu = S === "R" ? u + 0.5 : u;
+      const a = (o.armMid + o.armAmp * Math.cos(2 * Math.PI * uu)) / DEG, b = a + (180 - o.elbow) / DEG;
+      const shP = { x: sm.x + sgn(S) * shh, y: sm.y };
+      const elY = shP.y + ua * Math.cos(a), wrY = elY + fa * Math.cos(b);
+      const fwd = ua * Math.sin(a) + fa * Math.sin(b), fwN = clamp(fwd / (ua * 0.5 + fa), 0, 1);
+      set(L["sh" + S], shP, v); set(L["el" + S], { x: sm.x + sgn(S) * shh * 1.05, y: elY }, v);
+      set(L["wr" + S], { x: sm.x + sgn(S) * shh * (0.8 - (0.8 + o.armCross) * fwN), y: wrY }, v);
+      set(L["ear" + S], { x: sm.x + sgn(S) * 0.075 * Lg, y: sm.y - 62 }, v);
+    }
+    set(L.nose, { x: sm.x, y: sm.y - 52 }, o.view === "front" ? 0.95 : 0.3);
+    frames.push({ t, vt: t, ok: true, p, fz: o.view === "front" ? -0.12 : 0.12 });
   }
   return { frames, W: o.W, H: o.H, dur: o.dur };
 }
 
+/* 100点の見本（目的別）：各項目が目安の範囲の中に余裕をもって入るフォーム */
+const IDEAL = {
+  jog:    { spm: 170, sf: 0.27, td: 0.25, to: 0.37, swingH: 0.27, vo: 0.08, lean: 6, armMid: -5, armAmp: 28, elbow: 90, neck: 6, asym: 0, hipH: 0.94 },
+  dist:   { spm: 182, sf: 0.29, td: 0.22, to: 0.48, swingH: 0.44, vo: 0.065, lean: 8, armMid: -6, armAmp: 38, elbow: 94, neck: 6, asym: 0, hipH: 0.95 },
+  sprint: { spm: 268, sf: 0.18, td: 0.23, to: 0.47, swingH: 0.70, vo: 0.045, lean: 8, armMid: -10, armAmp: 56, elbow: 86, neck: 4, asym: 0, hipH: 0.97 }
+};
+const IDEAL_F = { drop: 2, valgus: 2, foot: 0.5, sway: 2, armCross: -0.3 };
+const DEMO_SIDE = {};
+const DEMO_FRONT = { spm: 156, sf: 0.40, td: 0.46, to: 0.34, swingH: 0.22, vo: 0.16, drop: 9, valgus: 13, foot: -0.5, sway: 7, armCross: 0.7 };
+const idealCache = {};
+function getIdeal(view, purpose) {
+  const key = view + ":" + purpose; if (idealCache[key]) return idealCache[key];
+  const prm = Object.assign({}, IDEAL[purpose], view === "side" ? {} : IDEAL_F, { view, fps: 60, dur: 3, W: 760, H: 560 });
+  const d = synth(prm);
+  const frames = d.frames;
+  const res = view === "side" ? analyzeSide(frames, { w: d.W, h: d.H }) : analyzeFront(frames, { w: d.W, h: d.H }, view);
+  return (idealCache[key] = { frames, res, W: d.W, H: d.H });
+}
+function idealVal(k, purpose) {
+  const r = getIdeal(M[k].view === "front" ? "front" : "side", purpose || state.purpose).res;
+  return r.metrics[k];
+}
+
 /* =========================================================
-   MediaPipe 読み込みと動画からのコマ取り出し
+   MediaPipe 読み込みと動画からのコマ取り出し（最大3人まで）
    ========================================================= */
-let landmarker = null, landmarkerKey = "", mpTs = 0, mpVision = null, mpFs = null; // mpTs: AIに渡す時刻は毎回増え続ける必要がある
+let landmarker = null, landmarkerKey = "", mpTs = 0, mpVision = null, mpFs = null; // mpTs：AIに渡す時刻は増え続ける必要がある
 async function getLandmarker(onMsg, fresh) {
   const key = state.model;
   if (landmarker && landmarkerKey === key && !fresh) return landmarker;
@@ -908,7 +1241,7 @@ async function getLandmarker(onMsg, fresh) {
   const vision = mpVision || (mpVision = await import(MP_BASE + "/vision_bundle.mjs"));
   const fs = mpFs || (mpFs = await vision.FilesetResolver.forVisionTasks(MP_BASE + "/wasm"));
   const model = qs.get("model") || MODEL_URL[key];
-  const opts = d => ({ baseOptions: { modelAssetPath: model, delegate: d }, runningMode: "VIDEO", numPoses: 1, minPoseDetectionConfidence: 0.4, minPosePresenceConfidence: 0.4, minTrackingConfidence: 0.4 });
+  const opts = d => ({ baseOptions: { modelAssetPath: model, delegate: d }, runningMode: "VIDEO", numPoses: 3, minPoseDetectionConfidence: 0.4, minPosePresenceConfidence: 0.4, minTrackingConfidence: 0.4 });
   try { landmarker = await vision.PoseLandmarker.createFromOptions(fs, opts("GPU")); }
   catch (e) { landmarker = await vision.PoseLandmarker.createFromOptions(fs, opts("CPU")); }
   landmarkerKey = key; return landmarker;
@@ -919,124 +1252,288 @@ function seek(video, t) {
     video.addEventListener("seeked", fin); video.currentTime = t; setTimeout(fin, 1500);
   });
 }
-async function extract(video, t0, t1, fps, onProg, cancelRef) {
-  const lm = await getLandmarker(onProg.msg, true); // 毎回まっさらな状態で（前回の追跡を引きずらない）
-  const W = video.videoWidth, H = video.videoHeight; const frames = [];
-  const step = 1 / fps; let n = Math.max(1, Math.floor((t1 - t0) / step)), fails = 0;
-  video.pause();
+async function extract(c, onProg, cancelRef) {
+  const lm = await getLandmarker(onProg.msg, true); // 毎回まっさらな状態で
+  const W = vid.videoWidth, H = vid.videoHeight; const raw = [];
+  const step = 1 / state.fps, t0 = c.range[0], t1 = c.range[1];
+  const n = Math.max(1, Math.floor((t1 - t0) / step)); let fails = 0;
+  vid.pause();
   for (let k = 0; k <= n; k++) {
     if (cancelRef.stop) break;
-    const t = t0 + k * step; await seek(video, Math.min(t, video.duration - 0.001));
+    const t = t0 + k * step; await seek(vid, Math.min(t, vid.duration - 0.001));
     mpTs += Math.max(1, Math.round(step * 1000));
-    let r = null; try { r = lm.detectForVideo(video, mpTs); fails = 0; } catch (e) { r = null; fails++; }
+    let r = null; try { r = lm.detectForVideo(vid, mpTs); fails = 0; } catch (e) { r = null; fails++; }
     if (fails >= 3) { try { landmarker.close(); } catch (e) {} landmarker = null; throw new Error("AIの処理が止まりました。もう一度「解析スタート」を押してください。"); }
-    const fr = { vt: t, t: t / state.slow, ok: false, p: null };
-    if (r && r.landmarks && r.landmarks[0]) {
-      const a = r.landmarks[0], p = new Float32Array(99);
+    const fr = { vt: t, c: [] };
+    if (r && r.landmarks) for (const a of r.landmarks) {
+      const p = new Float32Array(99);
       for (let i = 0; i < 33; i++) { p[i * 3] = a[i].x * W; p[i * 3 + 1] = a[i].y * H; p[i * 3 + 2] = a[i].visibility == null ? 1 : a[i].visibility; }
-      fr.ok = true; fr.p = p;
+      fr.c.push({ p, fz: (a[0].z || 0) - ((a[7].z || 0) + (a[8].z || 0)) / 2 });
     }
-    frames.push(fr);
+    raw.push(fr);
     onProg.bar((k + 1) / (n + 1));
     if (k % 6 === 0) await new Promise(r => setTimeout(r, 0));
   }
-  return { frames, W, H };
+  return { raw, W, H };
 }
 
 /* =========================================================
-   再生と骨格の重ね描き
+   人の追いかけ（複数人が映っていても、選んだ1人を追う）
+   ========================================================= */
+function poseBox(p) {
+  let x0 = INF, x1 = -INF, y0 = INF, y1 = -INF;
+  for (let i = 0; i < 33; i++) { if (i > 10 && p[i * 3 + 2] < 0.15) continue; const x = p[i * 3], y = p[i * 3 + 1]; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  return { x0, x1, y0, y1, cx: (p[23 * 3] + p[24 * 3]) / 2, cy: (p[23 * 3 + 1] + p[24 * 3 + 1]) / 2, h: Math.max(1, y1 - y0) };
+}
+function pickCand(cands, x, y) {
+  let bi = -1, ba = INF;
+  cands.forEach((cd, k) => { const b = poseBox(cd.p); const m = 0.12 * b.h; if (x >= b.x0 - m && x <= b.x1 + m && y >= b.y0 - m && y <= b.y1 + m) { const a = (b.x1 - b.x0) * (b.y1 - b.y0); if (a < ba) { ba = a; bi = k; } } });
+  if (bi >= 0) return bi;
+  let bd = INF; cands.forEach((cd, k) => { const b = poseBox(cd.p); const d = Math.hypot(b.cx - x, (b.y0 + b.y1) / 2 - y) / b.h; if (d < bd) { bd = d; bi = k; } });
+  return bi;
+}
+function samePose(a, b) { if (!a || !b) return false; const A = poseBox(a), B = poseBox(b); return Math.hypot(A.cx - B.cx, A.cy - B.cy) < 0.15 * Math.max(A.h, B.h); }
+function trackClip(c) {
+  const R = c.raw || [], n = R.length, sel = new Array(n).fill(null);
+  let multiN = 0, maxP = 0; R.forEach(f => { if (f.c.length >= 2) multiN++; maxP = Math.max(maxP, f.c.length); });
+  c.multi = n ? multiN / n : 0; c.maxP = maxP;
+  let si = -1, sk = -1;
+  if (c.target) {
+    const order = R.map((f, i) => i).sort((a, b) => Math.abs(R[a].vt - c.target.vt) - Math.abs(R[b].vt - c.target.vt));
+    for (const i of order) if (R[i].c.length) { si = i; sk = pickCand(R[i].c, c.target.x, c.target.y); break; }
+  } else {
+    // 指定がなければ：大きく、画面の中央に近い人（カメラが追っている人）
+    const order = R.map((f, i) => i).sort((a, b) => Math.abs(a - n / 2) - Math.abs(b - n / 2));
+    for (const i of order) if (R[i].c.length) {
+      si = i; let bs = -INF;
+      R[i].c.forEach((cd, k) => { const b = poseBox(cd.p); const s = b.h * (1 - 0.6 * Math.abs(b.cx / (c.W || 1) - 0.5)); if (s > bs) { bs = s; sk = k; } });
+      break;
+    }
+  }
+  if (si >= 0 && sk >= 0) {
+    sel[si] = sk;
+    for (const dir of [1, -1]) {
+      let prev = poseBox(R[si].c[sk].p), gap = 0;
+      for (let i = si + dir; i >= 0 && i < n; i += dir) {
+        let bk = -1, bd = INF;
+        R[i].c.forEach((cd, k) => { const b = poseBox(cd.p); const d = Math.hypot(b.cx - prev.cx, b.cy - prev.cy) / prev.h + Math.abs(Math.log(b.h / prev.h)); if (d < bd) { bd = d; bk = k; } });
+        if (bk >= 0 && bd < 0.5 + 0.25 * Math.min(gap, 4)) { sel[i] = bk; prev = poseBox(R[i].c[bk].p); gap = 0; } else gap++; // 見失っても、遠くの別の人には乗り換えない
+      }
+    }
+  }
+  c.frames = R.map((f, i) => ({ t: f.vt / state.slow, vt: f.vt, ok: sel[i] != null, p: sel[i] != null ? new Float32Array(f.c[sel[i]].p) : null, fz: sel[i] != null ? f.c[sel[i]].fz : null }));
+}
+/* 1本の動画を解析（向きは自動判定または指定） */
+function analyzeClip(c) {
+  const frames = c.frames.map(f => ({ t: f.vt / state.slow, vt: f.vt, ok: f.ok, p: f.p ? new Float32Array(f.p) : null, fz: f.fz }));
+  const okF = frames.filter(f => f.ok);
+  const sideness = median(okF.map(f => Math.abs(P(f, 11).x - P(f, 12).x) / (dist(mid(P(f, 11), P(f, 12)), mid(P(f, 23), P(f, 24))) || 1)));
+  const fz = median(okF.map(f => f.fz).filter(v => v != null && isFinite(v)));
+  let view = c.view;
+  if (view === "auto") view = c.demoView || ((sideness != null && sideness > 0.5) ? ((fz != null && fz > 0.02) ? "back" : "front") : "side");
+  c.detView = view;
+  const res = view === "side" ? analyzeSide(frames, { w: c.W, h: c.H }) : analyzeFront(frames, { w: c.W, h: c.H }, view);
+  res.view = view; res.info.sidenessAll = sideness;
+  if (!res.fatal && c.view === "auto" && !c.demoView && sideness > 0.36 && sideness < 0.55) res.warns.push("斜めから撮った動画の可能性があります。真横・真正面・真後ろからの方が正確です。");
+  if (!res.fatal && c.multi > 0.1) res.info.multi = c.multi;
+  c.res = res; c.frames = frames;
+  return res;
+}
+
+
+/* =========================================================
+   セッション（1回の解析＝最大3本の動画）と再生
    ========================================================= */
 const vid = $("#vid"), ov = $("#ov"), stage = $("#stage"), tl = $("#timeline");
-let cur = null;         // {mode:'video'|'demo', frames, W, H, dur, res, rk, name}
+let S = { clips: [], ci: 0, comb: null, rk: null, demo: false, recId: null };
+function clip() { return S.clips[S.ci] || null; }
 let demoClock = { t: 0, playing: false, last: 0 };
 let rate = 1, focus = null, raf = 0;
-function playerDur() { return cur ? (cur.mode === "video" ? (vid.duration || cur.dur) : cur.dur) : 0; }
-function playerTime() { return cur ? (cur.mode === "video" ? vid.currentTime : demoClock.t) : 0; }
+function playerDur() { const c = clip(); return c ? (c.mode === "video" ? (vid.duration || c.dur) : c.dur) : 0; }
+function playerTime() { const c = clip(); return c ? (c.mode === "video" ? vid.currentTime : demoClock.t) : 0; }
 function setTime(t) {
+  const c = clip(); if (!c) return;
   t = clamp(t, 0, Math.max(0, playerDur() - 0.001));
-  if (!cur) return; if (cur.mode === "video") vid.currentTime = t; else demoClock.t = t; drawAll();
+  if (c.mode === "video") vid.currentTime = t; else demoClock.t = t; drawAll();
 }
-function isPlaying() { return cur && (cur.mode === "video" ? !vid.paused : demoClock.playing); }
+function isPlaying() { const c = clip(); return c && (c.mode === "video" ? !vid.paused : demoClock.playing); }
 function togglePlay() {
-  if (!cur) return;
-  if (cur.mode === "video") { if (vid.paused) { vid.playbackRate = rate; vid.play().catch(() => {}); } else vid.pause(); }
+  const c = clip(); if (!c) return;
+  if (c.mode === "video") { if (vid.paused) { vid.playbackRate = rate; vid.play().catch(() => {}); } else vid.pause(); }
   else { demoClock.playing = !demoClock.playing; demoClock.last = performance.now(); }
   updPlayBtn(); loop();
 }
-function updPlayBtn() { $("#bPlay").textContent = isPlaying() ? "❚❚ 停止" : "▶ 再生"; $("#bSlow").classList.toggle("on", rate !== 1); }
+function updPlayBtn() { $("#bPlay").textContent = isPlaying() ? "❚❚ 停止" : "▶ 再生"; $("#bSlow").classList.toggle("on", rate !== 1); $("#bGhost").classList.toggle("gon", !!state.ghost); }
 function loop() {
   cancelAnimationFrame(raf);
   const tick = now => {
-    if (cur && cur.mode === "demo" && demoClock.playing) { demoClock.t += (now - demoClock.last) / 1000 * rate; demoClock.last = now; if (demoClock.t >= cur.dur) demoClock.t = 0; }
+    const c = clip();
+    if (c && c.mode === "demo" && demoClock.playing) { demoClock.t += (now - demoClock.last) / 1000 * rate; demoClock.last = now; if (demoClock.t >= c.dur) demoClock.t = 0; }
     drawAll();
     if (isPlaying()) raf = requestAnimationFrame(tick); else updPlayBtn();
   };
   raf = requestAnimationFrame(tick);
 }
 function sizeStage() {
-  const W = cur ? cur.W : 16, H = cur ? cur.H : 9;
-  const maxW = stage.parentElement.clientWidth || 340, maxH = Math.min(window.innerHeight * 0.30, 300);
+  const c = clip(); const W = c && c.W ? c.W : 16, H = c && c.H ? c.H : 9;
+  const portrait = H > W * 1.05;
+  const maxW = stage.parentElement.clientWidth || 340;
+  const maxH = portrait ? Math.min(window.innerHeight * 0.42, 420) : Math.min(window.innerHeight * 0.30, 300);
   let w = maxW, h = w * H / W; if (h > maxH) { h = maxH; w = h * W / H; }
   stage.style.width = Math.round(w) + "px"; stage.style.height = Math.round(h) + "px";
   const dpr = window.devicePixelRatio || 1;
   ov.width = Math.round(w * dpr); ov.height = Math.round(h * dpr);
   tl.width = Math.round(tl.clientWidth * dpr) || 300; tl.height = Math.round(34 * dpr);
 }
-function frameAt(t) {
-  if (!cur || !cur.frames || !cur.frames.length) return null;
-  const fr = cur.frames; let lo = 0, hi = fr.length - 1;
+function frameAtC(c, t) {
+  if (!c || !c.frames || !c.frames.length) return null;
+  const fr = c.frames; let lo = 0, hi = fr.length - 1;
   while (lo < hi) { const m = (lo + hi) >> 1; if (fr[m].vt < t) lo = m + 1; else hi = m; }
   let best = fr[lo]; if (lo > 0 && Math.abs(fr[lo - 1].vt - t) < Math.abs(best.vt - t)) best = fr[lo - 1];
   if (Math.abs(best.vt - t) > 0.25) return null;
   return best.ok ? best : null;
 }
+function frameAt(t) { return frameAtC(clip(), t); }
+function rawAt(c, t) {
+  if (!c || !c.raw || !c.raw.length) return null;
+  const R = c.raw; let lo = 0, hi = R.length - 1;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (R[m].vt < t) lo = m + 1; else hi = m; }
+  let best = R[lo]; if (lo > 0 && Math.abs(R[lo - 1].vt - t) < Math.abs(best.vt - t)) best = R[lo - 1];
+  return Math.abs(best.vt - t) > 0.25 ? null : best;
+}
+function frameLerp(frames, vt) {
+  if (!frames || !frames.length) return null;
+  let lo = 0, hi = frames.length - 1;
+  while (lo < hi) { const m = (lo + hi) >> 1; if (frames[m].vt < vt) lo = m + 1; else hi = m; }
+  const b = frames[lo], a = frames[lo - 1];
+  if (!a || !a.ok || !b.ok || b.vt === a.vt) return b.ok ? b : (a && a.ok ? a : null);
+  const r = clamp((vt - a.vt) / (b.vt - a.vt), 0, 1), p = new Float32Array(99);
+  for (let i = 0; i < 99; i++) p[i] = a.p[i] + (b.p[i] - a.p[i]) * r;
+  return { p, ok: true, vt };
+}
+
+/* ---------- 骨格の描画（画面・見本・レポート共通） ---------- */
 const BONES = [[11, 12], [11, 23], [12, 24], [23, 24], [11, 13], [13, 15], [12, 14], [14, 16], [23, 25], [25, 27], [27, 29], [29, 31], [27, 31], [24, 26], [26, 28], [28, 30], [30, 32], [28, 32], [7, 11], [8, 12]];
 const JMAP = { hip: [23, 24], knee: [25, 26], ankle: [27, 28], shoulder: [11, 12], ear: [7, 8], elbow: [13, 14], wrist: [15, 16] };
 function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function drawPose(ctx, p, tf, o) {
+  o = Object.assign({ lw: 3, mono: null, alpha: 0.95, dots: true, dim: true, head: false }, o || {});
+  const colL = css("--left") || "#6aa5ff", colR = css("--right") || "#ff7a3d";
+  const pt = i => tf(p[i * 3], p[i * 3 + 1]);
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  for (const [a, b] of BONES) {
+    const left = (a % 2 === 1 && a >= 11) || a === 7;
+    ctx.strokeStyle = o.mono || (((a === 11 && b === 12) || (a === 23 && b === 24)) ? "#ffffff" : (left ? colL : colR));
+    ctx.globalAlpha = o.alpha * (o.dim && Math.min(p[a * 3 + 2], p[b * 3 + 2]) < 0.5 ? 0.5 : 1);
+    ctx.lineWidth = o.lw; const A = pt(a), B = pt(b);
+    ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
+  }
+  ctx.globalAlpha = o.alpha;
+  if (o.head) { const E = mid2(pt(7), pt(8)), Sh = mid2(pt(11), pt(12)); const r = Math.hypot(E[0] - Sh[0], E[1] - Sh[1]) * 0.42; ctx.strokeStyle = o.mono || "#fff"; ctx.lineWidth = o.lw * 0.8; ctx.beginPath(); ctx.arc(E[0], E[1] - r * 0.3, r, 0, 7); ctx.stroke(); }
+  if (o.dots) for (let i = 11; i <= 32; i++) { if (i > 16 && i < 23) continue; const A = pt(i); ctx.fillStyle = o.mono || "#fff"; ctx.beginPath(); ctx.arc(A[0], A[1], o.lw * 0.7, 0, 7); ctx.fill(); }
+  ctx.globalAlpha = 1;
+}
+function mid2(a, b) { return [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; }
+function seg2(ctx, a, b) { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); }
+function midp(p, a, b) { return { x: (p[a * 3] + p[b * 3]) / 2, y: (p[a * 3 + 1] + p[b * 3 + 1]) / 2 }; }
+/* 見本：横からの項目は見本の骨格、前後からの項目は理想の線 */
+function drawIdealFor(ctx, cl, fr, tf, lw, k, sd) {
+  if (!cl.res) return;
+  const col = css("--ideal") || "#16a34a";
+  if (cl.res.view === "side") {
+    const id = getIdeal("side", state.purpose); const i = id.res.rep[k]; if (i == null || !id.frames[i]) return;
+    const ip = id.frames[i].p, hA = midp(fr.p, 23, 24), hI = midp(ip, 23, 24);
+    const s = (cl.res.info.legLen || 1) / (id.res.info.legLen || 1), dir = cl.res.info.dir || 1;
+    drawPose(ctx, ip, (x, y) => tf(hA.x + (x - hI.x) * s * dir, hA.y + (y - hI.y) * s), { lw: lw * 0.9, mono: col, alpha: 0.9, dots: false, dim: false, head: true });
+    return;
+  }
+  // 前・後ろから
+  const p = fr.p, Q = i => ({ x: p[i * 3], y: p[i * 3 + 1] });
+  const leftFirst = Q(23).x <= Q(24).x;
+  const chain = s => { const first = (s === 0) === leftFirst; return first ? { h: 23, k: 25, a: 27 } : { h: 24, k: 26, a: 28 }; };
+  const s = sd ? (((cl.res.view === "front") === (sd === "R")) ? 0 : 1) : 0;
+  const T = (pt) => tf(pt.x, pt.y);
+  ctx.save(); ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = lw * 0.9; ctx.setLineDash([lw * 2, lw * 1.2]);
+  const hm = midp(p, 23, 24), smp = midp(p, 11, 12);
+  if (k === "pelvicDrop") {
+    const st = Q(chain(s).h), ot = Q(chain(1 - s).h), len = Math.hypot(ot.x - st.x, ot.y - st.y) * 1.3, B = (cl.res.B || 0) / DEG;
+    const dx = Math.cos(B) * len * (s === 0 ? 1 : -1), dy = Math.sin(B) * len * (s === 0 ? 1 : -1);
+    seg2(ctx, T(st), T({ x: st.x + dx, y: st.y + dy }));
+    const r = Math.hypot(ot.x - st.x, ot.y - st.y) / len; const g = T({ x: st.x + dx * r, y: st.y + dy * r });
+    ctx.setLineDash([]); ctx.beginPath(); ctx.arc(g[0], g[1], lw * 1.8, 0, 7); ctx.fill();
+  } else if (k === "kneeIn") {
+    const c = chain(s), H = Q(c.h), K = Q(c.k), A = Q(c.a);
+    seg2(ctx, T(H), T(A));
+    const r = (K.y - H.y) / ((A.y - H.y) || 1); const g = T({ x: H.x + (A.x - H.x) * r, y: K.y });
+    ctx.setLineDash([]); ctx.beginPath(); ctx.arc(g[0], g[1], lw * 1.8, 0, 7); ctx.fill();
+  } else if (k === "crossover") {
+    const A = Q(chain(s).a); seg2(ctx, T(hm), T({ x: hm.x, y: Math.max(A.y, hm.y) + (A.y - hm.y) * 0.15 }));
+  } else if (k === "trunkSway") {
+    seg2(ctx, T(hm), T({ x: hm.x, y: smp.y - (hm.y - smp.y) * 0.25 }));
+  } else if (k === "armCross") {
+    seg2(ctx, T({ x: smp.x, y: smp.y - (hm.y - smp.y) * 0.2 }), T({ x: smp.x, y: hm.y }));
+  }
+  ctx.restore();
+}
+function drawScene(ctx, cl, fr, tf, lw, opt) {
+  opt = opt || {};
+  if (opt.cands) for (const cd of opt.cands) { if (fr && samePose(cd.p, fr.p)) continue; drawPose(ctx, cd.p, tf, { lw: lw * 0.6, mono: "rgba(210,210,210,.8)", dots: false, dim: false }); }
+  if (!fr) return;
+  drawPose(ctx, fr.p, tf, { lw });
+  const p = fr.p, pt = i => tf(p[i * 3], p[i * 3 + 1]);
+  const Hm = mid2(pt(23), pt(24)), Sm = mid2(pt(11), pt(12));
+  ctx.setLineDash([lw * 1.6, lw * 1.2]); ctx.strokeStyle = "#fff"; ctx.lineWidth = lw * 0.8; seg2(ctx, Hm, Sm);
+  ctx.strokeStyle = "rgba(255,255,255,.35)"; seg2(ctx, Hm, [Hm[0], Hm[1] - (Hm[1] - Sm[1]) * 1.05]); ctx.setLineDash([]);
+  if (opt.k && opt.ghost) drawIdealFor(ctx, cl, fr, tf, lw, opt.k, opt.sd);
+  if (opt.k) {
+    ctx.strokeStyle = "#ffd400"; ctx.lineWidth = lw * 0.9;
+    for (const j of M[opt.k].j) for (const i of (JMAP[j] || [])) { const A = pt(i); ctx.beginPath(); ctx.arc(A[0], A[1], lw * 3.2, 0, 7); ctx.stroke(); }
+  }
+}
 function drawAll() { drawOverlay(); drawTimeline(); }
 function drawOverlay() {
   const c = ov.getContext("2d"); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, ov.width, ov.height);
-  if (!cur) return;
-  const sx = ov.width / cur.W, sy = ov.height / cur.H, s = Math.min(sx, sy);
-  if (cur.mode === "demo") { c.fillStyle = "#0b1118"; c.fillRect(0, 0, ov.width, ov.height); c.strokeStyle = "#2c3a48"; c.lineWidth = 2 * s; c.beginPath(); c.moveTo(0, cur.H * 0.86 * sy); c.lineTo(ov.width, cur.H * 0.86 * sy); c.stroke(); }
-  const fr = frameAt(playerTime()); if (!fr) return;
-  const X = i => fr.p[i * 3] * sx, Y = i => fr.p[i * 3 + 1] * sy;
-  const colL = css("--left") || "#6aa5ff", colR = css("--right") || "#ff7a3d";
-  const lw = Math.max(2, 5 * s);
-  for (const [a, b] of BONES) {
-    const left = (a % 2 === 1 && a >= 11) || a === 7;
-    c.strokeStyle = (a === 11 && b === 12) || (a === 23 && b === 24) ? "#ffffff" : (left ? colL : colR);
-    c.globalAlpha = Math.min(fr.p[a * 3 + 2], fr.p[b * 3 + 2]) < 0.5 ? 0.45 : 0.95;
-    c.lineWidth = lw; c.lineCap = "round"; c.beginPath(); c.moveTo(X(a), Y(a)); c.lineTo(X(b), Y(b)); c.stroke();
+  const cl = clip(); if (!cl) return;
+  const sx = ov.width / cl.W, sy = ov.height / cl.H, s = Math.min(sx, sy), dpr = window.devicePixelRatio || 1;
+  if (cl.mode === "demo") {
+    c.fillStyle = "#0b1118"; c.fillRect(0, 0, ov.width, ov.height); c.strokeStyle = "#2c3a48"; c.lineWidth = 2 * s;
+    c.beginPath(); c.moveTo(0, cl.H * 0.9 * sy); c.lineTo(ov.width, cl.H * 0.9 * sy); c.stroke();
   }
-  c.globalAlpha = 1;
-  // 体幹ライン
-  const hx = (X(23) + X(24)) / 2, hy = (Y(23) + Y(24)) / 2, shx = (X(11) + X(12)) / 2, shy = (Y(11) + Y(12)) / 2;
-  c.strokeStyle = "#ffffff"; c.lineWidth = lw * 0.8; c.setLineDash([lw * 1.6, lw * 1.2]); c.beginPath(); c.moveTo(hx, hy); c.lineTo(shx, shy); c.stroke();
-  c.strokeStyle = "rgba(255,255,255,.35)"; c.beginPath(); c.moveTo(hx, hy); c.lineTo(hx, hy - (hy - shy) * 1.05); c.stroke(); c.setLineDash([]);
-  for (let i = 11; i <= 32; i++) { if (i > 16 && i < 23) continue; c.fillStyle = "#fff"; c.beginPath(); c.arc(X(i), Y(i), lw * 0.7, 0, 7); c.fill(); }
-  // 注目
-  if (focus && Math.abs(playerTime() - focus.t) < 0.2) {
-    c.strokeStyle = "#ffd400"; c.lineWidth = lw * 0.9;
-    for (const j of focus.j) for (const i of (JMAP[j] || [])) { c.beginPath(); c.arc(X(i), Y(i), lw * 3.2, 0, 7); c.stroke(); }
-    c.fillStyle = "rgba(0,0,0,.65)"; const dpr0 = window.devicePixelRatio || 1; const fs = Math.max(13 * dpr0, 15 * s * 1.3); c.font = "700 " + fs + "px sans-serif";
-    const tx = focus.label; const tw = c.measureText(tx).width; c.fillRect(8, 8, tw + 16, fs + 12); c.fillStyle = "#ffd400"; c.fillText(tx, 16, 8 + fs + 2);
+  const t = playerTime(), fr = frameAt(t);
+  const tf = (x, y) => [x * sx, y * sy];
+  const lw = Math.max(2 * dpr, 4.5 * s);
+  const rf = cl.multi > 0.05 ? rawAt(cl, t) : null;
+  const fk = focus && focus.clipId === cl.id && Math.abs(t - focus.t) < 0.2 ? focus : null;
+  drawScene(c, cl, fr, tf, lw, { cands: rf ? rf.c : null, k: fk ? fk.k : null, sd: fk ? fk.sd : null, ghost: state.ghost });
+  if (fk) { // 数値だけを小さく表示（名前は動画の下に）
+    const fs = Math.round(15 * dpr); c.font = "800 " + fs + "px sans-serif"; const tx = fk.badge; const tw = c.measureText(tx).width;
+    c.fillStyle = "rgba(0,0,0,.65)"; c.fillRect(6 * dpr, 6 * dpr, tw + 14 * dpr, fs + 10 * dpr); c.fillStyle = "#ffd400"; c.fillText(tx, 13 * dpr, 6 * dpr + fs + 1 * dpr);
   }
+  if (cl.target && !cl.raw) { // 解析前に選んだ人の印
+    const X = cl.target.x * sx, Y = cl.target.y * sy; c.strokeStyle = "#ffd400"; c.lineWidth = 3 * dpr;
+    c.beginPath(); c.arc(X, Y, 14 * dpr, 0, 7); c.stroke(); seg2(c, [X - 22 * dpr, Y], [X + 22 * dpr, Y]); seg2(c, [X, Y - 22 * dpr], [X, Y + 22 * dpr]);
+  }
+}
+function tlWin() {
+  const c = clip(), d = playerDur() || 1;
+  if (c && c.res && c.range) { const len = c.range[1] - c.range[0], pad = Math.max(0.15, len * 0.06); return [Math.max(0, c.range[0] - pad), Math.min(d, c.range[1] + pad)]; }
+  return [0, d];
 }
 function drawTimeline() {
   const c = tl.getContext("2d"), W = tl.width, H = tl.height, dpr = window.devicePixelRatio || 1;
-  c.clearRect(0, 0, W, H); if (!cur) return;
-  const d = playerDur() || 1;
-  if (cur.range) { c.fillStyle = "rgba(226,86,31,.12)"; c.fillRect(cur.range[0] / d * W, 0, (cur.range[1] - cur.range[0]) / d * W, H); }
-  if (cur.res && cur.res.contactT) {
-    for (const S of ["L", "R"]) { c.fillStyle = S === "L" ? css("--left") : css("--right"); for (const t of cur.res.contactT[S]) c.fillRect(t / d * W - 1.5 * dpr, S === "L" ? 4 * dpr : H / 2 + 1 * dpr, 3 * dpr, H / 2 - 5 * dpr); }
+  c.clearRect(0, 0, W, H); const cl = clip(); if (!cl) return;
+  const [w0, w1] = tlWin(), X = t => (t - w0) / ((w1 - w0) || 1) * W;
+  if (cl.range) { c.fillStyle = "rgba(226,86,31,.12)"; c.fillRect(X(cl.range[0]), 0, X(cl.range[1]) - X(cl.range[0]), H); }
+  if (cl.res && cl.res.contactT) {
+    for (const s of ["L", "R"]) { c.fillStyle = s === "L" ? css("--left") : css("--right"); for (const t of cl.res.contactT[s]) c.fillRect(X(t) - 1.5 * dpr, s === "L" ? 4 * dpr : H / 2 + 1 * dpr, 3 * dpr, H / 2 - 5 * dpr); }
   }
-  if (focus) { c.fillStyle = "#ffd400"; c.beginPath(); c.arc(focus.t / d * W, H / 2, 5 * dpr, 0, 7); c.fill(); }
-  const x = playerTime() / d * W; c.fillStyle = css("--ink"); c.fillRect(x - 1 * dpr, 0, 2 * dpr, H);
+  if (focus && focus.clipId === cl.id) { c.fillStyle = "#ffd400"; c.beginPath(); c.arc(X(focus.t), H / 2, 5 * dpr, 0, 7); c.fill(); }
+  c.fillStyle = css("--ink"); c.fillRect(X(playerTime()) - 1 * dpr, 0, 2 * dpr, H);
+  if (cl.res && (w0 > 0.05 || w1 < (playerDur() || 1) - 0.05)) { c.fillStyle = css("--sub"); c.font = (10 * dpr) + "px sans-serif"; c.fillText(w0.toFixed(1) + "〜" + w1.toFixed(1) + "秒を拡大表示", 4 * dpr, H - 3 * dpr); }
 }
 (function timelineDrag() {
   let down = false;
-  const go = e => { const r = tl.getBoundingClientRect(); const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left; setTime(x / r.width * playerDur()); };
+  const go = e => { const r = tl.getBoundingClientRect(); const [w0, w1] = tlWin(); setTime(w0 + clamp((e.clientX - r.left) / r.width, 0, 1) * (w1 - w0)); };
   tl.addEventListener("pointerdown", e => { down = true; if (isPlaying()) togglePlay(); go(e); });
   window.addEventListener("pointermove", e => { if (down) go(e); });
   window.addEventListener("pointerup", () => down = false);
@@ -1049,214 +1546,572 @@ $("#bPlay").onclick = togglePlay;
 $("#bPrev").onclick = () => { if (isPlaying()) togglePlay(); setTime(playerTime() - 1 / state.fps); };
 $("#bNext").onclick = () => { if (isPlaying()) togglePlay(); setTime(playerTime() + 1 / state.fps); };
 $("#bSlow").onclick = () => { rate = rate === 1 ? 0.25 : 1; vid.playbackRate = rate; updPlayBtn(); };
+$("#bGhost").onclick = () => { state.ghost = !state.ghost; save(); updPlayBtn(); drawAll(); toast(state.ghost ? "緑の見本線を表示します" : "見本線を消しました", null); };
 window.addEventListener("resize", () => { sizeStage(); drawAll(); });
 
-/* =========================================================
-   画面：動画の読込・解析
-   ========================================================= */
-let objUrl = null, cancelRef = { stop: false }, busy = false;
-$("#fileIn").addEventListener("change", e => {
-  const f = e.target.files && e.target.files[0]; if (!f) return;
-  if (objUrl) URL.revokeObjectURL(objUrl);
-  objUrl = URL.createObjectURL(f);
-  vid.src = objUrl; vid.load();
-  $("#loadInfo").textContent = "読み込み中…";
-  vid.onloadedmetadata = () => {
-    cur = { mode: "video", frames: [], W: vid.videoWidth || 16, H: vid.videoHeight || 9, dur: vid.duration, name: f.name.replace(/\.[^.]+$/, "") };
-    $("#ph").style.display = "none"; focus = null;
-    const d = vid.duration;
-    setupRange(d);
-    $("#loadInfo").innerHTML = "✓ <b>" + esc(f.name) + "</b>（" + d.toFixed(1) + "秒・" + cur.W + "×" + cur.H + "）";
-    $("#btnAnalyze").disabled = false;
-    if (cur.H > cur.W) $("#loadInfo").innerHTML += "<br><span class='small'>縦向きの動画です。横向きの方が走る距離が長く映ります。</span>";
-    sizeStage(); setTime(0);
-    showTab("anal"); pager.go("anal", 0);
-    toast("動画を読み込みました。「解析スタート」を押してください", null);
-    tourEvent("loaded");
-  };
-  vid.onerror = () => { $("#loadInfo").textContent = "この動画は読み込めませんでした（形式が未対応の可能性）。"; };
-});
-function setupRange(d) {
-  const rs = $("#rStart"), re = $("#rEnd");
-  rs.max = re.max = d.toFixed(1); rs.value = 0; re.value = Math.min(d, 12).toFixed(1);
-  updRange();
-}
-function updRange() {
-  const rs = $("#rStart"), re = $("#rEnd");
-  let a = +rs.value, b = +re.value; if (b - a < 0.5) { b = Math.min(+re.max, a + 0.5); re.value = b; }
-  $("#vStart").textContent = a.toFixed(1) + "秒"; $("#vEnd").textContent = b.toFixed(1) + "秒";
-  if (cur) { cur.range = [a, b]; drawTimeline(); }
-}
-$("#rStart").addEventListener("input", () => { updRange(); setTime(+$("#rStart").value); });
-$("#rEnd").addEventListener("input", () => { updRange(); setTime(+$("#rEnd").value); });
+/* ---------- 動画の上をタップ：解析したい人を選ぶ ---------- */
+(function stageTap() {
+  let st = null;
+  stage.addEventListener("pointerdown", e => { st = { x: e.clientX, y: e.clientY, t: performance.now() }; });
+  stage.addEventListener("pointerup", e => {
+    if (!st) return; const mv = Math.hypot(e.clientX - st.x, e.clientY - st.y), dur = performance.now() - st.t; st = null;
+    if (mv > 10 || dur > 500) return;
+    const c = clip(); if (!c || c.mode !== "video" || busy) return;
+    const r = ov.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * c.W, y = (e.clientY - r.top) / r.height * c.H, t = playerTime();
+    if (c.raw && c.raw.length) {
+      const rf = rawAt(c, t); if (!rf || !rf.c.length) { toast("このこまでは人が見つかりません。人が映っているこまでタップしてください", null); return; }
+      const k = pickCand(rf.c, x, y); const fr = frameAt(t);
+      if (fr && samePose(rf.c[k].p, fr.p)) { if (c.maxP > 1) toast("いま、この人を解析しています", null); return; }
+      c.target = { vt: rf.vt, x, y }; trackClip(c); analyzeClip(c); finishAll(true);
+      toast("選んだ人で解析し直しました", null);
+    } else {
+      c.target = { vt: t, x, y }; drawAll(); toast("この人を解析します。「解析スタート」を押してください", null);
+    }
+  });
+})();
 
+
+/* =========================================================
+   動画の追加・切り替え
+   ========================================================= */
+let cancelRef = { stop: false }, busy = false;
+const VIEW_OPTS = [["auto", "向き：自動"], ["side", "横から"], ["front", "前から"], ["back", "後ろから"]];
+const rangeKey = c => c.range ? c.range[0].toFixed(2) + "-" + c.range[1].toFixed(2) + "@" + state.fps : "";
+function newSession() {
+  for (const c of S.clips) if (c.url) { try { URL.revokeObjectURL(c.url); } catch (e) {} }
+  S = { clips: [], ci: 0, comb: null, rk: null, demo: false, recId: null }; focus = null;
+  vid.removeAttribute("src"); vid.dataset.cid = ""; $("#ph").style.display = "";
+  $("#focusCap").classList.remove("show"); $("#progBar").style.width = "0"; $("#progTxt").textContent = "まだ解析していません"; $("#runMsg").innerHTML = "";
+  renderClips(); clearResult(); sizeStage(); drawAll(); renderTips();
+}
+function loadMeta() {
+  return new Promise(res => {
+    let done = false; const fin = ok => { if (done) return; done = true; vid.removeEventListener("loadedmetadata", onok); vid.removeEventListener("error", onerr); res(ok); };
+    const onok = () => fin(true), onerr = () => fin(false);
+    vid.addEventListener("loadedmetadata", onok); vid.addEventListener("error", onerr); vid.load(); setTimeout(() => fin(vid.readyState >= 1), 10000);
+  });
+}
+async function selectClip(i) {
+  if (!S.clips.length) return;
+  S.ci = clamp(i, 0, S.clips.length - 1); const c = clip();
+  if (c.mode === "video") { if (vid.dataset.cid !== c.id) { vid.dataset.cid = c.id; vid.src = c.url; await loadMeta(); } }
+  else { if (vid.getAttribute("src")) vid.removeAttribute("src"); vid.dataset.cid = ""; demoClock.t = 0; }
+  $("#ph").style.display = "none"; setupRange(c); sizeStage(); renderClips(); updMulti(); updFocusCap(); drawAll(); tipPos.load = 0; renderTips();
+}
+$("#fileIn").addEventListener("change", async e => {
+  const files = Array.from(e.target.files || []); e.target.value = "";
+  if (!files.length) return;
+  if (busy) { toast("解析中です。終わってから追加してください", null); return; }
+  if (S.demo) newSession();
+  let added = 0;
+  for (const f of files) {
+    if (S.clips.length >= 3) { toast("動画は3本までです。「✕」で外してから追加してください", null); break; }
+    const url = URL.createObjectURL(f), id = newId("c");
+    vid.dataset.cid = id; vid.src = url;
+    $("#runMsg").innerHTML = ""; $("#progTxt").textContent = "動画を読み込み中…";
+    const ok = await loadMeta();
+    if (!ok || !vid.duration) { toast(f.name + " は読み込めませんでした（形式が未対応の可能性）", null); URL.revokeObjectURL(url); continue; }
+    const d = vid.duration;
+    S.clips.push({ id, name: f.name.replace(/\.[^.]+$/, ""), url, mode: "video", view: "auto", W: vid.videoWidth || 16, H: vid.videoHeight || 9, dur: d, range: [0, Math.min(d, 12)], raw: null, frames: [], res: null, target: null, multi: 0, maxP: 0 });
+    added++;
+  }
+  $("#progTxt").textContent = S.comb ? "追加した動画は「解析スタート」で解析し、結果にまとめます" : "まだ解析していません";
+  if (!added) { renderClips(); return; }
+  await selectClip(S.clips.length - 1);
+  showTab("anal"); pager.go("anal", 0);
+  toast(added + "本の動画を読み込みました。「解析スタート」を押してください", null);
+  tourEvent("loaded");
+});
+$("#btnClear").onclick = () => { if (busy) { toast("解析中です。先に「中止する」を押してください", null); return; } if (!S.clips.length) return; if (!confirm("選んだ動画をすべて外しますか？（記録は消えません）")) return; newSession(); };
+function setupRange(c) {
+  const rs = $("#rStart"), re = $("#rEnd"); const d = c.dur || 1;
+  rs.max = re.max = d.toFixed(1); rs.value = c.range[0].toFixed(1); re.value = c.range[1].toFixed(1);
+  const dis = c.mode !== "video"; rs.disabled = re.disabled = dis;
+  $("#vStart").textContent = c.range[0].toFixed(1) + "秒"; $("#vEnd").textContent = c.range[1].toFixed(1) + "秒";
+  $("#runClip").textContent = S.clips.length > 1 ? "（表示中：" + (S.ci + 1) + "本目）" : "";
+}
+function updRange(which) {
+  const c = clip(); if (!c || c.mode !== "video") return;
+  const rs = $("#rStart"), re = $("#rEnd");
+  let a = +rs.value, b = +re.value;
+  if (b - a < 0.5) { if (which === "s") { a = Math.max(0, b - 0.5); rs.value = a; } else { b = Math.min(+re.max, a + 0.5); re.value = b; } }
+  c.range = [a, b];
+  $("#vStart").textContent = a.toFixed(1) + "秒"; $("#vEnd").textContent = b.toFixed(1) + "秒";
+  if (c.raw && c.rawKey !== rangeKey(c)) $("#progTxt").textContent = "区間を変えました。「解析スタート」でこの動画を解析し直します。";
+  drawTimeline(); renderClips();
+}
+$("#rStart").addEventListener("input", () => { updRange("s"); setTime(+$("#rStart").value); });
+$("#rEnd").addEventListener("input", () => { updRange("e"); setTime(+$("#rEnd").value); });
+function clipLabel(c) { return c.res && !c.res.fatal ? VIEW_NAME[c.res.view] : (c.view === "auto" ? "向き自動" : VIEW_NAME[c.view]); }
+function renderClips() {
+  const el = $("#clipList");
+  if (!S.clips.length) el.innerHTML = "<div class='muted small' style='margin-top:8px'>真横（必須）と、前か後ろからの動画をまとめて3本まで選べます。全身が映る動画を選んでください。</div>";
+  else el.innerHTML = S.clips.map((c, i) => "<div class='clip " + (i === S.ci ? "on" : "") + "' data-i='" + i + "'><span class='cn'>" + (i + 1) + "</span><div class='ci'><b>" + esc(c.name) + "</b><span class='muted small'>" +
+    (c.mode === "video" ? c.dur.toFixed(1) + "秒・区間 " + c.range[0].toFixed(1) + "〜" + c.range[1].toFixed(1) + "秒" : "デモ") +
+    (c.res ? (c.res.fatal ? "・解析できず" : "・✓" + VIEW_NAME[c.res.view] + (c.view === "auto" ? "（自動）" : "")) : "") + "</span></div>" +
+    "<select class='cv'>" + VIEW_OPTS.map(o => "<option value='" + o[0] + "'" + (c.view === o[0] ? " selected" : "") + ">" + o[1] + "</option>").join("") + "</select>" +
+    "<button class='cx' aria-label='外す'>✕</button></div>").join("");
+  $$("#clipList .clip").forEach(row => {
+    const i = +row.dataset.i;
+    row.querySelector(".ci").onclick = () => { selectClip(i); showTab("anal"); pager.go("anal", 0); };
+    row.querySelector(".cv").onchange = ev => { const c = S.clips[i]; c.view = ev.target.value; if (c.raw) { analyzeClip(c); finishAll(true); toast((i + 1) + "本目を「" + clipLabel(c) + "」で解析し直しました", null); } renderClips(); };
+    row.querySelector(".cx").onclick = () => {
+      const c = S.clips[i]; if (c.url) { try { URL.revokeObjectURL(c.url); } catch (e) {} }
+      S.clips.splice(i, 1); if (!S.clips.length) { newSession(); return; }
+      if (focus && focus.clipId === c.id) focus = null;
+      S.ci = Math.min(S.ci, S.clips.length - 1); if (S.clips.some(x => x.res)) finishAll(true); selectClip(S.ci);
+    };
+  });
+  const chips = $("#clipChips");
+  chips.style.display = S.clips.length > 1 ? "flex" : "none";
+  chips.innerHTML = S.clips.map((c, i) => "<button class='" + (i === S.ci ? "on" : "") + "' data-i='" + i + "'>" + (i + 1) + ". " + clipLabel(c) + (c.res && !c.res.fatal ? " ✓" : "") + "</button>").join("");
+  $$("#clipChips button").forEach(b => b.onclick = () => selectClip(+b.dataset.i));
+  const todo = S.clips.filter(c => c.mode === "video" && (!c.raw || c.rawKey !== rangeKey(c))).length;
+  $("#btnAnalyze").disabled = !S.clips.length;
+  $("#btnAnalyze").textContent = busy ? "中止する" : (S.demo ? "デモをもう一度" : (todo ? "解析スタート" + (S.clips.length > 1 ? "（" + todo + "本）" : "") : (S.clips.length ? "解析済み（もう一度押すと再計算）" : "解析スタート")));
+}
+function updMulti() {
+  const c = clip(), el = $("#multiTxt");
+  if (!c || c.mode !== "video") { el.textContent = ""; return; }
+  if (c.raw && c.maxP > 1 && c.multi > 0.05) el.innerHTML = "👥 <b>" + c.maxP + "人</b>まで映っています。解析したい人の体を、動画の上でタップすると選び直せます（灰色の線＝ほかの人）。";
+  else if (!c.raw) el.textContent = c.target ? "🎯 タップした人を解析します。" : "複数の人が映っているときは、解析したい人を動画の上でタップしてから解析すると確実です。";
+  else el.textContent = "";
+}
+
+/* =========================================================
+   解析の実行
+   ========================================================= */
 $("#btnAnalyze").onclick = async () => {
   if (busy) { cancelRef.stop = true; return; }
-  if (!cur) return;
-  if (cur.mode === "demo") { runDemo(); return; }
-  const a = +$("#rStart").value, b = +$("#rEnd").value;
-  const est = (b - a) * state.fps;
+  if (!S.clips.length) return;
+  if (S.demo) { runDemo(); return; }
+  const todo = S.clips.filter(c => c.mode === "video" && (!c.raw || c.rawKey !== rangeKey(c)));
+  if (!todo.length) { for (const c of S.clips) if (c.raw) { trackClip(c); analyzeClip(c); } finishAll(true); showTab("result"); pager.go("result", 0); return; }
+  const est = todo.reduce((s, c) => s + (c.range[1] - c.range[0]) * state.fps, 0);
   if (est > 900 && !confirm("解析するこまが " + Math.round(est) + " 枚あります。時間がかかりますが続けますか？\n（短い区間を選ぶと早く終わります）")) return;
-  busy = true; cancelRef = { stop: false };
-  $("#btnAnalyze").textContent = "中止する"; $("#runMsg").innerHTML = ""; $("#checkBox").innerHTML = "";
-  const bar = v => { $("#progBar").style.width = Math.round(v * 100) + "%"; $("#progTxt").textContent = "体の位置を読み取り中… " + Math.round(v * 100) + "%"; };
+  busy = true; cancelRef = { stop: false }; renderClips();
+  $("#runMsg").innerHTML = ""; $("#checkBox").innerHTML = "";
   const msg = m => { $("#progTxt").textContent = m; };
   try {
-    await vid.play().catch(() => {}); vid.pause();
-    const out = await extract(vid, a, b, state.fps, { bar, msg }, cancelRef);
-    if (cancelRef.stop) { msg("中止しました"); return; }
-    cur.frames = out.frames; cur.W = out.W; cur.H = out.H;
-    finishAnalysis();
+    for (let j = 0; j < todo.length; j++) {
+      const c = todo[j]; await selectClip(S.clips.indexOf(c));
+      const head = todo.length > 1 ? (j + 1) + "/" + todo.length + "本目：" : "";
+      const bar = v => { const all = (j + v) / todo.length; $("#progBar").style.width = Math.round(all * 100) + "%"; msg(head + "体の位置を読み取り中… " + Math.round(v * 100) + "%"); };
+      await vid.play().catch(() => {}); vid.pause();
+      const out = await extract(c, { bar, msg: m => msg(head + m) }, cancelRef);
+      if (cancelRef.stop) { msg("中止しました"); return; }
+      c.raw = out.raw; c.rawKey = rangeKey(c); c.W = out.W || c.W; c.H = out.H || c.H;
+      trackClip(c); analyzeClip(c);
+    }
+    for (const c of S.clips) if (c.raw && !c.res) { trackClip(c); analyzeClip(c); }
+    finishAll(!!S.recId);
+    if (S.rk) { showTab("result"); pager.go("result", 0); tourEvent("analyzed"); }
   } catch (e) {
     console.error(e);
     msg("エラー：" + (e && e.message ? e.message : e));
     const em = String(e && e.message || ""); $("#runMsg").innerHTML = "<div class='warnbox'>" + (em.startsWith("AIの処理") ? esc(em) : "AIを読み込めませんでした。インターネットにつながっているか確認し、もう一度押してください。続く場合は設定で精度を「速い」にしてください。") + "</div>";
-  } finally { busy = false; $("#btnAnalyze").textContent = "解析スタート"; }
+  } finally { busy = false; renderClips(); updMulti(); }
 };
-
-function finishAnalysis() {
-  const frames = cur.frames.map(f => ({ t: f.t, vt: f.vt, ok: f.ok, p: f.p ? new Float32Array(f.p) : null }));
-  const res = analyze(frames, { w: cur.W, h: cur.H });
-  cur.res = res;
-  // 補間後のコマを表示用にも反映
-  cur.frames = frames;
+function finishAll(update) {
+  const done = S.clips.filter(c => c.res);
+  const ok = done.filter(c => !c.res.fatal);
+  renderClips(); updMulti();
+  if (!ok.length) {
+    $("#progTxt").textContent = "解析できませんでした";
+    $("#runMsg").innerHTML = "<div class='warnbox'>" + esc((done[0] && done[0].res.fatal) || "解析できませんでした。") + "</div>";
+    S.comb = S.rk = null; clearResult(); return;
+  }
+  S.comb = combineRes(S.clips); S.rk = rank(S.comb, state.purpose);
   $("#progBar").style.width = "100%";
-  if (res.fatal) { $("#progTxt").textContent = "解析できませんでした"; $("#runMsg").innerHTML = "<div class='warnbox'>" + esc(res.fatal) + "</div>"; return; }
-  cur.rk = rank(res, state.purpose);
-  $("#progTxt").textContent = "解析完了：" + cur.frames.length + "こま・着地 " + (res.info.contacts || 0) + "回を検出";
-  renderCheck(); renderMetrics(); renderResult();
-  saveHistory();
-  showTab("result"); pager.go("result", 0);
-  tourEvent("analyzed");
+  $("#progTxt").textContent = "解析完了：" + ok.map(c => VIEW_NAME[c.res.view] + "（着地" + (c.res.info.contacts || 0) + "回）").join("・") + (done.length > ok.length ? "・解析できない動画あり" : "");
+  renderCheck(); renderMetrics(); renderResult(); renderDiffSeg();
+  saveHistory(update && !!S.recId);
+  drawAll(); tipPos.post = 0; renderTips();
 }
-
 function runDemo() {
-  const d = synth({});
-  cur = { mode: "demo", frames: d.frames, W: d.W, H: d.H, dur: d.dur, name: "デモ走者" };
-  cur.range = [0, d.dur];
-  $("#ph").style.display = "none"; vid.removeAttribute("src");
-  setupRange(d.dur); $("#btnAnalyze").disabled = false;
-  sizeStage(); demoClock.t = 0;
-  $("#progTxt").textContent = "デモ走者の骨格データを解析中…"; $("#progBar").style.width = "60%";
-  setTimeout(finishAnalysis, 250);
+  newSession();
+  const mk = (name, d, view) => { const c = { id: newId("d"), name, mode: "demo", view: "auto", demoView: view, W: d.W, H: d.H, dur: d.dur, range: [0, d.dur], raw: d.frames.map(f => ({ vt: f.vt, c: [{ p: f.p, fz: f.fz }] })), frames: [], res: null, target: null, multi: 0, maxP: 1 }; c.rawKey = rangeKey(c); trackClip(c); analyzeClip(c); return c; };
+  S.demo = true;
+  S.clips = [mk("デモ（横から）", synth(DEMO_SIDE), "side"), mk("デモ（前から）", synth(Object.assign({ view: "front" }, DEMO_FRONT)), "front")];
+  S.ci = 0; selectClip(0);
+  finishAll(false);
+  showTab("result"); pager.go("result", 0); tourEvent("analyzed");
 }
-$("#btnDemo").onclick = () => { runDemo(); };
+$("#btnDemo").onclick = () => { if (busy) { toast("解析中です。先に「中止する」を押してください", null); return; } runDemo(); };
 
+/* =========================================================
+   結果の表示
+   ========================================================= */
+function clearResult() {
+  $("#scoreNum").innerHTML = "–<small> /100</small>"; $("#scoreTitle").textContent = "まだ解析していません"; $("#scoreSub").textContent = "動画タブで動画を選んで解析してください";
+  $("#issues").innerHTML = ""; $("#checkBox").innerHTML = ""; $("#goods").textContent = "解析すると表示されます。"; $("#goods").classList.add("muted");
+  $("#metricsTbl").textContent = "解析するとここに並びます。"; $("#metricsTbl").classList.add("muted"); updBand(); renderDiffSeg();
+}
+function unitStr(k) { return M[k].pct ? "" : M[k].unit; }
+function fv(k, v) { return fmtV(k, v) + unitStr(k); }
+function sideTxt(k) {
+  const d = S.comb && S.comb.detail[k]; if (!d) return "";
+  const f = v => v == null ? "–" : fv(k, v);
+  return "右 " + f(d.R) + "／左 " + f(d.L);
+}
 function renderCheck() {
-  const r = cur.res, box = $("#checkBox");
+  const C = S.comb, box = $("#checkBox");
   let h = "";
-  if (r.warns.length) h += "<div class='warnbox' style='margin:10px 0 0'><b>撮影条件の確認</b><br>" + r.warns.map(esc).join("<br>") + "</div>";
-  else h = "";
+  if (C.warns.length) h += "<div class='warnbox' style='margin:10px 0 0'><b>撮影条件の確認</b><br>" + C.warns.map(esc).join("<br>") + "</div>";
+  const multi = S.clips.find(c => c.res && c.maxP > 1 && c.multi > 0.05);
+  if (multi) h += "<div class='okbox'>👥 複数の人が映っている動画があります。違う人を解析していたら、解析タブで<b>その人をタップ</b>すると選び直せます。</div>";
+  if (!C.views.includes("side")) h += "<div class='warnbox'>横からの動画がないため、接地・姿勢・脚・腕の16項目は測れていません。</div>";
   box.innerHTML = h;
 }
 function renderMetrics() {
-  const p = state.purpose, r = cur.res, rk = cur.rk;
-  let h = "<table class='m'><tr><th>項目</th><th style='text-align:right'>測定</th><th style='text-align:right'>目安</th></tr>";
+  const p = state.purpose, C = S.comb, rk = S.rk;
   const byCat = {}; for (const k of MKEYS) (byCat[M[k].cat] = byCat[M[k].cat] || []).push(k);
-  for (const c in CATS) {
-    h += "<tr><td colspan=3 style='font-weight:700;padding-top:10px'>" + CATS[c] + "</td></tr>";
-    for (const k of byCat[c] || []) {
+  let h = "<table class='m'><tr><th>項目</th><th style='text-align:right'>測定</th><th style='text-align:right'>目安</th></tr>";
+  for (const cat in CATS) {
+    const ks = byCat[cat] || []; if (!ks.length) continue;
+    const fr = cat === "bal";
+    h += "<tr><td colspan=3 style='font-weight:700;padding-top:10px'>" + CATS[cat] + "</td></tr>";
+    if (fr && !C.views.some(v => v !== "side")) { h += "<tr><td colspan=3 class='muted small'>前か後ろからの動画を一緒に入れると測れます。</td></tr>"; continue; }
+    for (const k of ks) {
       const it = rk.items.find(i => i.k === k);
       const dot = !it ? "dx" : ("d" + (it.s === 0 ? 0 : level(it)[0]));
-      h += "<tr data-k='" + k + "'><td><span class='dot " + dot + "'></span>" + M[k].name + "</td><td class='v'>" + fmtV(k, r.metrics[k]) + (M[k].pct ? "" : " " + M[k].unit) + "</td><td class='v muted'>" + rangeTxt(k, p) + "</td></tr>";
+      const st = C.detail[k] ? "<br><span class='muted small'>" + sideTxt(k) + "</span>" : "";
+      h += "<tr data-k='" + k + "'><td><span class='dot " + dot + "'></span>" + M[k].name + st + "</td><td class='v'>" + fv(k, C.metrics[k]) + "</td><td class='v muted'>" + rangeTxt(k, p) + "</td></tr>";
     }
   }
   h += "</table><p class='muted small'>●緑＝良い ●青＝軽め ●黄＝注意 ●赤＝要改善 ●灰＝測れず。行を押すとその瞬間に移動します。</p>";
   $("#metricsTbl").innerHTML = h; $("#metricsTbl").classList.remove("muted");
   $$("#metricsTbl tr[data-k]").forEach(tr => tr.onclick = () => jumpTo(tr.dataset.k));
 }
-function jumpTo(k, side) {
-  if (!cur || !cur.res || cur.res.repT[k] == null) { toast("この項目は代表の瞬間を特定できませんでした", null); return; }
-  const it = cur.rk.items.find(i => i.k === k);
-  focus = { t: cur.res.repT[k], j: M[k].j, label: M[k].name + " " + fmtV(k, cur.res.metrics[k]) + (M[k].pct ? "" : M[k].unit) };
+async function jumpTo(k) {
+  if (!S.comb) return;
+  const cid = S.comb.src[k], ci = S.clips.findIndex(c => c.id === cid), cl = S.clips[ci];
+  if (!cl || !cl.res || cl.res.repT[k] == null) { toast("この項目は代表の瞬間を特定できませんでした", null); return; }
+  const d = S.comb.detail[k];
+  focus = { clipId: cid, k, t: cl.res.repT[k], sd: d ? d.worst : null, badge: fv(k, S.comb.metrics[k]) };
   showTab("anal"); pager.go("anal", 0);
   if (isPlaying()) togglePlay();
-  setTime(focus.t);
-  $("#focusTxt").innerHTML = "黄色の丸：<b>" + esc(M[k].name) + "</b>（" + (it ? (it.s === 0 ? "良い" : level(it)[1]) : "") + "）。◀▶で前後のこまも見られます。";
+  if (S.ci !== ci) await selectClip(ci);
+  setTime(focus.t); updFocusCap();
+}
+function updFocusCap() {
+  const el = $("#focusCap"), c = clip();
+  if (!focus || !c || focus.clipId !== c.id || !S.comb) { el.classList.remove("show"); return; }
+  const k = focus.k, it = S.rk && S.rk.items.find(i => i.k === k), iv = idealVal(k);
+  const guide = M[k].view === "front" ? "緑の線＝理想の位置" : "緑の骨格＝100点の見本";
+  el.innerHTML = "🟡 <b>" + esc(M[k].name) + "</b>：" + fv(k, S.comb.metrics[k]) + "（目安 " + rangeTxt(k, state.purpose) + (it ? "・" + (it.s === 0 ? "良い" : level(it)[1]) : "") + "）" +
+    (focus.sd ? "　" + (focus.sd === "R" ? "右" : "左") + "脚の接地" : "") +
+    (state.ghost ? "<br><span class='gi'>" + guide + (iv != null && isFinite(iv) ? "（見本 " + fv(k, iv) + "）" : "") + "</span>" : "") +
+    "<br><span class='muted small'>◀▶で前後のこまも見られます。</span>";
+  el.classList.add("show");
 }
 function renderResult() {
-  const p = state.purpose, r = cur.res, rk = cur.rk;
+  const p = state.purpose, C = S.comb, rk = S.rk;
   $("#scoreNum").innerHTML = (rk.score ?? "–") + "<small> /100</small>";
-  $("#scoreTitle").textContent = PURPOSE_NAME[p] + "の目安で採点";
-  $("#scoreSub").textContent = (cur.name || "") + "・着地" + (r.info.contacts || 0) + "回・" + (r.warns.length ? "撮影条件に注意あり" : "撮影条件OK");
+  $("#scoreTitle").textContent = PURPOSE_NAME[p] + "の目安で採点（" + rk.items.length + "項目）";
+  $("#scoreSub").textContent = "👤 " + ath().name + "・" + C.views.map(v => VIEW_NAME[v]).join("＋") + "・" + (C.warns.length ? "撮影条件に注意あり" : "撮影条件OK");
   const pickKeys = rk.pick.map(i => i.k);
   let h = "";
   rk.pick.forEach((it, idx) => {
     const k = it.k, tx = textOf(k, it.side), [lv, lvT] = level(it);
     const rel = (M[k].link || []).filter(x => pickKeys.includes(x) && x !== k).map(x => "指摘" + (pickKeys.indexOf(x) + 1) + "（" + M[x].name + "）");
-    h += "<div class='issue' data-k='" + k + "'><button><span class='no'>" + (idx + 1) + "</span><span class='tt'><b>" + esc(it.nobi ? M[k].name + "：さらに伸ばせる" : tx.t) + "</b><span>" + CATS[M[k].cat] + "・" + esc(M[k].name) + "</span></span><span class='lv l" + lv + "'>" + lvT + "</span></button>" +
-      "<div class='body'><div class='kv'><span>測定 <b>" + fmtV(k, it.v) + (M[k].pct ? "" : M[k].unit) + "</b></span><span>目安 " + rangeTxt(k, p) + "</span></div>" +
+    const cl = S.clips.find(c => c.id === C.src[k]); const vtag = cl && cl.res ? VIEW_NAME[cl.res.view] : "";
+    const iv = idealVal(k);
+    h += "<div class='issue' data-k='" + k + "'><button><span class='no'>" + (idx + 1) + "</span><span class='tt'><b>" + esc(it.nobi ? M[k].name + "：さらに伸ばせる" : tx.t) + "</b><span>" + CATS[M[k].cat].replace(/（.*）/, "") + "・" + esc(M[k].name) + "<span class='tag'>" + vtag + "</span></span></span><span class='lv l" + lv + "'>" + lvT + "</span></button>" +
+      "<div class='body'><div class='kv'><span>測定 <b>" + fv(k, it.v) + "</b></span><span>目安 " + rangeTxt(k, p) + "</span>" + (iv != null && isFinite(iv) ? "<span class='gi'>見本 " + fv(k, iv) + "</span>" : "") + (C.detail[k] ? "<span>" + sideTxt(k) + "</span>" : "") + "</div>" +
       (it.nobi ? "<p>今は目安の範囲内ですが、5項目の中では最も伸ばせる部分です。</p>" : "") +
       "<p><b>なぜ良くない？</b><br>" + esc(tx.why) + "</p>" +
       "<p style='margin-bottom:2px'><b>直し方（ドリル）</b></p><ol>" + tx.dr.map(d => "<li>" + esc(d) + "</li>").join("") + "</ol>" +
       "<div class='cue'>意識する言葉：「" + esc(tx.cue) + "」</div>" +
       (rel.length ? "<p class='small muted'>つながり：" + rel.join("、") + " と同じ原因から起きている可能性があります。1つ直すと両方よくなることがあります。</p>" : "") +
       (it.c < 0.8 ? "<p class='small muted'>※撮影条件により、この項目の精度は低めです。</p>" : "") +
-      "<button class='btn wide jump' data-k='" + k + "'>🎯 この瞬間を動画で見る</button></div></div>";
+      "<button class='btn wide jump' data-k='" + k + "'>🎯 この瞬間を動画で見る（緑＝見本）</button></div></div>";
   });
   $("#issues").innerHTML = h;
   $$("#issues .issue>button").forEach(b => b.onclick = () => { const d = b.parentElement; const was = d.classList.contains("open"); $$("#issues .issue").forEach(x => x.classList.remove("open")); if (!was) d.classList.add("open"); tourEvent("openIssue"); });
   $$("#issues .jump").forEach(b => b.onclick = e => { e.stopPropagation(); jumpTo(b.dataset.k); });
-  // 良いところ
-  const g = rk.goods.slice(0, 5);
-  $("#goods").innerHTML = g.length ? "<ul style='margin:0;padding-left:18px'>" + g.map(it => "<li><b>" + esc(M[it.k].name) + "</b>：" + fmtV(it.k, it.v) + (M[it.k].pct ? "" : M[it.k].unit) + "（目安 " + rangeTxt(it.k, p) + "）</li>").join("") + "</ul>" : "目安の範囲に入っている項目はまだありません。";
+  const g = rk.goods.slice(0, 6);
+  $("#goods").innerHTML = g.length ? "<ul style='margin:0;padding-left:18px'>" + g.map(it => "<li><b>" + esc(M[it.k].name) + "</b>：" + fv(it.k, it.v) + "（目安 " + rangeTxt(it.k, p) + "）</li>").join("") + "</ul>" : "目安の範囲に入っている項目はまだありません。";
   $("#goods").classList.toggle("muted", !g.length);
-  updBand();
+  updBand(); updFocusCap();
 }
 function updBand() {
-  const ok = cur && cur.rk;
-  $("#band").classList.toggle("show", !!ok && !(state.tab === "result" && pager.idx("result") === 0) || false);
-  if (ok) { $("#bandScore").textContent = cur.rk.score; $("#bandTxt").textContent = "1位：" + (cur.rk.pick[0] ? M[cur.rk.pick[0].k].name : ""); }
+  const ok = S && S.rk;
+  $("#band").classList.toggle("show", !!ok && !(state.tab === "result" && pager.idx("result") === 0));
+  if (ok) { $("#bandScore").textContent = S.rk.score; $("#bandTxt").textContent = "1位：" + (S.rk.pick[0] ? M[S.rk.pick[0].k].name : ""); }
 }
 $("#band").onclick = () => { showTab("result"); pager.go("result", 0); };
 
 /* =========================================================
+   見本タブ：100点の見本アニメと、解析した人との重ね合わせ
+   ========================================================= */
+let mAnim = { t: 0, last: 0, raf: 0 };
+function sizeModel() {
+  const dpr = window.devicePixelRatio || 1;
+  for (const id of ["#idealCv", "#diffCv"]) { const cv = $(id); const w = cv.clientWidth || 340, h = Math.round(Math.min(w * 0.72, window.innerHeight * 0.36)); cv.style.height = h + "px"; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+}
+function modelLoop() {
+  cancelAnimationFrame(mAnim.raf); mAnim.last = 0;
+  const tick = now => {
+    if (state.tab !== "model") return;
+    const dt = mAnim.last ? Math.min(0.05, (now - mAnim.last) / 1000) : 0; mAnim.last = now; mAnim.t += dt;
+    drawIdealCv(); drawDiffCv();
+    mAnim.raf = requestAnimationFrame(tick);
+  };
+  mAnim.raf = requestAnimationFrame(tick);
+}
+function drawIdealCv() {
+  const cv = $("#idealCv"), c = cv.getContext("2d"), W = cv.width, H = cv.height, dpr = window.devicePixelRatio || 1;
+  c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = "#0b1118"; c.fillRect(0, 0, W, H);
+  const view = state.mv, id = getIdeal(view, state.purpose); const fr = id.frames; if (!fr.length) return;
+  const dur = fr[fr.length - 1].vt, t = (mAnim.t * 0.5) % dur, f = frameLerp(fr, t); if (!f) return;
+  if (!id.mean) { let x = 0, y = 0; fr.forEach(q => { const m = midp(q.p, 23, 24); x += m.x; y += m.y; }); id.mean = { x: x / fr.length, y: y / fr.length }; }
+  const sc = view === "side" ? H * 0.34 / (id.res.info.legLen || 200) : H * 0.29 / (id.res.info.torso || 190);
+  const tf = (x, y) => [W / 2 + (x - id.mean.x) * sc, H * 0.55 + (y - id.mean.y) * sc];
+  c.strokeStyle = "#2c3a48"; c.lineWidth = 2 * dpr; const gy = tf(0, id.H * 0.86 - 0.04 * 210 + 0.045 * 210)[1]; seg2(c, [0, gy], [W, gy]);
+  const col = css("--ideal") || "#16a34a", lw = Math.max(3 * dpr, H * 0.012);
+  drawPose(c, f.p, tf, { lw, mono: col, dots: true, dim: false, head: true });
+  const p = f.p, pt = i => tf(p[i * 3], p[i * 3 + 1]); const Hm = mid2(pt(23), pt(24)), Sm = mid2(pt(11), pt(12));
+  c.setLineDash([lw * 1.4, lw]); c.strokeStyle = "rgba(255,255,255,.55)"; c.lineWidth = lw * 0.6; seg2(c, Hm, [Hm[0], Hm[1] - (Hm[1] - Sm[1]) * 1.1]); c.setLineDash([]);
+  c.fillStyle = "rgba(255,255,255,.75)"; c.font = (12 * dpr) + "px sans-serif"; c.fillText("100点の見本・" + PURPOSE_NAME[state.purpose] + "・" + (view === "side" ? "横から" : "前から") + "（0.5倍速）", 8 * dpr, 18 * dpr);
+}
+function renderIdealPts() {
+  $("#idealPurp").textContent = PURPOSE_NAME[state.purpose];
+  $$("#mvSeg button").forEach(b => b.classList.toggle("on", b.dataset.v === state.mv));
+  const view = state.mv, r = getIdeal(view, state.purpose).res;
+  const ks = MKEYS.filter(k => (M[k].view === "front") === (view !== "side") || (k === "cadence" && view === "side"));
+  $("#idealNote").textContent = view === "side" ? "白い点線＝上体の傾き" : "左右に傾かない・膝と足が腰の真下";
+  $("#idealPts").innerHTML = "<table class='m'><tr><th>見るところ</th><th style='text-align:right'>見本</th><th style='text-align:right'>目安</th></tr>" + ks.map(k => {
+    const tx = textOf(k, M[k].hi ? "hi" : "lo");
+    return "<tr><td><b>" + M[k].name + "</b><br><span class='muted small'>「" + esc(tx.cue) + "」</span></td><td class='v' style='color:var(--ideal);font-weight:700'>" + fv(k, r.metrics[k]) + "</td><td class='v muted'>" + rangeTxt(k, state.purpose) + "</td></tr>";
+  }).join("") + "</table>";
+}
+$$("#mvSeg button").forEach(b => b.onclick = () => { state.mv = b.dataset.v; save(); renderIdealPts(); tourEvent("pick"); });
+let dvClip = null;
+function renderDiffSeg() {
+  const ok = S.clips.filter(c => c.res && !c.res.fatal && c.res.cycles && c.res.cycles.length);
+  if (!ok.find(c => c.id === dvClip)) dvClip = ok.length ? ok[0].id : null;
+  $("#dvSeg").innerHTML = ok.map(c => "<button data-c='" + c.id + "' class='" + (c.id === dvClip ? "on" : "") + "'>" + VIEW_NAME[c.res.view] + "</button>").join("");
+  $("#dvSeg").style.display = ok.length > 1 ? "flex" : "none";
+  $$("#dvSeg button").forEach(b => b.onclick = () => { dvClip = b.dataset.c; renderDiffSeg(); });
+  const cl = ok.find(c => c.id === dvClip);
+  if (!cl) { $("#diffTbl").innerHTML = S.comb ? "1歩ぶんの動きを取り出せませんでした（着地が2回以上映る動画で比べられます）。" : "解析すると、解析した人と見本を重ねて動かします。"; $("#diffTbl").classList.add("muted"); return; }
+  const id = getIdeal(cl.res.view === "side" ? "side" : cl.res.view, state.purpose);
+  const ks = MKEYS.filter(k => cl.res.metrics[k] != null && (M[k].view === "front") === (cl.res.view !== "side"));
+  $("#diffTbl").classList.remove("muted");
+  $("#diffTbl").innerHTML = "<table class='m'><tr><th>項目</th><th style='text-align:right'>あなた</th><th style='text-align:right'>見本</th></tr>" + ks.map(k => {
+    const sv = sevOf(k, cl.res.metrics[k], state.purpose); const it = { s: sv ? sv.s : 0 }; const dot = "d" + (it.s === 0 ? 0 : level(it)[0]);
+    return "<tr data-k='" + k + "'><td><span class='dot " + dot + "'></span>" + M[k].name + "</td><td class='v'><b>" + fv(k, cl.res.metrics[k]) + "</b></td><td class='v' style='color:var(--ideal);font-weight:700'>" + fv(k, id.res.metrics[k]) + "</td></tr>";
+  }).join("") + "</table><p class='muted small'>行を押すと、その瞬間の動画に移動します。</p>";
+  $$("#diffTbl tr[data-k]").forEach(tr => tr.onclick = () => jumpTo(tr.dataset.k));
+}
+function pickCycle(res) { const cs = res.cycles || []; if (!cs.length) return null; const md = median(cs.map(c => c.b - c.a)); return cs.slice().sort((x, y) => Math.abs(x.b - x.a - md) - Math.abs(y.b - y.a - md))[0]; }
+function drawDiffCv() {
+  const cv = $("#diffCv"), c = cv.getContext("2d"), W = cv.width, H = cv.height, dpr = window.devicePixelRatio || 1;
+  c.setTransform(1, 0, 0, 1, 0, 0); c.fillStyle = "#0b1118"; c.fillRect(0, 0, W, H);
+  const cl = S.clips.find(x => x.id === dvClip);
+  if (!cl || !cl.res) { c.fillStyle = "#9aa7b3"; c.font = (13 * dpr) + "px sans-serif"; c.textAlign = "center"; c.fillText("解析すると、ここで見本と重ねて動きます", W / 2, H / 2); c.textAlign = "left"; return; }
+  const view = cl.res.view, id = getIdeal(view === "side" ? "side" : view, state.purpose);
+  const cA = pickCycle(cl.res), cI = pickCycle(id.res); if (!cA || !cI) return;
+  const ph = (mAnim.t / 1.6) % 1;
+  const fA = frameLerp(cl.frames, cA.a + ph * (cA.b - cA.a)), fI = frameLerp(id.frames, cI.a + ph * (cI.b - cI.a)); if (!fA || !fI) return;
+  const hA = midp(fA.p, 23, 24), hI = midp(fI.p, 23, 24);
+  let sA, sI;
+  if (view === "side") { sA = H * 0.34 / (cl.res.info.legLen || 1); sI = H * 0.34 / (id.res.info.legLen || 1); }
+  else { sA = H * 0.29 / (cl.res.info.torso || 1); sI = H * 0.29 / (id.res.info.torso || 1); }
+  const dir = view === "side" ? (cl.res.info.dir || 1) : 1;
+  const lw = Math.max(3 * dpr, H * 0.012);
+  drawPose(c, fI.p, (x, y) => [W / 2 + (x - hI.x) * sI * dir, H * 0.55 + (y - hI.y) * sI], { lw: lw * 1.25, mono: css("--ideal") || "#16a34a", alpha: 0.8, dots: false, dim: false, head: true });
+  drawPose(c, fA.p, (x, y) => [W / 2 + (x - hA.x) * sA, H * 0.55 + (y - hA.y) * sA], { lw, head: true });
+  c.fillStyle = "rgba(255,255,255,.75)"; c.font = (12 * dpr) + "px sans-serif"; c.fillText(VIEW_NAME[view] + "・1歩ごとに同じタイミングで重ねています", 8 * dpr, 18 * dpr);
+}
+
+
+/* =========================================================
+   撮影ワンポイント（撮る前・動画を選んだ後・解析した後）
+   ========================================================= */
+const SVGS = {
+  side: '<svg viewBox="0 0 300 84" fill="none" stroke="currentColor" stroke-width="2" font-size="11" font-family="sans-serif"><rect x="8" y="10" width="284" height="30" rx="6" fill="currentColor" fill-opacity=".1" stroke="none"/><line x1="8" y1="25" x2="292" y2="25" stroke-dasharray="4 4" stroke-opacity=".35"/><line x1="70" y1="25" x2="196" y2="25" stroke="#e2561f" stroke-width="3"/><path d="M196 19 L208 25 L196 31 Z" fill="#e2561f" stroke="none"/><circle cx="120" cy="25" r="6" fill="#e2561f" stroke="none"/><text x="214" y="29" fill="currentColor" stroke="none">走る向き</text><line x1="130" y1="62" x2="130" y2="41" stroke-dasharray="4 3" stroke="#16a34a"/><polyline points="130,47 136,47 136,41" stroke="#16a34a"/><rect x="117" y="62" width="26" height="16" rx="3" stroke-width="2.2"/><text x="146" y="58" fill="#16a34a" stroke="none" font-weight="700">直角（90°）</text><text x="148" y="76" fill="currentColor" stroke="none">スマホ（5〜10m離れる）</text></svg>',
+  front: '<svg viewBox="0 0 300 84" fill="none" stroke="currentColor" stroke-width="2" font-size="11" font-family="sans-serif"><rect x="40" y="22" width="220" height="30" rx="6" fill="currentColor" fill-opacity=".1" stroke="none"/><line x1="18" y1="37" x2="282" y2="37" stroke-dasharray="4 4" stroke="#16a34a"/><line x1="90" y1="37" x2="196" y2="37" stroke="#e2561f" stroke-width="3"/><path d="M196 31 L208 37 L196 43 Z" fill="#e2561f" stroke="none"/><circle cx="140" cy="37" r="6" fill="#e2561f" stroke="none"/><rect x="268" y="29" width="16" height="16" rx="3" stroke-width="2.2"/><rect x="16" y="29" width="16" height="16" rx="3" stroke-width="2.2"/><text x="236" y="16" fill="currentColor" stroke="none">前から</text><text x="6" y="16" fill="currentColor" stroke="none">後ろから</text><text x="80" y="72" fill="#16a34a" stroke="none" font-weight="700">コースの真ん中の延長線上から</text></svg>',
+  height: '<svg viewBox="0 0 300 84" fill="none" stroke="currentColor" stroke-width="2" font-size="11" font-family="sans-serif"><line x1="8" y1="78" x2="292" y2="78" stroke-opacity=".4"/><circle cx="214" cy="14" r="7"/><line x1="214" y1="21" x2="210" y2="48"/><line x1="210" y1="48" x2="196" y2="62"/><line x1="196" y1="62" x2="186" y2="77"/><line x1="210" y1="48" x2="226" y2="60"/><line x1="226" y1="60" x2="232" y2="76"/><line x1="213" y1="28" x2="226" y2="38"/><line x1="213" y1="28" x2="200" y2="36"/><rect x="40" y="40" width="26" height="16" rx="3" stroke-width="2.2"/><line x1="66" y1="48" x2="206" y2="48" stroke-dasharray="4 3" stroke="#16a34a"/><text x="74" y="42" fill="#16a34a" stroke="none" font-weight="700">腰の高さ・横向き</text><text x="20" y="70" fill="currentColor" stroke="none">スマホ</text></svg>'
+};
+const TIPS_PRE = [
+  { svg: "side", t: "真横から撮る", x: "走るコースに対して、スマホを直角に向けます。斜めから撮ると、前傾や着地の角度がずれます。" },
+  { svg: "height", t: "横向き・腰の高さで構える", x: "スマホは横向きにして、腰の高さで構えます。上から見下ろすと、脚が短く映ってしまいます。" },
+  { t: "全身を画面に入れる", x: "頭から足先まで、走っている間ずっと画面に入る距離（5〜10m）で撮ります。足先が切れると、着地が測れません。" },
+  { t: "一定の速さになってから撮る", x: "助走をつけて、スピードが落ち着いた所を3〜10秒撮ります。左右2回ずつ以上の着地が入ると正確です。" },
+  { t: "明るい場所・体の線が分かる服", x: "逆光や暗い場所では、関節を見失いやすくなります。だぼっとしたパンツだと、骨盤や膝の位置がぶれます。" },
+  { t: "カメラはなるべく動かさない", x: "三脚や手すりで固定するのが一番です。追いかけるときは、ゆっくり水平に振ります（ズームはしない）。" },
+  { svg: "front", t: "前か後ろからも1本撮る", x: "コースの真ん中の延長線上から撮ると、骨盤・膝・着地の幅など、左右のバランスまで分かります。" },
+  { t: "ほかの人と重ならないように", x: "並走している人が重なると、追いかけが途切れます。映ってしまったときは、解析したい人をタップで選べます。" },
+  { t: "短距離はスロー撮影で", x: "短距離の接地は0.1秒ほどです。120fps以上のスローで撮り、「スロー撮影の倍率」を合わせてください。" },
+  { t: "毎回同じ条件で撮る", x: "同じ場所・同じ距離・同じペースで撮ると、前回との比較が正確になります。" }
+];
+function tipsLoad(c) {
+  const out = [];
+  if (!c || c.mode !== "video") return out;
+  if (c.H > c.W * 1.05) out.push({ t: "次は横向きで撮ると◎", x: "縦向きの動画です。横向きにすると走る距離が長く映り、着地の回数が増えて正確になります。" });
+  if (c.dur > 15) out.push({ t: "区間を2〜4秒にしぼる", x: "長い動画です。下のつまみで、一定の速さで走っている所だけを選ぶと、早く正確に解析できます。" });
+  if (Math.min(c.W, c.H) < 480) out.push({ t: "画質を上げて撮る", x: "画質が低めです（" + c.W + "×" + c.H + "）。カメラの設定で720p以上にすると、精度が上がります。" });
+  if (state.purpose === "sprint" && state.slow === 1) out.push({ t: "短距離はスローがおすすめ", x: "接地は0.1秒ほどしかありません。120fps以上のスロー動画なら、動画タブで倍率（1/4など）を合わせてください。" });
+  out.push({ t: "解析の前に、人を確かめる", x: "ほかの人も映っているときは、解析したい人を動画の上でタップしてから解析すると確実です。" });
+  return out;
+}
+function tipsPost() {
+  const out = [], seen = new Set(), add = o => { if (!seen.has(o.t)) { seen.add(o.t); out.push(o); } };
+  if (!S.comb) return out;
+  for (const c of S.clips.filter(c => c.res && !c.res.fatal)) {
+    const r = c.res, v = r.view, tag = S.clips.length > 1 ? "（" + VIEW_NAME[v] + "）" : "";
+    const small = v === "side" ? (r.info.legLen || 0) < (c.H || 1) * 0.16 : (r.info.torso || 0) < (c.H || 1) * 0.09;
+    if (small) add({ t: "人をもっと大きく" + tag, x: "2〜3歩近づくか、ズームは1.5倍までにします。全身が入る範囲で、大きく映るほど正確です。" });
+    if (v === "side" ? r.info.sideness > 0.4 : r.info.sideness < 0.55) add(v === "side"
+      ? { t: "コースに直角に立つ" + tag, x: "少し斜めから撮れています。レーンの線と平行になるように立つと、前傾や着地の角度が正確になります。", svg: "side" }
+      : { t: "コースの真ん中の延長線上に立つ" + tag, x: "少し斜めから撮れています。真正面（真後ろ）から撮ると、骨盤や膝の左右の数値が正確になります。", svg: "front" });
+    if (r.info.detectRate < 0.85) add({ t: "体を見失わないように" + tag, x: "明るい場所で、背景と違う色の服を着て撮ります。体が画面からはみ出さない距離で。" });
+    if ((r.info.contacts || 0) < 4) add({ t: "もう少し長く撮る" + tag, x: "着地が" + (r.info.contacts || 0) + "回しか映っていません。5秒くらい撮って左右2回ずつ以上入れると、平均がとれて安定します。" });
+    if (c.maxP > 1 && c.multi > 0.05) add({ t: "1人で走る所を撮る" + tag, x: "ほかの人も映っていました。違う人を解析していたらタップで選び直せますが、次は1人の所を撮ると確実です。" });
+    if (v === "side" && r.metrics.cadence && (r.metrics.cadence < 120 || r.metrics.cadence > 330)) add({ t: "スロー倍率を確かめる", x: "ピッチが" + Math.round(r.metrics.cadence) + "歩/分と不自然です。スロー動画なら、動画タブで倍率を合わせてください。" });
+    if (v === "side" && r.info.lowFps && state.purpose === "sprint") add({ t: "短距離はスローか60こまで", x: "30こまでは接地の瞬間をとらえきれません。設定の「解析のこま数」を60に、できれば120fpsのスローで撮ります。" });
+    if (c.mode === "video" && c.H > c.W * 1.05) add({ t: "次は横向きで撮ると◎" + tag, x: "横向きにすると走る距離が長く映り、着地の回数が増えます。" });
+  }
+  if (!S.comb.views.some(v => v !== "side")) add({ t: "前か後ろからも1本撮る", x: "前か後ろからの動画も一緒に入れると、骨盤・膝・着地の幅など、左右のバランスの5項目まで分かります。", svg: "front" });
+  if (!S.comb.views.includes("side")) add({ t: "横からの動画も撮る", x: "接地・姿勢・脚・腕・リズムの16項目は、横からの動画で測ります。", svg: "side" });
+  if (!out.length) add({ good: true, t: "撮影条件はバッチリです", x: "次回も同じ場所・同じペースで撮ると、前回と正確に比べられます。" });
+  return out;
+}
+const tipPos = { pre: 0, load: 0, post: 0 };
+function tipCard(kind, list, i) {
+  if (!list.length) return "";
+  const n = list.length, k = ((i % n) + n) % n, it = list[k];
+  return "<div class='tipcard" + (it.good ? " good" : "") + "'><div class='th'><span>💡 " + (kind === "post" ? "次に撮るときのワンポイント" : "撮影ワンポイント") + "</span><span>" + (n > 1 ? (k + 1) + "/" + n : "") + "</span></div>" +
+    (it.svg ? "<div class='tsvg'>" + SVGS[it.svg] + "</div>" : "") + "<p><b>" + esc(it.t) + "</b><br>" + esc(it.x) + "</p>" +
+    "<div class='tb'>" + (n > 1 ? "<button class='tnext' data-k='" + kind + "'>次のコツ ›</button>" : "") + "<button class='toff'>表示しない</button></div></div>";
+}
+function renderTips() {
+  const pre = $("#tipPre"), ld = $("#tipLoad"), po = $("#tipPost");
+  if (!state.tips) { pre.innerHTML = ld.innerHTML = po.innerHTML = ""; return; }
+  tipPos.pre = state.tipIdx || 0;
+  pre.innerHTML = tipCard("pre", TIPS_PRE, tipPos.pre);
+  const c = clip(); ld.innerHTML = c && c.mode === "video" && !c.res ? tipCard("load", tipsLoad(c), tipPos.load) : "";
+  po.innerHTML = S.comb ? tipCard("post", tipsPost(), tipPos.post) : "";
+  $$(".tipcard .tnext").forEach(b => b.onclick = () => { const k = b.dataset.k; if (k === "pre") { state.tipIdx = ((state.tipIdx || 0) + 1) % TIPS_PRE.length; save(); } else tipPos[k]++; renderTips(); });
+  $$(".tipcard .toff").forEach(b => b.onclick = () => { state.tips = false; save(); renderTips(); renderAllSettings(); toast("ワンポイントを非表示にしました（設定でまた表示できます）", null); });
+}
+
+/* =========================================================
+   選手
+   ========================================================= */
+function lastRecs(aid) { return state.history.filter(h => h.athleteId === aid && !h.demo).sort((a, b) => a.date < b.date ? -1 : 1); }
+function renderAth() {
+  const a = ath();
+  $("#athName").textContent = a.name + "・" + PURPOSE_NAME[a.purpose];
+  $("#athSel").innerHTML = state.athletes.map(x => "<option value='" + x.id + "'" + (x.id === a.id ? " selected" : "") + ">👤 " + esc(x.name) + "</option>").join("");
+  $("#athList").innerHTML = state.athletes.map(x => {
+    const rs = lastRecs(x.id), last = rs[rs.length - 1], prev = rs.slice(0, -1).reverse().find(h => last && h.purpose === last.purpose);
+    const diff = last && prev ? last.score - prev.score : null;
+    const top = last ? (last.top.find(t => !t.nobi) || {}).k : null;
+    return "<div class='ath " + (x.id === a.id ? "on" : "") + "' data-id='" + x.id + "'><div class='an'><b>" + esc(x.name) + "</b><span class='muted small'>" + PURPOSE_NAME[x.purpose] + "・記録" + rs.length + "件" + (last ? "・" + fmtDate(last.date) : "") + "</span>" +
+      (top ? "<br><span class='muted small'>課題1位：" + M[top].name + "</span>" : "") + "</div>" +
+      "<div class='sc'>" + (last ? last.score + "<small>点</small>" + (diff != null ? "<br><span class='" + (diff >= 0 ? "up" : "down") + "'>" + (diff >= 0 ? "▲" : "▼") + Math.abs(diff) + "</span>" : "") : "<small>未解析</small>") + "</div>" +
+      "<button class='btn sm ren'>✎</button><button class='btn sm delA'>🗑</button></div>";
+  }).join("");
+  $$("#athList .ath").forEach(row => {
+    const id = row.dataset.id;
+    row.onclick = e => { if (e.target.closest("button")) return; switchAthlete(id); };
+    row.querySelector(".ren").onclick = () => renameAthlete(id);
+    row.querySelector(".delA").onclick = () => deleteAthlete(id);
+  });
+  $("#logWho").textContent = "👤 " + a.name; $("#cmpWho").textContent = "👤 " + a.name + "・" + PURPOSE_NAME[state.purpose];
+}
+function switchAthlete(id) {
+  if (id === state.cur) return;
+  const rec = S.recId && state.history.find(h => h.id === S.recId);
+  state.cur = id; state.purpose = ath().purpose; save();
+  if (rec && rec.athleteId !== id && confirm("いま表示している解析結果を「" + ath().name + "」の記録に付け替えますか？\n（付け替えない場合は「" + athName(rec.athleteId) + "」の記録のまま）")) { rec.athleteId = id; rec.purpose = state.purpose; save(); }
+  renderAth(); renderAllSettings();
+  if (S.comb) { S.rk = rank(S.comb, state.purpose); renderMetrics(); renderResult(); renderDiffSeg(); }
+  renderLog(); renderCompare(); renderIdealPts();
+  toast("👤 " + ath().name + " に切り替えました", null);
+}
+function addAthlete() {
+  const name = prompt("選手の名前（ニックネームでOK）", "選手" + (state.athletes.length + 1));
+  if (name == null || !name.trim()) return;
+  const a = { id: newId("a"), name: name.trim().slice(0, 20), purpose: state.purpose };
+  state.athletes.push(a); save(); switchAthlete(a.id); renderAth();
+}
+function renameAthlete(id) {
+  const a = state.athletes.find(x => x.id === id); if (!a) return;
+  const name = prompt("新しい名前", a.name); if (name == null || !name.trim()) return;
+  a.name = name.trim().slice(0, 20); save(); renderAth(); if (S.rk) renderResult();
+}
+function deleteAthlete(id) {
+  if (state.athletes.length <= 1) { toast("選手が1人だけのときは消せません（名前の変更はできます）", null); return; }
+  const a = state.athletes.find(x => x.id === id); const n = lastRecs(id).length;
+  if (!confirm("「" + a.name + "」と記録" + n + "件を消します。元に戻せません。よろしいですか？")) return;
+  state.athletes = state.athletes.filter(x => x.id !== id); state.history = state.history.filter(h => h.athleteId !== id);
+  if (state.cur === id) { state.cur = state.athletes[0].id; state.purpose = ath().purpose; }
+  save(); renderAth(); renderAllSettings(); renderLog(); renderCompare();
+}
+$("#athSel").onchange = e => switchAthlete(e.target.value);
+$("#athAdd").onclick = addAthlete; $("#athAdd2").onclick = addAthlete;
+$("#athChip").onclick = () => { showTab("log"); pager.go("log", 0); };
+
+/* =========================================================
    記録
    ========================================================= */
-function saveHistory() {
-  if (!cur || !cur.rk) return;
-  const r = cur.res, rk = cur.rk;
-  const rec = { id: Date.now(), date: new Date().toISOString(), name: cur.name || "", purpose: state.purpose, demo: cur.mode === "demo", score: rk.score, metrics: {}, top: rk.pick.map(i => ({ k: i.k, side: i.side, nobi: !!i.nobi, s: +i.s.toFixed(2) })), warns: r.warns.length, memo: "" };
-  for (const k of MKEYS) if (r.metrics[k] != null && isFinite(r.metrics[k])) rec.metrics[k] = +r.metrics[k].toFixed(4);
-  const prev = state.history.filter(h => h.purpose === rec.purpose && !h.demo).slice(-1)[0];
-  if (!rec.demo) { state.history.push(rec); if (state.history.length > 100) state.history.shift(); save(); }
-  renderSince(rec, rec.demo ? null : prev);
-  renderLog(); renderCompare();
+function saveHistory(update) {
+  if (!S.comb || !S.rk) return;
+  const rk = S.rk, C = S.comb;
+  const rec = { id: Date.now(), date: new Date().toISOString(), athleteId: state.cur, name: S.clips.map(c => c.name).join(" / "), purpose: state.purpose, views: C.views.slice(), demo: !!S.demo,
+    score: rk.score, n: rk.items.length, metrics: {}, detail: {}, top: rk.pick.map(i => ({ k: i.k, side: i.side, nobi: !!i.nobi, s: +i.s.toFixed(2) })), warns: C.warns.length, memo: "" };
+  for (const k of MKEYS) if (C.metrics[k] != null && isFinite(C.metrics[k])) rec.metrics[k] = +C.metrics[k].toFixed(4);
+  for (const k in C.detail) rec.detail[k] = { L: C.detail[k].L == null ? null : +(+C.detail[k].L).toFixed(4), R: C.detail[k].R == null ? null : +(+C.detail[k].R).toFixed(4) };
+  let cur = rec;
+  if (!rec.demo) {
+    const old = update && S.recId ? state.history.find(h => h.id === S.recId) : null;
+    if (old) { rec.id = old.id; rec.date = old.date; rec.memo = old.memo; rec.athleteId = old.athleteId; Object.assign(old, rec); cur = old; }
+    else { state.history.push(rec); S.recId = rec.id; if (state.history.length > 500) state.history.shift(); }
+    save();
+  }
+  const prev = rec.demo ? null : state.history.filter(h => h.athleteId === cur.athleteId && h.purpose === cur.purpose && !h.demo && h.id !== cur.id && h.date < cur.date).sort((a, b) => a.date < b.date ? -1 : 1).slice(-1)[0];
+  renderSince(cur, prev); renderLog(); renderCompare(); renderAth();
 }
 function renderSince(rec, prev) {
   const el = $("#since");
-  if (!prev) { el.innerHTML = rec.demo ? "デモは記録に残りません。" : "同じ目的の前回の記録がありません。次回から比較が出ます。"; el.classList.add("muted"); return; }
+  if (!prev) { el.innerHTML = rec.demo ? "デモは記録に残りません。" : "この選手・この目的の前回の記録がありません。次回から比較が出ます。"; el.classList.add("muted"); return; }
   let h = "<p class='small' style='margin:0 0 6px'>前回（" + fmtDate(prev.date) + "・" + prev.score + "点）→ 今回 " + rec.score + "点</p><ul style='margin:0;padding-left:18px'>";
+  let n = 0;
   for (const t of prev.top.filter(x => !x.nobi)) {
-    const k = t.k, a = prev.metrics[k], b = rec.metrics[k]; if (a == null || b == null) continue;
+    const k = t.k, a = prev.metrics[k], b = rec.metrics[k]; if (a == null || b == null || !M[k]) continue;
     const sa = sevOf(k, a, rec.purpose), sb = sevOf(k, b, rec.purpose);
-    const better = sb.s < sa.s - 0.05, worse = sb.s > sa.s + 0.05;
-    h += "<li>" + esc(M[k].name) + "：" + fmtV(k, a) + " → <b>" + fmtV(k, b) + "</b> " + (better ? "<span style='color:var(--good)'>改善</span>" : worse ? "<span style='color:var(--bad)'>悪化</span>" : "<span class='muted'>変わらず</span>") + "</li>";
+    const better = sb.s < sa.s - 0.05, worse = sb.s > sa.s + 0.05; n++;
+    h += "<li>" + esc(M[k].name) + "：" + fv(k, a) + " → <b>" + fv(k, b) + "</b> " + (better ? "<span style='color:var(--good)'>改善</span>" : worse ? "<span style='color:var(--bad)'>悪化</span>" : "<span class='muted'>変わらず</span>") + "</li>";
   }
+  if (!n) h += "<li class='muted'>前回の課題は、今回の動画の向きでは測れていません。</li>";
   h += "</ul>"; el.innerHTML = h; el.classList.remove("muted");
 }
 function fmtDate(s) { const d = new Date(s); return (d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0"); }
 function renderLog() {
-  const el = $("#logList"); const hs = state.history.slice().reverse();
+  const el = $("#logList"); const hs = state.history.filter(h => h.athleteId === state.cur).slice().sort((a, b) => a.date < b.date ? 1 : -1);
   if (!hs.length) { el.innerHTML = "まだ記録がありません。解析すると自動で残ります。"; el.classList.add("muted"); return; }
   el.classList.remove("muted");
-  el.innerHTML = hs.slice(0, 30).map(h => "<div class='rec' data-id='" + h.id + "'><div class='row'><b>" + fmtDate(h.date) + "　" + PURPOSE_NAME[h.purpose] + "</b><b style='font-size:18px'>" + h.score + "<small class='muted'>点</small></b></div>" +
-    "<div class='small'>" + esc(h.name) + (h.warns ? "　<span style='color:var(--warn)'>注意" + h.warns + "件</span>" : "") + "</div>" +
-    "<div class='small muted'>課題：" + h.top.filter(t => !t.nobi).slice(0, 3).map(t => M[t.k].name).join("、") + "</div>" +
-    "<input type='text' class='memo' placeholder='メモ（例：雨・疲れ気味）' value='" + esc(h.memo || "") + "' style='width:100%;margin-top:6px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface)'>" +
-    "<div class='row' style='margin-top:6px'><button class='btn del' style='padding:6px 10px;font-size:12px'>削除</button></div></div>").join("");
+  el.innerHTML = hs.slice(0, 40).map(h => "<div class='rec' data-id='" + h.id + "'><div class='row'><b>" + fmtDate(h.date) + "　" + PURPOSE_NAME[h.purpose] + "</b><b style='font-size:18px'>" + h.score + "<small class='muted'>点</small></b></div>" +
+    "<div class='small'>" + (h.views || ["side"]).map(v => VIEW_NAME[v]).join("＋") + "　" + esc(h.name) + (h.warns ? "　<span style='color:var(--warn)'>注意" + h.warns + "件</span>" : "") + "</div>" +
+    "<div class='small muted'>課題：" + h.top.filter(t => !t.nobi && M[t.k]).slice(0, 3).map(t => M[t.k].name).join("、") + "</div>" +
+    "<input type='text' class='memo' placeholder='メモ（例：雨・疲れ気味・シューズ）' value='" + esc(h.memo || "") + "' style='width:100%;margin-top:6px;border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface)'>" +
+    "<div class='row' style='margin-top:6px'><button class='btn sm del'>削除</button></div></div>").join("");
   $$("#logList .memo").forEach(inp => inp.onchange = () => { const id = +inp.closest(".rec").dataset.id; const h = state.history.find(x => x.id === id); if (h) { h.memo = inp.value; save(); } });
-  $$("#logList .del").forEach(b => b.onclick = () => { const id = +b.closest(".rec").dataset.id; if (!confirm("この記録を削除しますか？")) return; state.history = state.history.filter(x => x.id !== id); save(); renderLog(); renderCompare(); });
+  $$("#logList .del").forEach(b => b.onclick = () => { const id = +b.closest(".rec").dataset.id; if (!confirm("この記録を削除しますか？")) return; state.history = state.history.filter(x => x.id !== id); if (S.recId === id) S.recId = null; save(); renderLog(); renderCompare(); renderAth(); });
 }
 function renderCompare() {
   const sel = $("#cmpSel");
   if (!sel.options.length) { sel.innerHTML = "<option value='score'>総合点</option>" + MKEYS.map(k => "<option value='" + k + "'>" + M[k].name + "</option>").join(""); sel.onchange = renderCompare; }
   const k = sel.value; const p = state.purpose;
-  const hs = state.history.filter(h => h.purpose === p);
+  const hs = state.history.filter(h => h.purpose === p && h.athleteId === state.cur).sort((a, b) => a.date < b.date ? -1 : 1);
   const cv = $("#cmpChart"), dpr = window.devicePixelRatio || 1; cv.width = (cv.clientWidth || 320) * dpr; cv.height = 180 * dpr;
   const c = cv.getContext("2d"); c.clearRect(0, 0, cv.width, cv.height);
   const vals = hs.map(h => k === "score" ? h.score : h.metrics[k]).filter(v => v != null);
-  if (vals.length < 1) { $("#cmpTxt").textContent = PURPOSE_NAME[p] + "の記録がまだありません（目的は動画タブで切替）。"; return; }
+  if (vals.length < 1) { $("#cmpTxt").textContent = "この選手の" + PURPOSE_NAME[p] + "の記録で、この項目はまだありません。"; return; }
   const W = cv.width, H = cv.height, pad = 28 * dpr;
   let lo = Math.min(...vals), hi = Math.max(...vals);
   let g0 = null, g1 = null; if (k !== "score") { [g0, g1] = M[k].sp[p]; if (isFinite(g0)) lo = Math.min(lo, g0); if (isFinite(g1)) hi = Math.max(hi, g1); }
@@ -1268,24 +2123,125 @@ function renderCompare() {
   c.fillStyle = css("--accent"); vals.forEach((v, i) => { c.beginPath(); c.arc(xx(i), yy(v), 4 * dpr, 0, 7); c.fill(); });
   c.fillStyle = css("--sub"); c.font = (11 * dpr) + "px sans-serif";
   c.fillText(fmtNum(k, hi - m), 2, pad * 0.6 + 4 * dpr); c.fillText(fmtNum(k, lo + m), 2, H - pad + 12 * dpr);
-  const last = vals[vals.length - 1], first = vals[0];
-  $("#cmpTxt").textContent = PURPOSE_NAME[p] + "・" + vals.length + "回分。最初 " + fmtNum(k, first) + " → 最新 " + fmtNum(k, last) + (k !== "score" ? "（緑の帯＝目安の範囲）" : "");
+  $("#cmpTxt").textContent = ath().name + "・" + PURPOSE_NAME[p] + "・" + vals.length + "回分。最初 " + fmtNum(k, vals[0]) + " → 最新 " + fmtNum(k, vals[vals.length - 1]) + (k !== "score" ? "（緑の帯＝目安の範囲）" : "");
 }
-function fmtNum(k, v) { return k === "score" ? Math.round(v) + "点" : fmtV(k, v) + (M[k].pct ? "" : M[k].unit); }
+function fmtNum(k, v) { return k === "score" ? Math.round(v) + "点" : fv(k, v); }
+
+/* =========================================================
+   書き出し（CSV・レポート画像・骨格データ）
+   ========================================================= */
+function ymd() { const d = new Date(); return d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0") + "_" + String(d.getHours()).padStart(2, "0") + String(d.getMinutes()).padStart(2, "0"); }
+async function shareOrDownload(blob, name) {
+  try {
+    const file = new File([blob], name, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: name }); return; }
+  } catch (e) { if (e && e.name === "AbortError") return; }
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  toast("「" + name + "」を保存しました", null);
+}
+const cell = v => { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+const csvVal = (k, v) => v == null || !isFinite(v) ? "" : (M[k].pct ? (v * 100).toFixed(1) : (+v).toFixed(M[k].d === 0 ? 1 : M[k].d));
+function exportCsv() {
+  const hs = state.history.filter(h => !h.demo && (state.expScope === "all" || h.athleteId === state.cur)).sort((a, b) => a.date < b.date ? -1 : 1);
+  if (!hs.length) { toast("書き出す記録がありません", null); return; }
+  const head = ["選手", "日時", "目的", "動画の向き", "総合点", "採点した項目数"].concat(MKEYS.map(k => M[k].name + "(" + (M[k].pct ? "%" : M[k].unit) + ")"), ["課題1", "課題2", "課題3", "課題4", "課題5", "メモ", "動画"]);
+  const lines = [head.map(cell).join(",")];
+  for (const h of hs) {
+    const d = new Date(h.date), ds = d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate() + " " + d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0");
+    const tops = h.top.filter(t => M[t.k]).map(t => M[t.k].name + (t.nobi ? "（伸びしろ）" : "")); while (tops.length < 5) tops.push("");
+    const row = [athName(h.athleteId), ds, PURPOSE_NAME[h.purpose], (h.views || ["side"]).map(v => VIEW_NAME[v]).join("+"), h.score, h.n || ""].concat(MKEYS.map(k => csvVal(k, h.metrics[k])), tops.slice(0, 5), [h.memo || "", h.name || ""]);
+    lines.push(row.map(cell).join(","));
+  }
+  const who = state.expScope === "all" ? "全員" : ath().name;
+  shareOrDownload(new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv" }), "走りコーチ_記録_" + who + "_" + ymd() + ".csv");
+}
+const LM_NAMES = ["鼻", "左目内側", "左目", "左目外側", "右目内側", "右目", "右目外側", "左耳", "右耳", "口左", "口右", "左肩", "右肩", "左肘", "右肘", "左手首", "右手首", "左小指", "右小指", "左人差し指", "右人差し指", "左親指", "右親指", "左腰", "右腰", "左膝", "右膝", "左足首", "右足首", "左かかと", "右かかと", "左つま先", "右つま先"];
+function exportPose() {
+  const cl = clip(); if (!cl || !cl.frames || !cl.frames.length) { toast("先に解析してください", null); return; }
+  const lines = [cell("走りコーチ 骨格データ：" + ath().name + "／" + cl.name + "／" + (cl.res ? VIEW_NAME[cl.res.view] : "") + "／画像 " + cl.W + "×" + cl.H + "px（左上が原点・下向きがy+）／左右はAIの判定のまま")];
+  lines.push(["時刻_実時間(秒)", "時刻_動画(秒)", "検出"].concat(LM_NAMES.flatMap(n => [n + "_x", n + "_y", n + "_信頼度"])).map(cell).join(","));
+  for (const f of cl.frames) {
+    const row = [f.t.toFixed(3), f.vt.toFixed(3), f.ok ? 1 : 0];
+    for (let i = 0; i < 33; i++) row.push(f.ok ? f.p[i * 3].toFixed(1) : "", f.ok ? f.p[i * 3 + 1].toFixed(1) : "", f.ok ? f.p[i * 3 + 2].toFixed(2) : "");
+    lines.push(row.join(","));
+  }
+  shareOrDownload(new Blob(["﻿" + lines.join("\r\n")], { type: "text/csv" }), "走りコーチ_骨格_" + ath().name + "_" + (cl.res ? VIEW_NAME[cl.res.view] : "") + "_" + ymd() + ".csv");
+}
+function wrapText(c, text, x, y, maxW, lh) {
+  let line = "", yy = y;
+  for (const ch of String(text)) { const t = line + ch; if (c.measureText(t).width > maxW && line) { c.fillText(line, x, yy); line = ch; yy += lh; } else line = t; }
+  if (line) { c.fillText(line, x, yy); yy += lh; }
+  return yy;
+}
+async function exportReport() {
+  if (!S.rk) { toast("先に解析してください", null); return; }
+  toast("レポートを作っています…", null);
+  const FF = "-apple-system,'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif";
+  const W = 1080, pad = 48, cv = document.createElement("canvas"); cv.width = W; cv.height = 3600; const c = cv.getContext("2d");
+  const ink = "#1b232c", sub = "#5d6873", acc = "#e2561f", green = "#16a34a";
+  c.fillStyle = "#ffffff"; c.fillRect(0, 0, W, cv.height);
+  c.fillStyle = acc; c.fillRect(0, 0, W, 116); c.fillStyle = "#fff"; c.font = "800 44px " + FF; c.fillText("走りコーチ　解析レポート", pad, 74);
+  const d = new Date(); c.font = "26px " + FF; c.textAlign = "right"; c.fillText(d.getFullYear() + "/" + (d.getMonth() + 1) + "/" + d.getDate(), W - pad, 74); c.textAlign = "left";
+  let y = 180; c.fillStyle = ink; c.font = "800 44px " + FF; c.fillText("👤 " + ath().name, pad, y);
+  c.font = "28px " + FF; c.fillStyle = sub; c.fillText(PURPOSE_NAME[state.purpose] + "の目安で採点・" + S.comb.views.map(v => VIEW_NAME[v]).join("＋") + "・" + S.rk.items.length + "項目", pad, y + 46);
+  c.textAlign = "right"; c.fillStyle = acc; c.font = "800 110px " + FF; c.fillText(String(S.rk.score), W - pad - 80, y + 40); c.font = "700 30px " + FF; c.fillStyle = sub; c.fillText("/100", W - pad, y + 40); c.textAlign = "left";
+  y += 90;
+  // 1位の瞬間の画像
+  const top = S.rk.pick[0], ci = S.clips.findIndex(x => x.id === S.comb.src[top.k]), cl = S.clips[ci];
+  if (cl && cl.res && cl.res.repT[top.k] != null) {
+    const bw = W - pad * 2, bh = Math.min(620, Math.round(bw * cl.H / cl.W)); const sc = Math.min(bw / cl.W, bh / cl.H); const dw = cl.W * sc, dh = cl.H * sc, ox = pad + (bw - dw) / 2, oy = y + (bh - dh) / 2;
+    c.fillStyle = "#0b1118"; c.fillRect(pad, y, bw, bh);
+    const t = cl.res.repT[top.k];
+    if (cl.mode === "video") { if (S.ci !== ci) await selectClip(ci); await seek(vid, t); try { c.drawImage(vid, ox, oy, dw, dh); } catch (e) {} }
+    const fr = frameAtC(cl, t); const dd = S.comb.detail[top.k];
+    if (fr) drawScene(c, cl, fr, (x, yy) => [ox + x * sc, oy + yy * sc], Math.max(4, 5 * sc * 1.6), { k: top.k, sd: dd ? dd.worst : null, ghost: true });
+    y += bh + 40;
+    c.fillStyle = ink; c.font = "700 28px " + FF;
+    y = wrapText(c, "↑ 1位「" + M[top.k].name + "」が一番よく表れている瞬間（黄色の丸）", pad, y, W - pad * 2, 38);
+    c.fillStyle = green; c.font = "700 26px " + FF; y = wrapText(c, M[top.k].view === "front" ? "緑の線＝理想の位置" : "緑の骨格＝100点の見本（腰の位置と体の大きさを合わせて重ねています）", pad, y, W - pad * 2, 36);
+    y += 10;
+  }
+  // 5つの指摘
+  c.fillStyle = ink; c.font = "800 34px " + FF; c.fillText("改善すべき5つのポイント", pad, y + 20); y += 60;
+  S.rk.pick.forEach((it, i) => {
+    const k = it.k, tx = textOf(k, it.side), [lv, lvT] = level(it); const iv = idealVal(k);
+    c.fillStyle = ink; c.beginPath(); c.arc(pad + 22, y + 8, 22, 0, 7); c.fill(); c.fillStyle = "#fff"; c.font = "800 26px " + FF; c.textAlign = "center"; c.fillText(String(i + 1), pad + 22, y + 17); c.textAlign = "left";
+    c.fillStyle = ["#1f8a5b", "#2c6fd2", "#c98a08", "#d23b2c"][lv]; c.font = "800 22px " + FF; c.fillText("【" + lvT + "】", pad + 60, y + 16);
+    c.fillStyle = ink; c.font = "700 30px " + FF; y = wrapText(c, it.nobi ? M[k].name + "：さらに伸ばせる" : tx.t, pad + 180, y + 18, W - pad * 2 - 180, 40);
+    c.fillStyle = sub; c.font = "26px " + FF;
+    y = wrapText(c, "測定 " + fv(k, it.v) + "　目安 " + rangeTxt(k, state.purpose) + (iv != null && isFinite(iv) ? "　見本 " + fv(k, iv) : "") + (S.comb.detail[k] ? "　（" + sideTxt(k) + "）" : ""), pad + 60, y + 4, W - pad * 2 - 60, 36);
+    c.fillStyle = acc; c.font = "700 26px " + FF; y = wrapText(c, "意識：「" + tx.cue + "」　ドリル：" + tx.dr[0], pad + 60, y, W - pad * 2 - 60, 36);
+    y += 18;
+  });
+  // 全項目
+  y += 10; c.fillStyle = ink; c.font = "800 30px " + FF; c.fillText("測った数値（" + S.rk.items.length + "項目）", pad, y + 10); y += 46;
+  const items = MKEYS.filter(k => S.comb.metrics[k] != null); const colW = (W - pad * 2) / 2;
+  items.forEach((k, i) => {
+    const x = pad + (i % 2) * colW, yy = y + Math.floor(i / 2) * 40; const it = S.rk.items.find(q => q.k === k);
+    c.fillStyle = !it ? "#ccc" : ["#1f8a5b", "#2c6fd2", "#c98a08", "#d23b2c"][it.s === 0 ? 0 : level(it)[0]]; c.beginPath(); c.arc(x + 8, yy - 8, 8, 0, 7); c.fill();
+    c.fillStyle = ink; c.font = "22px " + FF; let nm = M[k].name.replace(/（.*）/, ""); c.fillText(nm, x + 24, yy);
+    c.textAlign = "right"; c.font = "700 22px " + FF; c.fillText(fv(k, S.comb.metrics[k]), x + colW - 16, yy); c.textAlign = "left";
+  });
+  y += Math.ceil(items.length / 2) * 40 + 30;
+  c.fillStyle = sub; c.font = "22px " + FF; y = wrapText(c, "スマホ動画からの推定値です。1本の動画で決めつけず、2〜3本で同じ指摘が出るかを確認してください。　走りコーチ v" + VER, pad, y, W - pad * 2, 32);
+  const out = document.createElement("canvas"); out.width = W; out.height = y + 30; out.getContext("2d").drawImage(cv, 0, 0);
+  out.toBlob(b => { if (b) shareOrDownload(b, "走りコーチ_レポート_" + ath().name + "_" + ymd() + ".png"); }, "image/png");
+}
+$("#expCsv").onclick = exportCsv; $("#expImg").onclick = exportReport; $("#expPose").onclick = exportPose;
+$$("#expSeg button").forEach(b => b.onclick = () => { state.expScope = b.dataset.x; save(); renderAllSettings(); });
 
 /* バックアップ */
 $("#btnExport").onclick = () => {
-  const blob = new Blob([JSON.stringify({ app: APP, saved: new Date().toISOString(), state }, null, 1)], { type: "application/json" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); const d = new Date();
-  a.download = "走りコーチ_" + d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0") + ".json"; a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  const blob = new Blob([JSON.stringify({ app: APP, ver: VER, saved: new Date().toISOString(), state }, null, 1)], { type: "application/json" });
+  shareOrDownload(blob, "走りコーチ_バックアップ_" + ymd() + ".json");
 };
 $("#importIn").addEventListener("change", e => {
   const f = e.target.files[0]; if (!f) return; const rd = new FileReader();
-  rd.onload = () => { try { const o = JSON.parse(rd.result); const st = o.state || o; if (!confirm((o.saved ? fmtDate(o.saved) + " の" : "") + "バックアップ（記録" + (st.history || []).length + "件）で上書きしますか？")) return; applyLoaded(st); save(); renderAllSettings(); renderLog(); renderCompare(); toast("読み込みました", null); } catch (er) { alert("読み込めないファイルです"); } };
+  rd.onload = () => { try { const o = JSON.parse(rd.result); const st = o.state || o; if (!confirm((o.saved ? fmtDate(o.saved) + " の" : "") + "バックアップ（選手" + ((st.athletes || []).length || 1) + "人・記録" + (st.history || []).length + "件）で上書きしますか？")) return; applyLoaded(st); save(); renderAth(); renderAllSettings(); renderLog(); renderCompare(); toast("読み込みました", null); } catch (er) { alert("読み込めないファイルです"); } };
   rd.readAsText(f); e.target.value = "";
 });
-$("#btnWipe").onclick = () => { if (!confirm("記録をすべて消します。元に戻せません。よろしいですか？")) return; state.history = []; save(); renderLog(); renderCompare(); };
+$("#btnWipe").onclick = () => { if (!confirm("全選手の記録をすべて消します（選手の名前は残ります）。元に戻せません。よろしいですか？")) return; state.history = []; S.recId = null; save(); renderLog(); renderCompare(); renderAth(); };
 $("#btnTourReset").onclick = () => { try { localStorage.removeItem(APP + "_tours"); } catch (e) {} renderTourList(); toast("手順ガイドの✓を消しました", null); };
 
 /* =========================================================
@@ -1294,12 +2250,17 @@ $("#btnTourReset").onclick = () => { try { localStorage.removeItem(APP + "_tours
 function segBind(id, attr, key, conv, after) {
   $$("#" + id + " button").forEach(b => b.onclick = () => { state[key] = conv(b.dataset[attr]); save(); renderAllSettings(); after && after(); tourEvent("pick"); });
 }
-segBind("slowSeg", "s", "slow", Number, () => { if (cur && cur.mode === "video" && cur.frames.length) { cur.frames.forEach(f => f.t = f.vt / state.slow); finishAnalysis(); } });
+segBind("slowSeg", "s", "slow", Number, () => { if (S.clips.some(c => c.raw) && !S.demo) { for (const c of S.clips) if (c.raw) { trackClip(c); analyzeClip(c); } finishAll(true); toast("スロー倍率を変えて計算し直しました", null); } });
 segBind("modelSeg", "m", "model", String);
-segBind("fpsSeg", "f", "fps", Number);
+segBind("fpsSeg", "f", "fps", Number, () => renderClips());
 segBind("pageSeg", "o", "onePage", v => v === "1", () => pager.apply());
 segBind("themeSeg", "t", "theme", String, applyTheme);
-$$("#purposeChips .chip").forEach(b => b.onclick = () => { state.purpose = b.dataset.p; save(); renderAllSettings(); if (cur && cur.res && !cur.res.fatal) { cur.rk = rank(cur.res, state.purpose); renderMetrics(); renderResult(); } renderCompare(); tourEvent("purpose"); });
+segBind("tipSeg", "o", "tips", v => v === "1", () => renderTips());
+$$("#purposeChips .chip").forEach(b => b.onclick = () => {
+  state.purpose = b.dataset.p; ath().purpose = state.purpose; save(); renderAllSettings(); renderAth();
+  if (S.comb) { S.rk = rank(S.comb, state.purpose); renderMetrics(); renderResult(); renderDiffSeg(); saveHistory(true); }
+  renderCompare(); renderIdealPts(); renderTips(); tourEvent("purpose");
+});
 function renderAllSettings() {
   $$("#purposeChips .chip").forEach(b => b.classList.toggle("on", b.dataset.p === state.purpose));
   $$("#slowSeg button").forEach(b => b.classList.toggle("on", +b.dataset.s === state.slow));
@@ -1307,6 +2268,9 @@ function renderAllSettings() {
   $$("#fpsSeg button").forEach(b => b.classList.toggle("on", +b.dataset.f === state.fps));
   $$("#pageSeg button").forEach(b => b.classList.toggle("on", (b.dataset.o === "1") === state.onePage));
   $$("#themeSeg button").forEach(b => b.classList.toggle("on", b.dataset.t === state.theme));
+  $$("#expSeg button").forEach(b => b.classList.toggle("on", b.dataset.x === state.expScope));
+  $$("#tipSeg button").forEach(b => b.classList.toggle("on", (b.dataset.o === "1") === !!state.tips));
+  updPlayBtn();
 }
 function applyTheme() { if (state.theme === "auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme", state.theme); setTimeout(drawAll, 30); }
 
@@ -1314,10 +2278,11 @@ function applyTheme() { if (state.theme === "auto") document.documentElement.rem
    タブとページ
    ========================================================= */
 const PAGES = {
-  video: [{ n: "目的と動画", s: ["#cardPurpose", "#cardLoad"] }, { n: "撮り方", s: ["#cardHowto"] }],
-  anal: [{ n: "動画と骨格", s: ["#cardStage", "#cardRun"] }, { n: "17項目の数値", s: ["#cardMetrics"] }],
+  video: [{ n: "選手・目的・動画", s: ["#cardPurpose", "#cardLoad"] }, { n: "撮り方", s: ["#cardHowto"] }],
+  anal: [{ n: "動画と骨格", s: ["#cardStage", "#cardRun"] }, { n: "全" + MKEYS.length + "項目の数値", s: ["#cardMetrics"] }],
   result: [{ n: "5つの指摘", s: ["#cardTop5"] }, { n: "良い所・前回比", s: ["#cardGood"] }],
-  log: [{ n: "記録", s: ["#cardLog"] }, { n: "移り変わり", s: ["#cardCompare"] }],
+  model: [{ n: "100点の見本", s: ["#cardIdeal"] }, { n: "見本と比べる", s: ["#cardDiff"] }],
+  log: [{ n: "選手一覧", s: ["#cardAthletes"] }, { n: "記録", s: ["#cardLog"] }, { n: "移り変わり", s: ["#cardCompare"] }, { n: "書き出し", s: ["#cardExport"] }],
   set: [{ n: "設定", s: ["#cardSet"] }, { n: "バックアップ", s: ["#cardBackup"] }]
 };
 function showTab(t) {
@@ -1327,6 +2292,7 @@ function showTab(t) {
   pager.apply(); window.scrollTo(0, 0);
   if (t === "anal") { setTimeout(() => { sizeStage(); drawAll(); }, 0); }
   if (t === "log") setTimeout(renderCompare, 0);
+  if (t === "model") setTimeout(() => { sizeModel(); renderIdealPts(); renderDiffSeg(); modelLoop(); }, 0);
 }
 const pager = {
   idx(t) { return clamp(state.page[t] || 0, 0, PAGES[t].length - 1); },
@@ -1346,6 +2312,7 @@ const pager = {
     $("#pPrev").textContent = i > 0 ? "◀ " + list[i - 1].n : "";
     updBand();
     if (t === "anal" && i === 0) setTimeout(() => { sizeStage(); drawAll(); }, 0);
+    if (t === "model") setTimeout(sizeModel, 0);
   },
   reveal(sel) {
     for (const t in PAGES) PAGES[t].forEach((p, k) => { if (p.s.some(s => { const el = $(s); const tg = $(sel); return el && tg && (el === tg || el.contains(tg)); })) { if (state.tab !== t) showTab(t); this.go(t, k); } });
@@ -1380,14 +2347,19 @@ function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ 
 
 /* Q&A */
 const QA = [
-  ["どんな動画を撮ればいい？", "真横から、全身が映る動画です。2歩以上（左右1回ずつ着地）が入る3〜10秒。スマホは横向き・腰の高さで。", "satsuei"],
-  ["指摘が当たっていない気がする", "斜めから撮った・人が小さい・暗い場合は数値がずれます。解析タブの「確認してください」を見て、撮り直してください。2〜3本で同じ指摘が出るものを信じるのが確実です。", "seido"],
-  ["スロー動画を使うときは？", "動画タブの「スロー撮影の倍率」を合わせてください（120fpsのスロー＝1/4、240fps＝1/8）。合わないとピッチと接地時間が狂います。", "slow"],
-  ["解析に時間がかかる", "開始・終了のつまみで、一定速度で走っている2〜4秒だけを選んでください。設定の「解析のこま数」を15にすると半分の時間になります。", "kaiseki"],
-  ["「AIを読み込めませんでした」と出る", "初回だけインターネットからAI（約10MB）を読み込みます。電波の良い所でもう一度。それでもだめなら設定で精度を「速い」に。", "trouble"],
-  ["動画はどこかに送られる？", "送りません。骨格の読み取りはスマホの中で行います。記録（数値）もスマホの中だけです。", "privacy"],
-  ["5つの指摘はどうやって選んでいる？", "17項目を目的別の目安と比べ、外れ方×重要度で順位をつけます。同じ分野は2つまでにして、姿勢・接地・脚・腕・リズムの違う角度から選びます。", "rank"],
-  ["機種変更するときは？", "設定→バックアップ→書き出す。新しいスマホで「読み込む」。", "backup"]
+  ["どんな動画を撮ればいい？", "横からの動画が基本です（全身・2歩以上・3〜10秒）。前か後ろからの動画も一緒に入れると、骨盤や膝の左右のバランスまで測れます。", "satsuei"],
+  ["前・後ろからの動画も使える？", "使えます。横・前・後ろを3本までまとめて選ぶと、向きを自動で見分けて1つの結果にまとめます。向きが違って判定されたら、動画の一覧で選び直せます。", "angles"],
+  ["他の人も映っている", "解析タブで、解析したい人の体を動画の上でタップしてください。解析の後でも選び直せます（灰色の線がほかの人）。", "hito"],
+  ["選手を分けて記録したい", "動画タブの「＋ 選手を追加」で登録し、解析の前に選手を選びます。記録・グラフ・前回比は選手ごとに分かれます。", "senshu"],
+  ["100点の見本はどこ？", "下の「見本」タブです。目的ごとのお手本の動きと、解析した人を重ねた比較が見られます。解析画面の緑の線も見本です。", "mihon"],
+  ["データを外に出したい", "記録タブ→書き出し。記録の一覧（CSV・Excel）、レポート画像、骨格の座標データを出せます。iPhoneでは共有画面からLINE・メールへ。", "export"],
+  ["スロー動画を使うときは？", "動画タブの「スロー撮影の倍率」を合わせてください（120fps＝1/4、240fps＝1/8）。合わないとピッチと接地時間が狂います。", "slow"],
+  ["指摘が当たっていない気がする", "斜めから・人が小さい・暗い動画では数値がずれます。指摘タブの「撮影条件の確認」を見て撮り直してください。2〜3本で同じ指摘が出るものを信じるのが確実です。", "seido"],
+  ["解析に時間がかかる", "開始・終了のつまみで2〜4秒にしぼるか、設定の「解析のこま数」を15に。", "kaiseki"],
+  ["「AIを読み込めませんでした」と出る", "初回だけインターネットからAI（約10MB）を読み込みます。電波の良い所でもう一度。だめなら設定で精度を「速い」に。", "trouble"],
+  ["動画はどこかに送られる？", "送りません。骨格の読み取りはスマホの中で行い、記録もスマホの中だけです。", "privacy"],
+  ["撮り方のアドバイスを消したい／出したい", "設定 →「撮影のワンポイントアドバイス」で、表示する／しないを切り替えます。アドバイスの「表示しない」ボタンでも消せます。", "onepoint"],
+  ["機種変更するときは？", "設定→バックアップ→書き出す。新しいスマホで「読み込む」。選手と記録がそのまま移ります。", "backup"]
 ];
 function renderQA() { $("#qaList").innerHTML = QA.map(q => "<details><summary>" + esc(q[0]) + "</summary><p>" + esc(q[1]) + " <a href='manual.html#" + q[2] + "' target='_blank' style='color:var(--accent)'>詳しく →</a></p></details>").join(""); }
 
@@ -1395,21 +2367,33 @@ function renderQA() { $("#qaList").innerHTML = QA.map(q => "<details><summary>" 
    長押しヘルプ
    ========================================================= */
 const HELP = [
-  { s: "#purposeChips", t: "走りの目的", x: "短距離・中長距離・ジョギングで、良い走りの目安が変わります。解析後に切り替えても採点し直されます。", a: "mokuteki" },
-  { s: "#fileLbl", t: "動画を撮る／選ぶ", x: "その場で撮影するか、写真アプリの動画を選びます。真横・全身・2歩以上。", a: "satsuei" },
+  { s: "#athChip", t: "いまの選手", x: "解析はこの選手の記録になります。押すと選手一覧へ。", a: "senshu" },
+  { s: "#athRow", t: "選手を選ぶ・追加", x: "記録・グラフ・前回比は選手ごとに分かれます。", a: "senshu" },
+  { s: "#purposeChips", t: "走りの目的", x: "短距離・中長距離・ジョギングで良い走りの目安が変わります。選手ごとに覚えます。", a: "mokuteki" },
+  { s: "#fileLbl", t: "動画を撮る／選ぶ", x: "横・前・後ろの動画を3本までまとめて選べます。向きは自動で見分けます。", a: "satsuei" },
+  { s: "#clipList", t: "動画の一覧", x: "向きが違って判定されたら、ここで横・前・後ろを選び直せます。✕で外します。", a: "angles" },
   { s: "#slowSeg", t: "スロー撮影の倍率", x: "スロー動画は実際の時間に直すために倍率を合わせます。普通の動画は等倍。", a: "slow" },
-  { s: "#btnDemo", t: "デモ", x: "動画なしで、架空の走者の解析結果を見られます。記録には残りません。", a: "demo" },
-  { s: "#stage", t: "骨格の重ね表示", x: "青＝左半身、オレンジ＝右半身。白い点線が上体の傾き、薄い線が真上です。", a: "kaiseki" },
-  { s: "#timeline", t: "時間の帯", x: "指でなぞると移動。上段の青＝左足の着地、下段のオレンジ＝右足の着地。黄色が注目の瞬間。", a: "kaiseki" },
-  { s: "#bSlow", t: "スロー再生", x: "0.25倍でゆっくり再生します。もう一度押すと普通の速さ。", a: "kaiseki" },
-  { s: "#rangePart", t: "解析する区間", x: "一定のスピードで走っている所だけを選ぶと正確です。短いほど早く終わります。", a: "kaiseki" },
-  { s: "#btnAnalyze", t: "解析スタート", x: "AIが1こまずつ体の位置を読み取り、17項目を測ります。解析中に押すと中止。", a: "kaiseki" },
-  { s: "#scorePart", t: "総合点", x: "17項目それぞれの目安からの外れ方を、重要度で重みづけして100点から引いた点数です。", a: "rank" },
-  { s: "#issues", t: "5つの指摘", x: "押すと、理由・ドリル・意識する言葉が開きます。「この瞬間を動画で見る」で該当のこまへ。", a: "rank" },
+  { s: "#btnDemo", t: "デモ", x: "動画なしで、架空の走者（横から＋前から）の解析を体験できます。記録には残りません。", a: "demo" },
+  { s: "#clipChips", t: "表示する動画", x: "2本以上のとき、ここで動画を切り替えます。", a: "angles" },
+  { s: "#stage", t: "骨格の重ね表示", x: "青＝左半身、オレンジ＝右半身、灰色＝ほかの人、緑＝100点の見本。人をタップすると、その人を解析します。", a: "hito" },
+  { s: "#timeline", t: "時間の帯", x: "指でなぞると移動。青＝左足、オレンジ＝右足の着地。解析後は解析した区間を拡大して表示します。", a: "kaiseki" },
+  { s: "#bSlow", t: "スロー再生", x: "0.25倍でゆっくり再生。もう一度押すと普通の速さ。", a: "kaiseki" },
+  { s: "#bGhost", t: "見本線", x: "指摘の瞬間に、100点の見本（緑）を重ねるかどうかを切り替えます。", a: "mihon" },
+  { s: "#rangePart", t: "解析する区間", x: "一定のスピードで走っている所だけを選ぶと正確です。動画ごとに決められます。", a: "kaiseki" },
+  { s: "#btnAnalyze", t: "解析スタート", x: "まだ解析していない動画をまとめて解析します。解析中に押すと中止。", a: "kaiseki" },
+  { s: "#scorePart", t: "総合点", x: "測れた項目それぞれの目安からの外れ方を、重要度で重みづけして100点から引いた点数です。", a: "rank" },
+  { s: "#issues", t: "5つの指摘", x: "押すと、理由・ドリル・見本の値・意識する言葉が開きます。", a: "rank" },
+  { s: "#idealCv", t: "100点の見本", x: "目安の範囲の真ん中を通る、お手本の動きです（0.5倍速）。", a: "mihon" },
+  { s: "#diffCv", t: "見本と比べる", x: "解析した人（色つき）と見本（緑）を、腰と体の大きさを合わせて1歩ごとに重ねています。", a: "mihon" },
   { s: "#cmpSel", t: "移り変わり", x: "選んだ項目が記録ごとにどう変わったか。緑の帯が目安の範囲です。", a: "kiroku" },
+  { s: "#expCsv", t: "記録の一覧（CSV）", x: "Excelで開けます。全項目の数値・課題・メモが1行1回で並びます。", a: "export" },
+  { s: "#expImg", t: "レポート画像", x: "点数・1位の瞬間の画像・5つの指摘・全項目を1枚の画像に。選手に送るときに便利です。", a: "export" },
+  { s: "#expPose", t: "骨格の座標データ", x: "表示中の動画の、こまごとの33か所の関節の位置（ピクセル）。詳しい分析用です。", a: "export" },
   { s: "#modelSeg", t: "AIの精度", x: "標準で十分です。人が小さい動画は高精度、古いスマホは速いを。", a: "settei" },
   { s: "#fpsSeg", t: "解析のこま数", x: "1秒を何こまに分けて読むか。多いほど接地の瞬間を正確にとらえます。", a: "settei" },
-  { s: "#btnExport", t: "書き出す", x: "記録をファイルに保存します。機種変更の前に。", a: "backup" },
+  { s: "#btnExport", t: "バックアップ", x: "選手と記録をすべてファイルに保存します。機種変更の前に。", a: "backup" },
+  { s: ".tipcard", t: "撮影ワンポイント", x: "上手に撮るためのコツです。「次のコツ」で切り替え、「表示しない」で消せます（設定でまた表示できます）。", a: "onepoint" },
+  { s: "#tipSeg", t: "ワンポイントのON/OFF", x: "撮る前・動画を選んだ後・解析した後に出るアドバイスを、表示するかどうか切り替えます。", a: "onepoint" },
   { s: "#band", t: "結果の帯", x: "解析結果の総合点と1番の課題。押すと5つの指摘へ。", a: "rank" }
 ];
 (function longPress() {
@@ -1417,13 +2401,13 @@ const HELP = [
   const hide = () => { if (tipEl) { tipEl.remove(); tipEl = null; } };
   document.addEventListener("pointerdown", e => {
     hide(); fired = false; const h = HELP.find(h => e.target.closest && e.target.closest(h.s)); if (!h) return;
-    if (e.target.closest("#timeline")) return; // なぞる操作を優先
+    if (e.target.closest("#timeline")) return;
     x0 = e.clientX; y0 = e.clientY;
     tm = setTimeout(() => {
       fired = true; tipEl = document.createElement("div"); tipEl.className = "tip";
       tipEl.innerHTML = "<b>" + esc(h.t) + "</b>" + esc(h.x) + "<br><a href='manual.html#" + h.a + "' target='_blank'>取説で詳しく →</a>";
       document.body.appendChild(tipEl);
-      const r = $(h.s).getBoundingClientRect(); const tw = Math.min(280, window.innerWidth - 20);
+      const r = (e.target.closest(h.s) || $(h.s)).getBoundingClientRect(); const tw = Math.min(280, window.innerWidth - 20);
       tipEl.style.left = clamp(e.clientX - tw / 2, 10, window.innerWidth - tw - 10) + "px";
       const top = r.top > 150 ? r.top - tipEl.offsetHeight - 8 : Math.min(r.bottom + 8, window.innerHeight - tipEl.offsetHeight - 10);
       tipEl.style.top = Math.max(10, top) + "px";
@@ -1441,30 +2425,42 @@ const HELP = [
    手順ガイド（ツアー）
    ========================================================= */
 const TOURS = [
-  { id: "prep", name: "準備：上手な撮り方", sub: "真横・全身・2歩以上", time: "1分", steps: [
-    { tab: "video", s: "#cardHowto", t: "撮り方の6つのコツ", x: "一番大事なのは「真横から」「全身が映る」こと。正面や斜めからだと、着地や姿勢が正しく測れません。" },
-    { tab: "video", s: "#purposeChips", t: "走りの目的を選ぶ", x: "目的によって良い走りの目安が変わります。", d: "どれか1つを押す", a: "tap" },
-    { tab: "video", s: "#slowSeg", t: "スロー動画のとき", x: "スロー撮影した動画なら、倍率を合わせます。普通の動画は「等倍」のまま。", d: "合っているものを押す", a: "tap" },
-    { tab: "video", s: "#fileLbl", t: "動画を撮る／選ぶ", x: "ここから撮影、または写真アプリの動画を選びます。準備はこれで完了です。" }
+  { id: "prep", name: "準備：選手と撮り方", sub: "選手登録・目的・横と前後の撮り方", time: "1分", steps: [
+    { tab: "video", s: "#athRow", t: "選手を選ぶ・追加する", x: "記録は選手ごとに分けて残ります。初めての選手は「＋ 選手を追加」で名前を入れます。" },
+    { tab: "video", s: "#purposeChips", t: "走りの目的", x: "目的によって良い走りの目安が変わります。選手ごとに覚えます。", d: "どれか1つを押す", a: "tap" },
+    { tab: "video", s: "#cardHowto", t: "撮り方", x: "横からが基本。前か後ろからの動画もあると、骨盤や膝の左右のバランスまで分かります。" },
+    { tab: "video", s: "#tipPre", t: "撮影ワンポイント", x: "撮る前のコツを1つずつ出します。「次のコツ」で切り替え。動画を選んだ後・解析した後にも、その動画に合ったアドバイスが出ます。いらなければ「表示しない」（設定で戻せます）。", need: () => state.tips, why: "設定でワンポイントを「表示する」にすると出ます" },
+    { tab: "video", s: "#fileLbl", t: "動画を選ぶ", x: "横・前・後ろの動画を3本までまとめて選べます。向きは自動で見分けます。準備はこれで完了です。" }
   ] },
   { id: "main", name: "本番：解析して5つの指摘を見る", sub: "デモで流れを体験できます", time: "2分", steps: [
-    { tab: "video", s: "#btnDemo", t: "まずはデモで試す", x: "動画がなくても、架空の走者で流れを体験できます。本番では上の「動画を撮る／選ぶ」から。", d: "「デモを見る」を押す", a: "tap" },
-    { tab: "result", s: "#scorePart", t: "総合点", x: "17項目を目的別の目安と比べた点数です。" },
-    { tab: "result", s: "#issues", t: "5つの指摘", x: "姿勢・接地・脚・腕・リズムの違う角度から、直すと効果が大きい順に並びます。", d: "1番の指摘を押して開く", a: "tap", need: () => cur && cur.rk },
-    { tab: "result", s: "#issues .issue.open .jump", t: "この瞬間を動画で見る", x: "押すと、問題が出ているこまに移動し、関節が黄色の丸で示されます。", d: "押してみる", a: "tap", need: () => $("#issues .issue.open"), why: "1番の指摘を開くと出ます" },
-    { tab: "anal", s: "#stagePart", t: "骨格で確認", x: "◀▶で1こまずつ動かせます。帯をなぞって移動も。長押しで説明が出ます。" }
+    { tab: "video", s: "#btnDemo", t: "まずはデモで試す", x: "動画がなくても、架空の走者（横から＋前から）で流れを体験できます。", d: "「デモを見る」を押す", a: "tap" },
+    { tab: "result", s: "#scorePart", t: "総合点", x: "横からの16項目と前後からの5項目を、目的別の目安と比べた点数です。", need: () => S.rk, why: "デモを押すと出ます" },
+    { tab: "result", s: "#issues", t: "5つの指摘", x: "姿勢・接地・脚・腕・リズム・左右バランスの違う角度から、直すと効果が大きい順に並びます。", d: "1番の指摘を押して開く", a: "tap", need: () => S.rk, why: "デモを押すと出ます" },
+    { tab: "result", s: "#issues .issue.open .jump", t: "この瞬間を動画で見る", x: "押すと、問題が出ているこまに移動します。", d: "押してみる", a: "tap", need: () => $("#issues .issue.open"), why: "1番の指摘を開くと出ます" },
+    { tab: "anal", s: "#stagePart", t: "緑の線＝100点の見本", x: "横からの項目では見本の骨格を、前後からの項目では理想の線を緑で重ねます。項目名と数値は動画のすぐ下。「見本線」で表示を切り替えます。" }
+  ] },
+  { id: "ideal", name: "100点の見本と比べる", sub: "お手本の動きと、重ねての比較", time: "1分", steps: [
+    { tab: "model", s: "#cardIdeal", t: "100点の見本", x: "目的ごとのお手本の動きです。表には見るところと、見本の値・目安が並びます。" },
+    { tab: "model", s: "#mvSeg", t: "向きを切り替える", x: "前から見たお手本も見られます。", d: "「前から」を押す", a: "tap" },
+    { tab: "model", s: "#cardDiff", t: "見本と比べる", x: "解析した人（色つき）と見本（緑）を、腰の位置と体の大きさを合わせて1歩ごとに重ねて動かします。下の表は数値の差です。", need: () => S.comb, why: "解析すると出ます（デモでもOK）" }
+  ] },
+  { id: "multi", name: "前・後ろからの動画／複数の人", sub: "向きの自動判定と、人の選び方", time: "1分", steps: [
+    { tab: "video", s: "#clipList", t: "動画の一覧", x: "選んだ動画が並びます。向きは「自動」で見分けます。違っていたら、ここで横・前・後ろを選び直せます。", need: () => S.clips.length, why: "動画を選ぶか、デモを押すと出ます" },
+    { tab: "anal", s: "#clipChips", t: "表示する動画の切り替え", x: "2本以上のときは、ここで動画を切り替えます。", need: () => S.clips.length > 1, why: "動画が2本以上のとき出ます" },
+    { tab: "anal", s: "#stage", t: "解析したい人をタップ", x: "ほかの人も映っているときは、解析したい人の体をタップします。解析の後でも選び直せます（灰色の線＝ほかの人）。" },
+    { tab: "anal", s: "#metricsTbl", t: "前後からの5項目", x: "骨盤の傾き・膝の内側への入り・着地の幅・上体の左右ぶれ・腕の横振り。前か後ろからの動画があると測れます。", need: () => S.comb, why: "解析すると出ます" }
+  ] },
+  { id: "after", name: "記録・選手一覧・書き出し", sub: "成長を見て、データを外へ", time: "1分", steps: [
+    { tab: "log", s: "#cardAthletes", t: "選手一覧", x: "全員の最新の点数と前回からの変化。押すとその選手に切り替わります。" },
+    { tab: "log", s: "#cardLog", t: "記録", x: "解析するたびに自動で残ります。メモに体調やシューズを書くと振り返りに役立ちます。" },
+    { tab: "log", s: "#cmpSel", t: "数値の移り変わり", x: "項目を選ぶと、記録ごとの変化がグラフで見られます。", d: "項目を選ぶ", a: "pick" },
+    { tab: "log", s: "#cardExport", t: "書き出し", x: "記録をCSV（Excel）に、解析をレポート画像に、骨格の座標をCSVに。iPhoneなら共有からLINE・メールへ。" }
   ] },
   { id: "trouble", name: "困ったとき", sub: "精度が出ない・遅い・読み込めない", time: "1分", steps: [
-    { tab: "result", s: "#scorePart", t: "撮影条件のチェック", x: "点数の下に「撮影条件に注意あり」と黄色の枠が出たら撮り直しを。真横でない・人が小さい・体を見失った、などを知らせます。" },
-    { tab: "anal", s: "#rangePart", t: "区間をしぼる", x: "時間がかかる・結果がばらつくときは、一定速度の2〜4秒だけにします。", d: "つまみを動かしてみる", a: "idle", need: () => cur, why: "動画を選ぶと出ます" },
+    { tab: "result", s: "#scorePart", t: "撮影条件のチェック", x: "点数の下に黄色の「撮影条件の確認」が出たら撮り直しを。真横でない・人が小さい・体を見失った、などを知らせます。" },
+    { tab: "anal", s: "#rangePart", t: "区間をしぼる", x: "時間がかかる・結果がばらつくときは、一定速度の2〜4秒だけにします。", d: "つまみを動かしてみる", a: "idle", need: () => clip() && clip().mode === "video", why: "動画を選ぶと出ます" },
     { tab: "set", s: "#modelSeg", t: "AIの精度", x: "古いスマホで止まるなら「速い」、人が小さいなら「高精度」。" },
     { tab: "set", s: "#fpsSeg", t: "こま数", x: "短距離やスロー動画は60、急ぐときは15。" }
-  ] },
-  { id: "after", name: "終わった後：記録と比較", sub: "練習の成果を数字で見る", time: "1分", steps: [
-    { tab: "log", s: "#cardLog", t: "記録は自動で残る", x: "解析するたびに点数と課題が残ります。メモ欄に体調や天気を書いておくと振り返りに役立ちます。" },
-    { tab: "log", s: "#cmpSel", t: "数値の移り変わり", x: "項目を選ぶと、記録ごとの変化がグラフで見られます。緑の帯が目安です。", d: "項目を選ぶ", a: "pick" },
-    { tab: "result", s: "#cardGood", t: "前回からの変化", x: "前回の課題が改善したか、ここに自動で出ます。" },
-    { tab: "set", s: "#btnExport", t: "バックアップ", x: "記録はこのスマホの中だけ。時々書き出しておくと安心です。" }
   ] }
 ];
 const tour = { on: false, T: null, i: 0, hole: null, card: null, tmr: 0, min: false };
@@ -1523,16 +2519,18 @@ document.addEventListener("click", e => { if (!tour.on || !tour.el || e.target.c
 document.addEventListener("change", e => { if (tour.on && tour.el && tour.el.contains(e.target) && tour.cur.a === "pick") autoAdvance("pick"); }, true);
 document.addEventListener("input", e => { if (tour.on && tour.el && tour.el.contains(e.target) && tour.cur.a === "idle") autoAdvance("idle"); }, true);
 window.addEventListener("scroll", () => { if (tour.on && tour.el) placeTour(tour.el); }, { passive: true });
-window.addEventListener("resize", () => { if (tour.on && tour.el) placeTour(tour.el); });
-function tourEvent(ev) { /* 画面の切替後に枠の位置を直す */ if (tour.on && tour.el) setTimeout(() => tour.el && placeTour(tour.el), 120); }
+window.addEventListener("resize", () => { if (tour.on && tour.el) placeTour(tour.el); if (state.tab === "model") sizeModel(); });
+function tourEvent(ev) { if (tour.on && tour.el) setTimeout(() => tour.el && placeTour(tour.el), 120); }
 
 /* =========================================================
    起動
    ========================================================= */
-applyTheme(); renderAllSettings(); renderLog(); renderQA();
+$("#verTxt").textContent = "走りコーチ v" + VER;
+$("#metricsCnt").textContent = "（横" + MKEYS.filter(k => M[k].view !== "front").length + "＋前後" + MKEYS.filter(k => M[k].view === "front").length + "＝" + MKEYS.length + "項目）";
+applyTheme(); renderAth(); renderAllSettings(); renderClips(); renderLog(); renderQA(); renderIdealPts(); renderDiffSeg(); renderTips();
 showTab(state.tab && PAGES[state.tab] ? state.tab : "video");
 if (!state.history.length) setTimeout(() => { if (!Object.keys(toursDone()).length) toast("はじめての方へ：使い方の手順ガイドがあります", () => startTour("main"), "見る"); }, 800);
-window.RC = { analyze, rank, synth, M, state: () => state, cur: () => cur, runDemo, startTour, sevOf };
+window.RC = { analyzeSide, analyzeFront, rank, synth, M, MKEYS, state: () => state, S: () => S, runDemo, startTour, sevOf, getIdeal, combineRes, trackClip, analyzeClip, IDEAL, IDEAL_F, idealCache, selectClip, jumpTo, exportReport };
 </script>
 </body>
 </html>
